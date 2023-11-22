@@ -129,9 +129,11 @@
 
   <!-- Avalonia dependencies -->
   <ItemGroup>
-    <PackageVersion Include="Avalonia" Version="0.10.11" />
-    <PackageVersion Include="Avalonia.Desktop" Version="0.10.11" />
-    <PackageVersion Include="Avalonia.ReactiveUI" Version="0.10.11" />
+    <PackageVersion Include="Avalonia" Version="11.0.5" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.0.5" />
+    <PackageVersion Include="Avalonia.ReactiveUI" Version="11.0.5" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.0.5" />
+    <PackageVersion Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>
 
   <!-- Windows/WPF dependencies -->
@@ -151,8 +153,8 @@
 
   <!-- Analyzers -->
   <ItemGroup>
-    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 </Project>
