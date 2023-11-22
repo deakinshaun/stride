@@ -49,6 +49,11 @@ using Stride.GameStudio.ViewModels;
 using Stride.GameStudio.Plugin;
 using Stride.GameStudio.Services;
 
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.ReactiveUI;
+using Avalonia.Controls.ApplicationLifetimes;
+
 namespace Stride.GameStudio;
 
 public static class Program
@@ -134,7 +139,7 @@ public static class Program
 
                 using (new WindowManager(mainDispatcher))
                 {
-                    app = new App { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+                    app = new App { ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown };
                     app.Activated += (sender, eventArgs) =>
                     {
                         StrideGameStudio.MetricsClient?.SetActiveState(true);
@@ -209,6 +214,11 @@ public static class Program
         }
     }
 
+    public static void startAvalonia()
+    {
+        Avalonia.AppBuilder.Configure<AvaloniaApp>().UsePlatformDetect().UseReactiveUI().StartWithClassicDesktopLifetime(null);
+    }
+    
     private static async void Startup(UFile initialSessionPath)
     {
         try
@@ -245,18 +255,21 @@ public static class Program
                 if (sessionLoaded == true)
                 {
                     var mainWindow = new GameStudioWindow(editor);
-                    Application.Current.MainWindow = mainWindow;
+                    System.Windows.Application.Current.MainWindow = mainWindow;
                     WindowManager.ShowMainWindow(mainWindow);
                     return;
                 }
             }
+
+            var avaloniaThread = new Thread(startAvalonia);
+            avaloniaThread.Start();
 
             // No session successfully loaded, open the new/open project window
             bool? completed;
             // The user might cancel after chosing a template to instantiate, in this case we'll reopen the window
             var startupWindow = new ProjectSelectionWindow
             {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                 ShowInTaskbar = true,
             };
             var viewModel = new NewOrOpenSessionTemplateCollectionViewModel(serviceProvider, startupWindow);
@@ -288,7 +301,7 @@ public static class Program
             if (completed != true)
             {
                 var windowsClosed = new List<Task>();
-                foreach (var window in Application.Current.Windows.Cast<Window>().Where(x => x.IsLoaded))
+                foreach (var window in System.Windows.Application.Current.Windows.Cast<System.Windows.Window>().Where(x => x.IsLoaded))
                 {
                     var tcs = new TaskCompletionSource<int>();
                     window.Unloaded += (s, e) => tcs.SetResult(0);
@@ -310,7 +323,7 @@ public static class Program
             {
                 // If a session was correctly loaded, show the main window
                 var mainWindow = new GameStudioWindow(editor);
-                Application.Current.MainWindow = mainWindow;
+                System.Windows.Application.Current.MainWindow = mainWindow;
                 WindowManager.ShowMainWindow(mainWindow);
             }
             else

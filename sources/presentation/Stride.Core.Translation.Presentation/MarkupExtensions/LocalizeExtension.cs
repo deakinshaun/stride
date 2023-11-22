@@ -74,6 +74,7 @@ namespace Stride.Core.Translation.Presentation.MarkupExtensions
         [NotNull]
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            return ("Hello");
             if (string.IsNullOrEmpty(Text))
                 return string.Empty;
 

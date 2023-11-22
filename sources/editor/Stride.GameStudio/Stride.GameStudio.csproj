@@ -34,6 +34,9 @@
     <PackageReference Include="Stride.Metrics" />
     <PackageReference Include="Stride.CrashReport" />
     <PackageReference Include="Mono.Cecil" />
+    <PackageReference Include="Avalonia" Version="11.0.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
     <Reference Include="Stride.Core.AssemblyProcessor">
       <HintPath Condition="$(TargetFramework.StartsWith('net8'))">..\..\..\deps\AssemblyProcessor\netstandard2.0\Stride.Core.AssemblyProcessor.dll</HintPath>
     </Reference>
@@ -90,6 +93,9 @@
     <Resource Include="Images\*.png" />
     <Resource Include="Resources\**\*.png" />
     <Resource Include="Resources\GameStudio.ico" />
+    <Compile Update="AvaloniaApp.axaml.cs">
+      <DependentUpon>AvaloniaApp.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Strings\KeyGestures.Designer.cs">
       <DependentUpon>KeyGestures.resx</DependentUpon>
       <AutoGen>True</AutoGen>

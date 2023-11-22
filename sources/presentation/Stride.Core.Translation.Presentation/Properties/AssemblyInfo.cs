@@ -3,13 +3,20 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
+using Avalonia.Markup;
+using Avalonia.Metadata;
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-[assembly: XmlnsPrefix("http://schemas.stride3d.net/xaml/presentation", "sd")]
-[assembly: XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation")]
-[assembly: XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation.MarkupExtensions")]
-[assembly: XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation.ValueConverters")]
+[assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.stride3d.net/xaml/presentation", "sd")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation.MarkupExtensions")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation.ValueConverters")]
+
+[assembly: Avalonia.Metadata.XmlnsPrefix("http://schemas.stride3d.net/xaml/presentation", "sd")]
+[assembly: Avalonia.Metadata.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation")]
+[assembly: Avalonia.Metadata.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation.MarkupExtensions")]
+[assembly: Avalonia.Metadata.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Core.Translation.Presentation.ValueConverters")]
