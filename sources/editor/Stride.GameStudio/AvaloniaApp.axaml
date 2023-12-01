@@ -9,8 +9,8 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<!--<ResourceDictionary Source="Theme.AvalonDock.xaml"/>
-				<ResourceDictionary Source="/Stride.Core.Assets.Editor;component/View/CommonResources.xaml"/>-->
+				<!--<ResourceInclude Source="ATheme.AvalonDock.axaml"/>-->
+				<ResourceInclude Source="avares://Stride.Core.Assets.Editor/View/ACommonResources.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 
 			<!--<BitmapImage x:Key="EditorIcon" UriSource="Resources/EditorIcon.png" />-->

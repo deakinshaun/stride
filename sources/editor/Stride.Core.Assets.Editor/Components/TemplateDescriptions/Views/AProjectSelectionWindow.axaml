@@ -5,7 +5,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views.AProjectSelectionWindow"
         Title="AProjectSelectionWindow"
-                  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
                   xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
                   xmlns:views="clr-namespace:Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views"
                   xmlns:viewModels="clr-namespace:Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels"
@@ -33,9 +33,9 @@
 								</i:Interaction.Behaviors>-->
 							</Button>
 							<Button Content="{sd:Localize Cancel, Context=Button}" Padding="20,6" Margin="10,0,0,0" IsCancel="True" ToolTip.Tip="{sd:Localize Cancel (Esc), Context=ToolTip}">
-								<!--<i:Interaction.Behaviors>
-									<sd:ButtonCloseWindowBehavior DialogResult="Cancel"/>
-								</i:Interaction.Behaviors>-->
+								<i:Interaction.Behaviors>
+									<sd:AButtonCloseWindowBehavior DialogResult="Cancel"/>
+								</i:Interaction.Behaviors>
 							</Button>
 						</UniformGrid>
 					</StackPanel>

@@ -10,6 +10,7 @@
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Avalonia.Xaml.Behaviors" />
     <PackageReference Include="Dirkster.AvalonDock" />
     <PackageReference Include="System.Collections.Immutable" />
     <PackageReference Include="System.Diagnostics.Tracing" />

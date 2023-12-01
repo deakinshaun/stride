@@ -74,7 +74,11 @@ namespace Stride.Core.Translation.Presentation.MarkupExtensions
         [NotNull]
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return ("Hello");
+            if ((IUriContext)serviceProvider.GetService(typeof(IUriContext)) == null)
+            {
+                var x = (IUriContext)serviceProvider.GetService(typeof(IUriContext));
+                return Text;
+            }
             if (string.IsNullOrEmpty(Text))
                 return string.Empty;
 
