@@ -28,12 +28,12 @@ namespace Stride.Core.Presentation.Behaviors
         /// <summary>
         /// Identifies the <see cref="Command"/> dependency property.
         /// </summary>
-        public static readonly StyledProperty<ICommand> CommandProperty = StyledProperty<ICommand>.Register<ACloseWindowBehavior<T>, ICommand>("Command"/*, new StyledPropertyMetadata<ICommand>(null, Avalonia.Data.BindingMode.Default, CommandChanged)*/);
+        public static readonly StyledProperty<ICommand> CommandProperty = StyledProperty<ICommand>.Register<ACloseWindowBehavior<T>, ICommand>("Command");
 
         /// <summary>
         /// Identifies the <see cref="CommandParameter"/> dependency property.
         /// </summary>
-        public static readonly StyledProperty<object> CommandParameterProperty = StyledProperty<object>.Register<ACloseWindowBehavior<T>, object>("CommandParameter"/*, new PropertyMetadata(null, CommandParameterChanged)*/);
+        public static readonly StyledProperty<object> CommandParameterProperty = StyledProperty<object>.Register<ACloseWindowBehavior<T>, object>("CommandParameter");
 
         /// <summary>
         /// Gets or sets the value to set to the <see cref="Window.DialogResult"/> property of the window the associated button is contained in.
@@ -50,19 +50,25 @@ namespace Stride.Core.Presentation.Behaviors
         /// </summary>
         public object CommandParameter { get { return GetValue(CommandParameterProperty); } set { SetValue(CommandParameterProperty, value); } }
 
+        static ACloseWindowBehavior ()
+        {
+           CommandProperty.Changed.AddClassHandler<ACloseWindowBehavior<T>>(CommandChanged);
+            CommandParameterProperty.Changed.AddClassHandler<ACloseWindowBehavior<T>>(CommandParameterChanged);
+        }
+
         /// <inheritdoc/>
         protected override void OnAttached()
         {
             base.OnAttached();
             if (Command != null)
             {
-//                AssociatedObject.SetCurrentValue(UIElement.IsEnabledProperty, Command.CanExecute(CommandParameter));
+                AssociatedObject.SetCurrentValue(Control.IsEnabledProperty, Command.CanExecute(CommandParameter));
             }
         }
-        /*
-        private static void CommandChanged([NotNull] DependencyObject d, DependencyPropertyChangedEventArgs e)
+        
+        private static void CommandChanged([NotNull] AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
-            var behavior = (ButtonCloseWindowBehavior)d;
+            var behavior = (AButtonCloseWindowBehavior)d;
             var oldCommand = e.OldValue as ICommand;
             var newCommand = e.NewValue as ICommand;
 
@@ -75,21 +81,21 @@ namespace Stride.Core.Presentation.Behaviors
                 newCommand.CanExecuteChanged += behavior.CommandCanExecuteChanged;
             }
         }
-
-        private static void CommandParameterChanged([NotNull] DependencyObject d, DependencyPropertyChangedEventArgs e)
+        
+        private static void CommandParameterChanged([NotNull] AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
-            var behavior = (ButtonCloseWindowBehavior)d;
+            var behavior = (AButtonCloseWindowBehavior)d;
             if (behavior.Command != null)
             {
-                behavior.AssociatedObject.SetCurrentValue(UIElement.IsEnabledProperty, behavior.Command.CanExecute(behavior.CommandParameter));
+                behavior.AssociatedObject.SetCurrentValue(Control.IsEnabledProperty, behavior.Command.CanExecute(behavior.CommandParameter));
             }
         }
-
+        
         private void CommandCanExecuteChanged(object sender, EventArgs e)
         {
-            AssociatedObject.SetCurrentValue(UIElement.IsEnabledProperty, Command.CanExecute(CommandParameter));
+            AssociatedObject.SetCurrentValue(Control.IsEnabledProperty, Command.CanExecute(CommandParameter));
         }
-        */
+        
         /// <summary>
         /// Invokes the command and close the containing window.
         /// </summary>
