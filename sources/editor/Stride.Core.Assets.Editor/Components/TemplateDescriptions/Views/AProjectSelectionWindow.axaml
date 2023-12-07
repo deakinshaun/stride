@@ -28,9 +28,10 @@
 						<UniformGrid Rows="1">
 							<Button Content="{sd:Localize Select, Context=Button}" Padding="20,6" Margin="10,0,0,0"
 									ToolTip.Tip="{sd:Localize Use the selected template, Context=ToolTip}" >
-								<!--<i:Interaction.Behaviors>
-									<sd:ButtonCloseWindowBehavior DialogResult="OK"/>
-								</i:Interaction.Behaviors>-->
+								<i:Interaction.Behaviors>
+									<!--<sd:AButtonCloseWindowBehavior DialogResult="OK"/>-->
+									<sd:AButtonCloseWindowBehavior DialogResult="Ok"/>
+								</i:Interaction.Behaviors>
 							</Button>
 							<Button Content="{sd:Localize Cancel, Context=Button}" Padding="20,6" Margin="10,0,0,0" IsCancel="True" ToolTip.Tip="{sd:Localize Cancel (Esc), Context=ToolTip}">
 								<i:Interaction.Behaviors>
@@ -62,41 +63,45 @@
 					</Grid.Resources>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="{sd:Localize Name:}" Margin="20,0" VerticalAlignment="Center"/>
-					<!--<sd:ATextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name}">
-						--><!--<i:Interaction.Behaviors>
-							<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>
-						</i:Interaction.Behaviors>--><!--
-					</sd:ATextBox>-->
+					<sd:ATextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name}">
+						<i:Interaction.Behaviors>
+							<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
+						</i:Interaction.Behaviors>
+					</sd:ATextBox>
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="{sd:Localize Location:}" Margin="20,0" VerticalAlignment="Center"/>
 					<DockPanel Grid.Row="1" Grid.Column="1">
 						<Button DockPanel.Dock="Right" Command="{Binding BrowseDirectoryCommand}" CommandParameter="Location" ToolTip.Tip="{sd:Localize Browse directory, Context=ToolTip}">
 							<Image Source="{StaticResource VectorOpenFolder}" Width="16" Height="16" Margin="-1"/>
 						</Button>
-						<!--<sd:TextBox Margin="2" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
-									  Text="{Binding Location, Converter={sd:UDirectoryToString}}">
-							--><!--<i:Interaction.Behaviors>
-								<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>
-							</i:Interaction.Behaviors>--><!--
-						</sd:TextBox>-->
+						<!--<sd:ATextBox Margin="2" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
+									  Text="{Binding Location, Converter={sd:UDirectoryToString}}">-->
+							<sd:ATextBox Margin="2" 
+										  Text="{Binding Location}">
+								<i:Interaction.Behaviors>
+								<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
+							</i:Interaction.Behaviors>
+						</sd:ATextBox>
 					</DockPanel>
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="{sd:Localize Solution name:}" Margin="20,0" VerticalAlignment="Center"/>
-					<!--<sd:TextBox Grid.Row="2" Grid.Column="1" Margin="2" WatermarkContent="{sd:Localize (Auto-generate solution name)}"
+					<sd:ATextBox Grid.Row="2" Grid.Column="1" Margin="2" WatermarkContent="{sd:Localize (Auto-generate solution name)}"
 								  Text="{Binding SolutionName}">
-						--><!--<i:Interaction.Behaviors>
-							<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>
-						</i:Interaction.Behaviors>--><!--
-					</sd:TextBox>-->
+						<i:Interaction.Behaviors>
+							<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
+						</i:Interaction.Behaviors>
+					</sd:ATextBox>
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="{sd:Localize Solution location:}" Margin="20,0" VerticalAlignment="Center"/>
 					<DockPanel Grid.Row="3" Grid.Column="1">
 						<Button DockPanel.Dock="Right" Command="{Binding BrowseDirectoryCommand}" CommandParameter="SolutionLocation" ToolTip.Tip="Browse directory">
 							<Image Source="{StaticResource VectorOpenFolder}" Width="16" Height="16" Margin="-1"/>
 						</Button>
-						<!--<sd:TextBox Margin="2" WatermarkContent="{sd:Localize (Same location)}" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
-									  Text="{Binding SolutionLocation, Converter={sd:UDirectoryToString}}">
-							--><!--<i:Interaction.Behaviors>
-								<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>
-							</i:Interaction.Behaviors>--><!--
-						</sd:TextBox>-->
+						<!--<sd:ATextBox Margin="2" WatermarkContent="{sd:Localize (Same location)}" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
+									  Text="{Binding SolutionLocation, Converter={sd:UDirectoryToString}}">-->
+							<sd:ATextBox Margin="2" WatermarkContent="{sd:Localize (Same location)}" 
+										  Text="{Binding SolutionLocation}">
+								<i:Interaction.Behaviors>
+								<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
+							</i:Interaction.Behaviors>
+						</sd:ATextBox>
 					</DockPanel>
 				</Grid>
 			</DockPanel>

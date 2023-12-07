@@ -53,7 +53,7 @@ namespace Stride.Core.Presentation.Behaviors
         static ACloseWindowBehavior ()
         {
            CommandProperty.Changed.AddClassHandler<ACloseWindowBehavior<T>>(CommandChanged);
-            CommandParameterProperty.Changed.AddClassHandler<ACloseWindowBehavior<T>>(CommandParameterChanged);
+           CommandParameterProperty.Changed.AddClassHandler<ACloseWindowBehavior<T>>(CommandParameterChanged);
         }
 
         /// <inheritdoc/>
