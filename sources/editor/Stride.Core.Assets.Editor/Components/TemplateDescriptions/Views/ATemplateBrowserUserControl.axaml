@@ -15,10 +15,10 @@
         <ResourceInclude Source="../../../View/ACommonResources.axaml"/>
       </ResourceDictionary.MergedDictionaries>
 
-      <!--<providers:DataTypeTemplateSelector x:Key="DataTypeTemplateSelector" >
-        <providers:DataTypeTemplateSelector.TemplateDefinitions>
-          <providers:TemplateDefinition DataType="viewModels:ExistingProjectViewModel">
-            <providers:TemplateDefinition.DataTemplate>
+      <providers:ADataTypeTemplateSelector x:Key="ADataTypeTemplateSelector" >
+        <providers:ADataTypeTemplateSelector.TemplateDefinitions>
+          <providers:ATemplateDefinition DataType="viewModels:ExistingProjectViewModel">
+            <providers:ATemplateDefinition.DataTemplate>
               <DataTemplate>
                 <DockPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={sd:SumNum}, ConverterParameter={sd:Double -10}}" Margin="0,0,-5,0"  Height="56">
                   <Image Source="{Binding Icon}" DockPanel.Dock="Left" Width="48" Height="48" Margin="2"/>
@@ -34,10 +34,10 @@
                   </DockPanel.ContextMenu>
                 </DockPanel>
               </DataTemplate>
-            </providers:TemplateDefinition.DataTemplate>
-          </providers:TemplateDefinition>
-          <providers:TemplateDefinition DataType="viewModels:ITemplateDescriptionViewModel">
-            <providers:TemplateDefinition.DataTemplate>
+            </providers:ATemplateDefinition.DataTemplate>
+          </providers:ATemplateDefinition>
+          <providers:ATemplateDefinition DataType="viewModels:ITemplateDescriptionViewModel">
+            <providers:ATemplateDefinition.DataTemplate>
               <DataTemplate>
                 <DockPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={sd:SumNum}, ConverterParameter={sd:Double -10}}" Margin="0,0,-5,0"  Height="56">
                   <Image Source="{Binding Icon}" DockPanel.Dock="Left" Width="48" Height="48" Margin="2"/>
@@ -47,10 +47,10 @@
                   </DockPanel>
                 </DockPanel>
               </DataTemplate>
-            </providers:TemplateDefinition.DataTemplate>
-          </providers:TemplateDefinition>
-        </providers:DataTypeTemplateSelector.TemplateDefinitions>
-      </providers:DataTypeTemplateSelector>-->
+            </providers:ATemplateDefinition.DataTemplate>
+          </providers:ATemplateDefinition>
+        </providers:ADataTypeTemplateSelector.TemplateDefinitions>
+      </providers:ADataTypeTemplateSelector>
     </ResourceDictionary>
   </UserControl.Resources>
 	<views:AObjectBrowserUserControl HierarchyItemsSource="{Binding RootGroups}"

@@ -39,14 +39,18 @@
 
     <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch" Width="5"/>
 
-    <!--<ListBox Grid.Column="2"
-             ItemsSource="{Binding ObjectItemsSource, ElementName=ObjectBrowser, Mode=TwoWay}"
-             SelectedItem="{Binding SelectedObjectItem, ElementName=ObjectBrowser, Mode=TwoWay}"
-             ItemTemplateSelector="{Binding ObjectItemTemplateSelector, ElementName=ObjectBrowser, Mode=TwoWay }"
-             ItemContainerStyle="{Binding ObjectItemContainerStyle, ElementName=ObjectBrowser, Mode=TwoWay}"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>-->
+	  <ListBox Grid.Column="2"
+			   ItemsSource="{Binding ObjectItemsSource, ElementName=ObjectBrowser, Mode=TwoWay}"
+			   SelectedItem="{Binding SelectedObjectItem, ElementName=ObjectBrowser, Mode=TwoWay}"
+			   ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+	  <!--<ListBox Grid.Column="2"
+			   ItemsSource="{Binding ObjectItemsSource, ElementName=ObjectBrowser, Mode=TwoWay}"
+			   SelectedItem="{Binding SelectedObjectItem, ElementName=ObjectBrowser, Mode=TwoWay}"
+			   ItemTemplateSelector="{Binding ObjectItemTemplateSelector, ElementName=ObjectBrowser, Mode=TwoWay }"
+			   ItemContainerStyle="{Binding ObjectItemContainerStyle, ElementName=ObjectBrowser, Mode=TwoWay}"
+			   ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>-->
 
-    <GridSplitter Grid.Column="3" ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch" Width="5"/>
+	  <GridSplitter Grid.Column="3" ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch" Width="5"/>
 
     <DockPanel Grid.Column="4" Background="{DynamicResource ControlBackgroundBrush}">
       <ScrollViewer x:Name="DescriptionScrollViewer" VerticalScrollBarVisibility="Auto">
