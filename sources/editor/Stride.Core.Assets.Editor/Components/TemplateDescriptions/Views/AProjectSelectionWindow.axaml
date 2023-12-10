@@ -53,14 +53,15 @@
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
-					<Grid.Resources>
-						<!--<Style TargetType="{x:Type sd:TextBox}" BasedOn="{StaticResource {x:Type sd:TextBox}}">
-							--><!--<EventSetter Event="Validated" Handler="OnTextBoxValidated" />--><!--
+					<Grid.Styles>
+						<Style Selector="sd|ATextBox">
+							<!--<Style TargetType="{x:Type sd:ATextBox}" BasedOn="{StaticResource {x:Type sd:ATextBox}}">-->
+								<!--<EventSetter Event="Validated" Handler="OnTextBoxValidated" />-->
 							<Setter Property="ValidateOnLostFocus" Value="True" />
 							<Setter Property="ValidateOnTextChange" Value="False" />
 							<Setter Property="ValidateWithEnter" Value="True" />
-						</Style>-->
-					</Grid.Resources>
+						</Style>
+					</Grid.Styles>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="{sd:Localize Name:}" Margin="20,0" VerticalAlignment="Center"/>
 					<sd:ATextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name}">
@@ -107,6 +108,6 @@
 			</DockPanel>
 		</Grid>
 
-		<!--<views:TemplateBrowserUserControl Margin="10"/>-->
+		<views:ATemplateBrowserUserControl Margin="10"/>
 	</DockPanel>
 </Window>
