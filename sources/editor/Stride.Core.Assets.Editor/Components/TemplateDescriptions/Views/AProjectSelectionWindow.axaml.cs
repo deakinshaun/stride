@@ -12,10 +12,11 @@ using MessageBoxImage = Stride.Core.Presentation.Services.MessageBoxImage;
 
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Stride.Core.Presentation.Controls;
 
 namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
 {
-    public partial class AProjectSelectionWindow : Avalonia.Controls.Window
+    public partial class AProjectSelectionWindow : AModalWindow
     {
         public AProjectSelectionWindow()
         {

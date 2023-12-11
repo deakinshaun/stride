@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+<sd:AModalWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -56,7 +56,7 @@
 					<Grid.Styles>
 						<Style Selector="sd|ATextBox">
 							<!--<Style TargetType="{x:Type sd:ATextBox}" BasedOn="{StaticResource {x:Type sd:ATextBox}}">-->
-								<!--<EventSetter Event="Validated" Handler="OnTextBoxValidated" />-->
+							<!--<EventSetter Event="Validated" Handler="OnTextBoxValidated" />-->
 							<Setter Property="ValidateOnLostFocus" Value="True" />
 							<Setter Property="ValidateOnTextChange" Value="False" />
 							<Setter Property="ValidateWithEnter" Value="True" />
@@ -76,9 +76,9 @@
 						</Button>
 						<!--<sd:ATextBox Margin="2" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
 									  Text="{Binding Location, Converter={sd:UDirectoryToString}}">-->
-							<sd:ATextBox Margin="2" 
-										  Text="{Binding Location}">
-								<i:Interaction.Behaviors>
+						<sd:ATextBox Margin="2"
+									  Text="{Binding Location}">
+							<i:Interaction.Behaviors>
 								<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
 							</i:Interaction.Behaviors>
 						</sd:ATextBox>
@@ -97,9 +97,9 @@
 						</Button>
 						<!--<sd:ATextBox Margin="2" WatermarkContent="{sd:Localize (Same location)}" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
 									  Text="{Binding SolutionLocation, Converter={sd:UDirectoryToString}}">-->
-							<sd:ATextBox Margin="2" WatermarkContent="{sd:Localize (Same location)}" 
-										  Text="{Binding SolutionLocation}">
-								<i:Interaction.Behaviors>
+						<sd:ATextBox Margin="2" WatermarkContent="{sd:Localize (Same location)}"
+									  Text="{Binding SolutionLocation}">
+							<i:Interaction.Behaviors>
 								<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
 							</i:Interaction.Behaviors>
 						</sd:ATextBox>
@@ -110,4 +110,4 @@
 
 		<views:ATemplateBrowserUserControl Margin="10"/>
 	</DockPanel>
-</Window>
+</sd:AModalWindow>
