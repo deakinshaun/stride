@@ -22,6 +22,8 @@ namespace Stride.Core.Presentation.Controls
     [TemplatePart(Name = "PART_TrimmedText", Type = typeof(TextBlock))]
     public class ATextBox : ATextBoxBase
     {
+        protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.TextBox); } }
+
         private TextBlock trimmedTextBlock;
         private readonly Timer validationTimer;
 
@@ -129,6 +131,7 @@ namespace Stride.Core.Presentation.Controls
                 availableWidth -= trimmedTextBlock.Margin.Left + trimmedTextBlock.Margin.Right;
 
             //TrimmedText = Trimming.ProcessTrimming(this, Text, availableWidth);
+            TrimmedText = Text;
             return arrangedSize;
         }
 

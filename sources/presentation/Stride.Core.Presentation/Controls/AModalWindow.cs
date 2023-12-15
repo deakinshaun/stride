@@ -29,7 +29,8 @@ namespace Stride.Core.Presentation.Controls
             };
             Owner = AWindowManager.MainWindow?.Window ?? AWindowManager.BlockingWindows.LastOrDefault()?.Window;
             WindowStartupLocation = Owner != null ? WindowStartupLocation.CenterOwner : WindowStartupLocation.CenterScreen;
-            await Dispatcher.UIThread.InvokeAsync(() => ShowDialog (Owner as Window));
+//            await Dispatcher.UIThread.InvokeAsync(() => ShowDialog(Owner as Window));
+            await Dispatcher.UIThread.InvokeAsync(() => Show());
             return Result;
         }
 

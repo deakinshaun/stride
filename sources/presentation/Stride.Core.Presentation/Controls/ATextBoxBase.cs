@@ -22,6 +22,8 @@ namespace Stride.Core.Presentation.Controls
     /// </summary>
     public class ATextBoxBase : Avalonia.Controls.TextBox
     {
+        protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.TextBox); } }
+
         private bool validating;
 
         /// <summary>

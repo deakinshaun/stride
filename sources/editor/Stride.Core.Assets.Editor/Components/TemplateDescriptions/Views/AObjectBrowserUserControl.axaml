@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
              mc:Ignorable="d"
+			 x:Name="ObjectBrowser"
              d:DesignHeight="300" d:DesignWidth="300">
 	<!--<UserControl x:Class="Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views.AObjectBrowserUserControl"
 				 xmlns="https://github.com/avaloniaui"

@@ -13,7 +13,6 @@ using Stride.Graphics;
 
 using Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels;
 
-
 namespace Stride.GameStudio;
 
 public partial class AvaloniaApp : Application
@@ -47,10 +46,11 @@ public partial class AvaloniaApp : Application
             var viewModel = new NewOrOpenSessionTemplateCollectionViewModel(serviceProvider, startupWindow);
             startupWindow.Templates = viewModel;
 
-            desktop.MainWindow = startupWindow;
-
+            //desktop.MainWindow = startupWindow;
+            startupWindow.ShowModal();
         }
 
         base.OnFrameworkInitializationCompleted();
+
     }
 }

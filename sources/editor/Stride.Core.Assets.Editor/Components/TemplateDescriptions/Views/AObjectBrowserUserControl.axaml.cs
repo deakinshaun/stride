@@ -9,6 +9,8 @@ using Avalonia.Styling;
 using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Data;
+using Stride.Core.Presentation.Controls;
+//using System.Windows.Data;
 
 namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
 {
@@ -19,7 +21,7 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
     {
         public static readonly StyledProperty<IEnumerable> HierarchyItemsSourceProperty = StyledProperty<IEnumerable>.Register<AObjectBrowserUserControl, IEnumerable>("HierarchyItemsSource");
 
-        public static readonly StyledProperty<object> SelectedHierarchyItemProperty = StyledProperty<object>.Register<AObjectBrowserUserControl, object>("SelectedHierarchyItem", defaultBindingMode : BindingMode.TwoWay/*,  new FrameworkPropertyMetadata { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }*/);
+        public static readonly StyledProperty<object> SelectedHierarchyItemProperty = StyledProperty<object>.Register<AObjectBrowserUserControl, object>("SelectedHierarchyItem", defaultBindingMode : Avalonia.Data.BindingMode.TwoWay/*,  new FrameworkPropertyMetadata { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }*/);
 
         public static readonly StyledProperty<DataTemplate> HierarchyItemTemplateProperty = StyledProperty<DataTemplate>.Register<AObjectBrowserUserControl, DataTemplate>("HierarchyItemTemplate");
 
@@ -39,14 +41,31 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
 
        /* public static readonly StyledProperty<DataTemplateSelector> ObjectDescriptionTemplateSelectorProperty = StyledProperty<DataTemplateSelector>.Register<AObjectBrowserUserControl, DataTemplateSelector>("ObjectDescriptionTemplateSelector", typeof(DataTemplateSelector), typeof(ObjectBrowserUserControl));*/
 
+        static AObjectBrowserUserControl ()
+        {
+            SelectedHierarchyItemProperty.Changed.AddClassHandler<AObjectBrowserUserControl>(OnPropertyChanged);
+            SelectedObjectItemProperty.Changed.AddClassHandler<AObjectBrowserUserControl>(OnPropertyChanged);
+
+            //        public static readonly StyledProperty<object> SelectedObjectItemProperty = StyledProperty<object>.Register<AObjectBrowserUserControl, object>("SelectedObjectItem", defaultBindingMode: BindingMode.TwoWay/*typeof(object), typeof(ObjectBrowserUserControl), new FrameworkPropertyMetadata { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }*/);
+
+
+        }
+
         public AObjectBrowserUserControl()
         {
             InitializeComponent();
+
         }
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
+
+        private static void OnPropertyChanged(AvaloniaObject sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            var a = (AObjectBrowserUserControl)sender;
+        }
+
 
         public IEnumerable HierarchyItemsSource { get { return (IEnumerable)GetValue(HierarchyItemsSourceProperty); } set { SetValue(HierarchyItemsSourceProperty, value); } }
 

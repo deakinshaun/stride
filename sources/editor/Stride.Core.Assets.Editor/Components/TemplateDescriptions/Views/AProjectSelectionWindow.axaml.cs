@@ -13,6 +13,7 @@ using MessageBoxImage = Stride.Core.Presentation.Services.MessageBoxImage;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Stride.Core.Presentation.Controls;
+using Avalonia;
 
 namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
 {
@@ -21,13 +22,21 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
         public AProjectSelectionWindow()
         {
             InitializeComponent();
-//            Width = Math.Min(Width, SystemParameters.WorkArea.Width);
-//            Height = Math.Min(Height, SystemParameters.WorkArea.Height);
+
+
+            //            Width = Math.Min(Width, SystemParameters.WorkArea.Width);
+            //            Height = Math.Min(Height, SystemParameters.WorkArea.Height);
             Title = string.Format(Tr._p("Title", "Project selection - {0}"), EditorPath.EditorTitle);
         }
-        private void InitializeComponent()
+        private void InitializeComponent(bool loadXaml = true, bool attachDevTools = true)
         {
             AvaloniaXamlLoader.Load(this);
+#if DEBUG
+            if (attachDevTools)
+            {
+                this.AttachDevTools();
+            }
+#endif
         }
 
         public NewSessionParameters NewSessionParameters { get; private set; }

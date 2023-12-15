@@ -76,8 +76,10 @@
 						</Button>
 						<!--<sd:ATextBox Margin="2" sd:Trimming.TextTrimming="WordEllipsis" sd:Trimming.TrimmingSource="Middle" sd:Trimming.WordSeparators="/\\"
 									  Text="{Binding Location, Converter={sd:UDirectoryToString}}">-->
-						<sd:ATextBox Margin="2"
+						<sd:ATextBox Margin="2" 
 									  Text="{Binding Location}">
+						<!--<sd:ATextBoxBase Margin="2"
+									  Text="{Binding Location}" Theme="{StaticResource TextBox}" Background="Green">-->
 							<i:Interaction.Behaviors>
 								<!--<sd:TextBoxCloseWindowBehavior DialogResult="OK" IsEnabled="{sd:MultiBinding {Binding SelectedTemplate, Converter={sd:ObjectToBool}}, {Binding ArePropertiesValid}, Converter={sd:AndMultiConverter}}"/>-->
 							</i:Interaction.Behaviors>
