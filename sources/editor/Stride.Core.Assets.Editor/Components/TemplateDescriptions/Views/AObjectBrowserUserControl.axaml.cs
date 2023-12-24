@@ -10,6 +10,8 @@ using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Data;
 using Stride.Core.Presentation.Controls;
+using Stride.Core.Assets.Editor.View.TemplateProviders;
+using System.Linq;
 //using System.Windows.Data;
 
 namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
@@ -33,7 +35,7 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
 
         public static readonly StyledProperty<DataTemplate> ObjectItemTemplateProperty = StyledProperty<DataTemplate>.Register<AObjectBrowserUserControl, DataTemplate>("ObjectItemTemplate");
 
-        //public static readonly StyledProperty<DataTemplateSelector> ObjectItemTemplateSelectorProperty = StyledProperty<DataTemplateSelector>.Register<AObjectBrowserUserControl, DataTemplateSelector>("ObjectItemTemplateSelector");
+        public static readonly StyledProperty<ADataTemplateSelector> ObjectItemTemplateSelectorProperty = StyledProperty<ADataTemplateSelector>.Register<AObjectBrowserUserControl, ADataTemplateSelector>("ObjectItemTemplateSelector");
 
         public static readonly StyledProperty<Style> ObjectItemContainerStyleProperty = StyledProperty<Style>.Register<AObjectBrowserUserControl, Style>("ObjectItemContainerStyle");
 
@@ -54,7 +56,6 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
         public AObjectBrowserUserControl()
         {
             InitializeComponent();
-
         }
         private void InitializeComponent()
         {
@@ -81,7 +82,7 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.Views
 
         public DataTemplate ObjectItemTemplate { get { return (DataTemplate)GetValue(ObjectItemTemplateProperty); } set { SetValue(ObjectItemTemplateProperty, value); } }
 
-        //public DataTemplateSelector ObjectItemTemplateSelector { get { return (DataTemplateSelector)GetValue(ObjectItemTemplateSelectorProperty); } set { SetValue(ObjectItemTemplateSelectorProperty, value); } }
+        public ADataTemplateSelector ObjectItemTemplateSelector { get { return (ADataTemplateSelector)GetValue(ObjectItemTemplateSelectorProperty); } set { SetValue(ObjectItemTemplateSelectorProperty, value); } }
 
         public Style ObjectItemContainerStyle { get { return (Style)GetValue(ObjectItemContainerStyleProperty); } set { SetValue(ObjectItemContainerStyleProperty, value); } }
 

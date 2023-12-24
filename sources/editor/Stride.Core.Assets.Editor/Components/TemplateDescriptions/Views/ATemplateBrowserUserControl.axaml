@@ -20,12 +20,12 @@
           <providers:ATemplateDefinition DataType="viewModels:ExistingProjectViewModel">
             <providers:ATemplateDefinition.DataTemplate>
               <DataTemplate>
-                <DockPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={sd:SumNum}, ConverterParameter={sd:Double -10}}" Margin="0,0,-5,0"  Height="56">
-                  <Image Source="{Binding Icon}" DockPanel.Dock="Left" Width="48" Height="48" Margin="2"/>
+					  <DockPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={sd:ASumNum}, ConverterParameter={sd:Double -10}}" Margin="0,0,-5,0"  Height="56">
+						  <Image Source="{Binding Icon}" DockPanel.Dock="Left" Width="48" Height="48" Margin="2"/>
                   <DockPanel Margin="18,0">
-                    <TextBlock DockPanel.Dock="Top" FontSize="16" Text="{Binding Name}"/>
-                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
-                  </DockPanel>
+					  <TextBlock DockPanel.Dock="Top" FontSize="16" Text="{Binding Name}"/>
+					  <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+				  </DockPanel>
                   <DockPanel.ContextMenu>
                     <ContextMenu>
                       <MenuItem Header="{sd:Localize Show in Explorer, Context=Menu}" Command="{Binding ExploreCommand}" />
@@ -39,7 +39,7 @@
           <providers:ATemplateDefinition DataType="viewModels:ITemplateDescriptionViewModel">
             <providers:ATemplateDefinition.DataTemplate>
               <DataTemplate>
-                <DockPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={sd:SumNum}, ConverterParameter={sd:Double -10}}" Margin="0,0,-5,0"  Height="56">
+                <DockPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={sd:ASumNum}, ConverterParameter={sd:Double -10}}" Margin="0,0,-5,0"  Height="56">
                   <Image Source="{Binding Icon}" DockPanel.Dock="Left" Width="48" Height="48" Margin="2"/>
                   <DockPanel Margin="18,0">
                     <TextBlock DockPanel.Dock="Top" FontSize="16" Text="{Binding Name}"/>
@@ -53,10 +53,12 @@
       </providers:ADataTypeTemplateSelector>
     </ResourceDictionary>
   </UserControl.Resources>
+
 	<views:AObjectBrowserUserControl HierarchyItemsSource="{Binding RootGroups}"
 									SelectedHierarchyItem="{Binding SelectedGroup, Mode=TwoWay}"
 									ObjectItemsSource="{Binding Templates}"
-									SelectedObjectItem="{Binding SelectedTemplate}">
+									SelectedObjectItem="{Binding SelectedTemplate}"
+								    ObjectItemTemplateSelector="{StaticResource ADataTypeTemplateSelector}">
 		<!--<views:AObjectBrowserUserControl HierarchyItemsSource="{Binding RootGroups}"
 										SelectedHierarchyItem="{Binding SelectedGroup, Mode=TwoWay}"
 										ObjectItemsSource="{Binding Templates}"

@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Stride.Core.Presentation.Collections;
 using Stride.Core.Presentation.ViewModel;
@@ -21,8 +22,7 @@ namespace Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels
         {
         }
 
-
-        public IReadOnlyObservableCollection<ITemplateDescriptionViewModel> Templates => templates;
+        public System.Collections.IList Templates => templates.ToIList ();
 
         public abstract IEnumerable<TemplateDescriptionGroupViewModel> RootGroups { get; }
 

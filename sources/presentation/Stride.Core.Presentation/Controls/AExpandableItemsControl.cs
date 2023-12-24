@@ -17,6 +17,8 @@ namespace Stride.Core.Presentation.Controls
 {
     public class AExpandableItemsControl : HeaderedItemsControl
     {
+        protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.Primitives.HeaderedItemsControl); } }
+
         /// <summary>
         /// Identifies the <see cref="IsExpanded"/> dependency property.
         /// </summary>
