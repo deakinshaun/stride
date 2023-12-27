@@ -261,6 +261,7 @@ public static class Program
                 }
             }
 
+            AvaloniaApp.editor = editor;
             var avaloniaThread = new Thread(startAvalonia);
             avaloniaThread.Start();
 
@@ -272,7 +273,7 @@ public static class Program
                 WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                 ShowInTaskbar = true,
             };
-            var viewModel = new NewOrOpenSessionTemplateCollectionViewModel(serviceProvider, startupWindow);
+            var viewModel = new NewOrOpenSessionTemplateCollectionViewModel(serviceProvider/*, startupWindow*/);
             startupWindow.Templates = viewModel;
             startupWindow.ShowDialog();
 
