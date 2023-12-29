@@ -1378,7 +1378,7 @@
     </DrawingImage.Drawing>
   </DrawingImage>
 
-  <!--<DrawingImage x:Key="ImageLiveScripting">
+  <DrawingImage x:Key="ImageLiveScripting">
     <DrawingImage.Drawing>
       <DrawingGroup>
         <DrawingGroup.Children>
@@ -1392,7 +1392,7 @@
             <GeometryDrawing.Pen>
               <Pen
                 Brush="#388A34"
-                DashCap="Flat"
+                LineCap="Flat"
                 Thickness="0.15000006556510925" />
             </GeometryDrawing.Pen>
           </GeometryDrawing>
@@ -1400,7 +1400,7 @@
             <GeometryDrawing.Pen>
               <Pen
                 Brush="#388A34"
-                DashCap="Flat"
+                LineCap="Flat"
                 Thickness="0.15000006556510925" />
             </GeometryDrawing.Pen>
           </GeometryDrawing>
@@ -1414,7 +1414,7 @@
         </DrawingGroup.Children>
       </DrawingGroup>
     </DrawingImage.Drawing>
-  </DrawingImage>-->
+  </DrawingImage>
 
   <DrawingImage x:Key="ImageStopBuild">
     <DrawingImage.Drawing>
