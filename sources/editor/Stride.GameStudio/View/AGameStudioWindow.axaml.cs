@@ -84,18 +84,6 @@ namespace Stride.GameStudio.View
 
             OpenMetricsProjectSession(editor);
         }
-        private void InitializeComponent(bool loadXaml = true, bool attachDevTools = true)
-        {
-            AvaloniaXamlLoader.Load(this);
-
-#if DEBUG
-            if (attachDevTools)
-            {
-                this.AttachDevTools();
-            }
-#endif
-        }
-
         private async Task ResetAllLayouts()
         {
             var assets = assetEditorsManager.OpenedAssets.Select(x => x.Id).ToList();

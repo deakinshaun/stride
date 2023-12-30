@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia.Diagnostics" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" />
     <PackageReference Include="Dirkster.AvalonDock" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
@@ -25,7 +26,6 @@
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.ReactiveUI" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
-    <PackageReference Include="XamlNameReferenceGenerator" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assets\Stride.Core.Assets\PackageSessionHelper.Solution.cs">
@@ -52,13 +52,6 @@
   <!-- Resources -->
   <ItemGroup>
     <Resource Include="Resources\Icons\*.png" />
-    <AvaloniaXaml Remove="Components\TemplateDescriptions\ViewModels\ATemplateBrowserUserControl.axaml" />
-    <AvaloniaXaml Remove="View\ACommonResources.axaml" />
-    <Compile Remove="Components\TemplateDescriptions\ViewModels\ATemplateBrowserUserControl.axaml.cs" />
-    <Compile Remove="Components\TemplateDescriptions\ViewModels\ATemplateBrowserUserControl.xaml.cs" />
-    <None Remove="Components\TemplateDescriptions\ViewModels\ATemplateBrowserUserControl.xaml" />
-    <Page Remove="Components\TemplateDescriptions\ViewModels\ATemplateBrowserUserControl.xaml" />
-    <AvaloniaResource Include="View\ACommonResources.axaml" />
     <Resource Include="Resources\Images\default-template-icon.png" />
     <EmbeddedResource Include="Resources\Images\folder_128.png" />
     <Compile Update="Resources\Images.Designer.cs">
@@ -82,6 +75,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+
   <Import Project="..\..\editor\Stride.Core.MostRecentlyUsedFiles\Stride.Core.MostRecentlyUsedFiles.projitems" Label="Shared" />
   <Import Project="$(StrideSdkTargets)" />
 
