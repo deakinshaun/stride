@@ -978,8 +978,8 @@
       </xcad:DockingManager>-->
 		
 		
-      <!--<StatusBar Grid.Row="2" Background="{StaticResource StatusBarBackgroundBrush}" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}">
-        <StatusBar.Resources>
+      <ItemsControl Grid.Row="2" Background="{StaticResource StatusBarBackgroundBrush}">
+		  <!--<ItemsControl.Resources>
           <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="Foreground" Value="{StaticResource SelectedTextBrush}"/>
           </Style>
@@ -987,8 +987,8 @@
             <Setter Property="Background" Value="{StaticResource SelectedTextBrush}"/>
             <Setter Property="Opacity" Value="0.25"/>
           </Style>
-        </StatusBar.Resources>
-        <StatusBar.ItemsPanel>
+        </ItemsControl.Resources>-->
+		  <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <Grid>
               <Grid.ColumnDefinitions>
@@ -1001,28 +1001,29 @@
               </Grid.ColumnDefinitions>
             </Grid>
           </ItemsPanelTemplate>
-        </StatusBar.ItemsPanel>
-        <StatusBarItem Grid.Column="0">
+        </ItemsControl.ItemsPanel>
+		<ListBoxItem Grid.Column="0">
           <TextBlock Margin="5,0" Text="{Binding Status.CurrentStatus}"/>
-        </StatusBarItem>
-        <Separator Grid.Column="1" Style="{StaticResource StatusBarSeparatorStyle}"/>
-        <StatusBarItem Grid.Column="2">
+        </ListBoxItem>
+        <Separator Grid.Column="1" />
+		  <ListBoxItem Grid.Column="2">
           <TextBlock>
-            <Run Text="{sd:Localize {}{0} item, Plural={}{0} items, Count={Binding Session.ActiveAssetView.FilteredContent.Count, Mode=OneWay}, IsStringFormat=True, Context=StatusBar}"/>
-            <Run Text="{sd:Localize ({0} selected), Plural=({0} selected), Count={Binding Session.ActiveAssetView.SelectedContent.Count, Mode=OneWay}, IsStringFormat=True, Context=StatusBar}"/>
+            <Run Text="{sd:ALocalize {}{0} item, Plural={}{0} items, Count={Binding Session.ActiveAssetView.FilteredContent.Count, Mode=OneWay}, IsStringFormat=True, Context=StatusBar}"/>
+            <Run Text="{sd:ALocalize ({0} selected), Plural=({0} selected), Count={Binding Session.ActiveAssetView.SelectedContent.Count, Mode=OneWay}, IsStringFormat=True, Context=StatusBar}"/>
           </TextBlock>
-        </StatusBarItem>
-        <Separator Grid.Column="3" Style="{StaticResource StatusBarSeparatorStyle}"/>
-        <StatusBarItem Grid.Column="4" HorizontalContentAlignment="Right">
+        </ListBoxItem>
+        <Separator Grid.Column="3" />
+		  <ListBoxItem Grid.Column="4" HorizontalContentAlignment="Right">
           <TextBlock Margin="5,0" Text="{Binding Status.CurrentJob.Message}"/>
-        </StatusBarItem>
-        <StatusBarItem Grid.Column="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-          <ProgressBar Visibility="{Binding Status.CurrentJob, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
+        </ListBoxItem>
+		  <ListBoxItem Grid.Column="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+          <ProgressBar 
                        IsIndeterminate="{Binding Status.CurrentJob.IsIndeterminate}" Maximum="{Binding Status.CurrentJob.Total}"
                        Value="{Binding Status.CurrentJob.Current}">
           </ProgressBar>
-        </StatusBarItem>
-      </StatusBar>-->
+        </ListBoxItem>
+      
+</ItemsControl>
     </Grid>
   </Grid>
 </Window>
