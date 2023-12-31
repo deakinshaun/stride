@@ -76,6 +76,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+  <AvaloniaResource Include="Resources\**" />
+  </ItemGroup>
+  
   <Import Project="..\..\editor\Stride.Core.MostRecentlyUsedFiles\Stride.Core.MostRecentlyUsedFiles.projitems" Label="Shared" />
   <Import Project="$(StrideSdkTargets)" />
 

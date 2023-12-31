@@ -335,7 +335,7 @@
 
 	</Menu>
 
-    <!-- DOCUMENT ROW -->
+	  <!-- DOCUMENT ROW -->
     <Grid Grid.Row="1">
       <Grid.RowDefinitions>
         <!-- TOOLBAR ROW DEFINITION-->
@@ -461,6 +461,8 @@
 			</ToolBar>
 		</ToolBarTray>-->
 
+		<StackPanel Grid.Row="1">
+		
 		<!-- DOCKING ROW -->
 		<!--<xcad:DockingManager x:Name="Docking" Grid.Row="1" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
 							 AllowMixedOrientation="True"
@@ -614,10 +616,8 @@
 								<xcad:LayoutAnchorable AutoHideMinWidth="300" ContentId="AssetView" Title="{Binding Source={sd:Localize Asset view, Context=View}}"
 														 gh:AvalonDockHelper.IsVisible="{Binding Panels.AssetViewPanelVisible, Mode=TwoWay,
                                            Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-									
-									
-									
-									<sd:AAssetViewUserControl AssetCollection="{Binding Session.ActiveAssetView}" AssetContextMenu="{StaticResource AssetContextMenu}"
+
+		<sd:AAssetViewUserControl AssetCollection="{Binding Session.ActiveAssetView}" AssetContextMenu="{StaticResource AssetContextMenu}"
 														   AssetDoubleClick="{Binding Session.EditSelectedContentCommand}">
 										<!--<i:Interaction.Behaviors>
 											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
@@ -649,11 +649,12 @@
 									<!-- stats -->
 									<Border DockPanel.Dock="Bottom" Padding="10,5">
 										<TextBlock Text="{Binding Session.References.TypeCountersAsText}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
-											<!--<TextBlock.ToolTip.Tip>
+												<!--<TextBlock.ToolTip.Tip>
 												<TextBlock Text="{Binding Session.References.TypeCountersAsText}" TextTrimming="None" TextWrapping="Wrap" />
 											</TextBlock.ToolTip.Tip>-->
 										</TextBlock>
 									</Border>
+									<TextBlock Text="Debug 2"/>
 									<!-- view -->
 									<!--<sd:AssetViewUserControl AssetCollection="{Binding Session.References.DisplayedReferences}" AssetContextMenu="{StaticResource AssetContextMenu}" GiveFocusOnSelectionChange="False"
 															   CanEditAssets="False" CanAddAssets="False" CanDeleteAssets="False" CanRecursivelyDisplayAssets="False" TileThumbnailSize="64" AssetDoubleClick="{Binding Session.ActiveAssetView.SelectAssetCommand}"
@@ -1042,6 +1043,7 @@
 			</xcad:LayoutRoot>
 		</xcad:DockingManager>-->
 
+		</StackPanel>
 
 		<ItemsControl Grid.Row="2" Background="{StaticResource StatusBarBackgroundBrush}">
 		  <!--<ItemsControl.Resources>

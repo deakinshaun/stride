@@ -26,8 +26,6 @@ namespace Stride.Core.Assets.Editor.View
     /// </summary>
     public partial class AAssetViewUserControl : UserControl
     {
-        protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.TreeView); } }
-
         /// <summary>
         /// Identifies the <see cref="AssetCollection"/> dependency property.
         /// </summary>
