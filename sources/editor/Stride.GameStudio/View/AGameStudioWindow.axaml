@@ -817,7 +817,8 @@
 												>
 											<Grid>
 												<DockPanel >
-													<Image Source="{StaticResource ImageEditAsset}" Margin="4" DockPanel.Dock="Left" Width="16" Height="16" />
+													<Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Margin="4" DockPanel.Dock="Left" Width="16" Height="16"/>
+
 													<TextBlock Text="{sd:Localize Open this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center" />
 												</DockPanel>
 												<TextBlock Text="{sd:Localize Show this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center"

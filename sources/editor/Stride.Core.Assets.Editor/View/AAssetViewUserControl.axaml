@@ -17,12 +17,10 @@
              xmlns:services="clr-namespace:Stride.Core.Assets.Editor.Services"
              mc:Ignorable="d" Focusable="True"
              d:DesignHeight="300" d:DesignWidth="300" x:Name="AssetView" BorderThickness="1" BorderBrush="{DynamicResource MenuBorderBrush}">
-	
-	
-	
   <DockPanel x:Name="RootContainer"> 
 	  
 	  <DockPanel.Resources>
+		  
 		  <ResourceDictionary>
 			  <!-- MERGED DICTIONARIES: IMAGE DICTIONARY, PROPERTY GRID VIEWS -->
 			  <ResourceDictionary.MergedDictionaries>
@@ -240,7 +238,7 @@
 						  <TextBlock DockPanel.Dock="Right" Margin="3,0" 
 									 Text="{Binding Session.SourceTracker.AssetsToUpdate.Count, StringFormat=({0})}" VerticalAlignment="Center" />
 						  <Grid>
-							  <Image Source="{StaticResource UpdateAllAssetsWithModifiedSource}"/>
+							  <Image Source="{Binding Source={StaticResource UpdateAllAssetsWithModifiedSource}, Path=Source}" Stretch="None"/>
 							  <Rectangle Fill="{StaticResource NormalBrush}" >
 								  <!--<Rectangle.OpacityMask>
 									  <ImageBrush ImageSource="{StaticResource UpdateAllAssetsWithModifiedSource}"/>
@@ -259,7 +257,7 @@
 					  </DockPanel>
 				  </Button>
 				  <Button Command="{Binding Session.ImportEffectLogCommand}"
-						 
+						 IsEnabled="{Binding Session.ImportEffectLogPendingCount, Converter={sd:ANumericToBool}}"
 						  
 						  ToolTip.Tip="{sd:Localize Import last effects compiled remotely, Context=ToolTip}" >
 					  <!--<Button Command="{Binding Session.ImportEffectLogCommand}"
@@ -270,7 +268,7 @@
 						  <TextBlock DockPanel.Dock="Right" Margin="3,0" 
 									 Text="{Binding Session.ImportEffectLogPendingCount, StringFormat=({0})}" VerticalAlignment="Center" />
 						  <Grid>
-							  <Image Source="{StaticResource ImageReimportEffects}"/>
+							  <Image Source="{Binding Source={StaticResource ImageReimportEffects}, Path=Source}"  Stretch="None"/>
 							  <Rectangle Fill="{StaticResource NormalBrush}" >
 								  <!--<Rectangle.OpacityMask>
 									  <ImageBrush ImageSource="{StaticResource ImageReimportEffects}"/>
@@ -292,7 +290,7 @@
 				  <!--  EDIT  -->
 				  <Button Command="{Binding Session.EditSelectedContentCommand}"
 						   >
-					  <Image Source="{StaticResource ImageEditAsset}" />
+					  <Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Stretch="None"/>
 				  </Button>
 				  <Separator  />
 				  <!-- VIEW OPTIONS -->

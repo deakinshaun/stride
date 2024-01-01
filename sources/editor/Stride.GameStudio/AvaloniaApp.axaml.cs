@@ -59,6 +59,15 @@ public partial class AvaloniaApp : Application
     {
         bool? completed;
 
+        try
+        { 
+        // temporary while testing gamestudiowindow.
+        await editor.OpenSession(new Stride.Core.IO.UFile("C:/Users/sbanga/Documents/Stride Projects/VRSandbox/VRSandbox.sln"));
+        var mainWindowX = new AGameStudioWindow(editor);
+        mainWindowX.Show();
+        return;
+
+
         mainWindowRoot.Activated -= doDialog;
 
         var startupWindow = new AProjectSelectionWindow(viewModel);
@@ -112,16 +121,21 @@ public partial class AvaloniaApp : Application
         if (editor.Session != null)
         {
             // If a session was correctly loaded, show the main window
-            var mainWindow = new GameStudioWindow(editor);
-            System.Windows.Application.Current.MainWindow = mainWindow;
-            WindowManager.ShowMainWindow(mainWindow);
+            var mainWindow = new AGameStudioWindow(editor);
+            //System.Windows.Application.Current.MainWindow = mainWindow;
+            //WindowManager.ShowMainWindow(mainWindow);
+            mainWindow.Show();
         }
         else
         {
             // Otherwise, exit.
 //            app.Shutdown();
         }
-
+        }
+        catch (Exception ex)
+        {
+            var a = 1;
+        }
     }
 
     public override void OnFrameworkInitializationCompleted()
