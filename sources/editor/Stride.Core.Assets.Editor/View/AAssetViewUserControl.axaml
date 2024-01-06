@@ -17,6 +17,20 @@
              xmlns:services="clr-namespace:Stride.Core.Assets.Editor.Services"
              mc:Ignorable="d" Focusable="True"
              d:DesignHeight="300" d:DesignWidth="300" x:Name="AssetView" BorderThickness="1" BorderBrush="{DynamicResource MenuBorderBrush}">
+
+	<UserControl.Resources>
+		<ControlTheme x:Key="{x:Type Image}" TargetType="Image" >
+			<Setter Property="Source" Value="{Binding Source={StaticResource ImageNewAsset}, Path=Source}" />
+			<!--<ControlTheme.Triggers>
+                        -->
+			<!--<DataTrigger Binding="{Binding IsAlternative, ElementName=FilterSearchComboBox}" Value="True">
+                          <Setter Property="Source" Value="{StaticResource ImageRefresh}" />
+                        </DataTrigger>-->
+			<!--
+                      </ControlTheme.Triggers>-->
+		</ControlTheme>
+
+	</UserControl.Resources>
   <DockPanel x:Name="RootContainer"> 
 	  
 	  <DockPanel.Resources>
@@ -31,7 +45,6 @@
 
 			  <Style TargetType="controls:EditableContentListBox" BasedOn="{StaticResource {x:Type ListBox}}"/>-->
 
-			  <!--<DataTemplate x:Key="AssetTileView">-->
 				  <!--<DataTemplate.Resources>-->
 				  
 					  <DataTemplate x:Key="ItemTemplate" DataType="{x:Type viewModel:ISessionObjectViewModel}">
@@ -150,7 +163,9 @@
 						  </HeaderedContentControl>
 					  </DataTemplate>
 				  <!--</DataTemplate.Resources>-->
-				  
+
+			  <DataTemplate x:Key="AssetTileView">
+
 				  
 				  <!--<controls:EditableContentListBox ItemsSource="{Binding FilteredContent}" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 												   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" TextSearch.TextPath="Name"
@@ -188,8 +203,9 @@
 						  <sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding DeleteContentCommand}" IsEnabled="{Binding CanDeleteAssets, ElementName=AssetView}"/>
 					  </i:Interaction.Behaviors>
 				  </controls:EditableContentListBox>-->
-			  <!--</DataTemplate>-->
+			  </DataTemplate>
 			  <!--<CollectionViewSource x:Key="FilteredContentView" Source="{Binding FilteredAssets}" />-->
+			  <ItemsControl x:Key="FilteredContentView" ItemsSource="{Binding FilteredAssets}" />
 		  </ResourceDictionary>
 	  </DockPanel.Resources>
 
@@ -198,12 +214,14 @@
 
 		  <StackPanel DockPanel.Dock="Top">
 			  <!--<ToolBarTray DockPanel.Dock="Top">-->
+			  
 			  <!--<FrameworkElement.Resources>
         <Style TargetType="{x:Type Image}">
           <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
         </Style>
       </FrameworkElement.Resources>-->
-			  <ItemsControl  />
+
+			  <ItemsControl ItemsSource="{Binding FilteredContent}"  ></ItemsControl>
 
 			  <!--  SECONDARY TOOLBAR  -->
 			  <ItemsControl>
@@ -218,19 +236,19 @@
 						  <sd:ToggleButtonPopupBehavior/>
 					  </i:Interaction.Behaviors>-->
 				  </ToggleButton>
-				  <!--<Popup IsOpen="{Binding IsChecked, ElementName=Toggle, Mode=TwoWay}" >
+				  <Popup IsOpen="{Binding IsChecked, ElementName=Toggle, Mode=TwoWay}" >
 					  <Border MinHeight="300" Margin="6" Background="{StaticResource ControlBackgroundBrush}"
 							  BorderBrush="{StaticResource NormalBrush}" BorderThickness="1">
 						  <Border.Effect>
 							  <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
 						  </Border.Effect>
-						  <templateViews:AddItemUserControl TemplateCollection="{Binding AddAssetTemplateCollection}" AddItemCommand="{Binding RunAssetTemplateCommand}"
-															SelectFilesToCreateItemCommand="{Binding SelectFilesToCreateAssetCommand}"/>
+						  <!--<templateViews:AddItemUserControl TemplateCollection="{Binding AddAssetTemplateCollection}" AddItemCommand="{Binding RunAssetTemplateCommand}"
+															SelectFilesToCreateItemCommand="{Binding SelectFilesToCreateAssetCommand}"/>-->
 					  </Border>
-					  --><!--<i:Interaction.Behaviors>
+					  <!--<i:Interaction.Behaviors>
 						  <sd:OnEventSetPropertyBehavior EventName="Validated" EventOwnerType="sd:FilteringComboBox" Property="{x:Static Popup.IsOpenProperty}" Value="{sd:False}"/>
-					  </i:Interaction.Behaviors>--><!--
-				  </Popup>-->
+					  </i:Interaction.Behaviors>-->
+				  </Popup>
 				  <!--  UPDATE ASSETS FROM SOURCE BUTTON  -->
 				  <Button Command="{Binding Session.SourceTracker.UpdateAllAssetsWithModifiedSourceCommand}"
 						   >
@@ -240,9 +258,9 @@
 						  <Grid>
 							  <Image Source="{Binding Source={StaticResource UpdateAllAssetsWithModifiedSource}, Path=Source}" Stretch="None"/>
 							  <Rectangle Fill="{StaticResource NormalBrush}" >
-								  <!--<Rectangle.OpacityMask>
-									  <ImageBrush ImageSource="{StaticResource UpdateAllAssetsWithModifiedSource}"/>
-								  </Rectangle.OpacityMask>-->
+								  <Rectangle.OpacityMask>
+									  <ImageBrush Source="{Binding Source={StaticResource UpdateAllAssetsWithModifiedSource}, Path=Source}"/>
+								  </Rectangle.OpacityMask>
 								  <!--<Rectangle.Triggers>
 									  <EventTrigger RoutedEvent="Window.Loaded">
 										  <BeginStoryboard>
@@ -270,9 +288,9 @@
 						  <Grid>
 							  <Image Source="{Binding Source={StaticResource ImageReimportEffects}, Path=Source}"  Stretch="None"/>
 							  <Rectangle Fill="{StaticResource NormalBrush}" >
-								  <!--<Rectangle.OpacityMask>
-									  <ImageBrush ImageSource="{StaticResource ImageReimportEffects}"/>
-								  </Rectangle.OpacityMask>-->
+								  <Rectangle.OpacityMask>
+									  <ImageBrush Source="{Binding Source={StaticResource ImageReimportEffects}, Path=Source}"/>
+								  </Rectangle.OpacityMask>
 								  <!--<Rectangle.Triggers>
 									  <EventTrigger RoutedEvent="Window.Loaded">
 										  <BeginStoryboard>
@@ -331,16 +349,16 @@
 							  <MenuItem.Header>
 								  <DockPanel LastChildFill="False">
 									  <TextBlock DockPanel.Dock="Left" Text="View" FontWeight="Bold" />
-									  <!--<Button DockPanel.Dock="Right" Margin="4 0 0 0" Background="Transparent"
-											  Command="view:AssetViewUserControl.ZoomInCommand"
+									  <Button DockPanel.Dock="Right" Margin="4 0 0 0" Background="Transparent"
+											  Command="{Binding ZoomInCommand}"
 											  ToolTip.Tip="{sd:Localize Zoom in, Context=ToolTip}" >
-										  <Image Source="{StaticResource ImageZoomIn}"/>
+										  <Image Source="{StaticResource ImageZoomIn}" Stretch="None"/>
 									  </Button>
 									  <Button DockPanel.Dock="Right" Background="Transparent"
-											  Command="view:AssetViewUserControl.ZoomOutCommand"
+											  Command="{Binding ZoomOutCommand}"
 											  ToolTip.Tip="{sd:Localize Zoom out, Context=ToolTip}" >
-										  <Image Source="{StaticResource ImageZoomOut}"/>
-									  </Button>-->
+										  <Image Source="{StaticResource ImageZoomOut}" Stretch="None"/>
+									  </Button>
 								  </DockPanel>
 							  </MenuItem.Header>
 							  <MenuItem Header="{sd:Localize Tiles, Context=Menu}" CommandParameter="{StaticResource AssetTileView}">
@@ -357,63 +375,57 @@
 				  <Separator/>
 			  </ItemsControl>
 			  <!--  FILTER  -->
-			  <!--
-        <sd:SearchComboBox Width="120" WatermarkContent="{sd:Localize Add a filter...}"
+			  
+        <sd:ASearchComboBox Width="120" WatermarkContent="{sd:Localize Add a filter...}"
                              ItemsSource="{Binding AvailableAssetFilters}" SearchText="{Binding AssetFilterPattern}" ClearTextAfterSelection="True"
                              Command="{Binding AddAssetFilterCommand}" AlternativeCommand="{Binding RefreshAssetFilterCommand}" AlternativeModifiers="Shift"
-                             Grid.IsSharedSizeScope="True" x:Name="FilterSearchComboBox" status:ToolTipHelper.Status="{Binding Session.Editor.Status}"
-                             ToolTip="{sd:Localize Filter assets by name\, type or tag}" ToolTipService.ShowOnDisabled="True">
-          <sd:SearchComboBox.ItemTemplate>
+                             Grid.IsSharedSizeScope="True" x:Name="FilterSearchComboBox" 
+                             ToolTip.Tip="{sd:Localize Filter assets by name\, type or tag}" >
+          <sd:ASearchComboBox.ItemTemplate>
             <DataTemplate>
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition x:Name="IconColumn"  MinWidth="17" Width="Auto" SharedSizeGroup="IconColumnGroup" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="ContentColumnGroup" />
+					<!--<ColumnDefinition x:Name="IconColumn"  MinWidth="17" Width="Auto" SharedSizeGroup="IconColumnGroup" />-->
+					<ColumnDefinition MinWidth="17" Width="Auto" SharedSizeGroup="IconColumnGroup" />
+					<ColumnDefinition Width="Auto" SharedSizeGroup="ContentColumnGroup" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Height="16" Width="16" RenderOptions.BitmapScalingMode="HighQuality" >
-                  <Image.Style>
-                    <Style TargetType="{x:Type Image}" BasedOn="{StaticResource {x:Type Image}}">
-                      <Setter Property="Source" Value="{StaticResource ImageNewAsset}" />
-                      <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsAlternative, ElementName=FilterSearchComboBox}" Value="True">
-                          <Setter Property="Source" Value="{StaticResource ImageRefresh}" />
-                        </DataTrigger>
-                      </Style.Triggers>
-                    </Style>
-                  </Image.Style>
+                <Image Grid.Column="0" Height="16" Width="16"  >
+                  <!--<Image.Resources>-->
+                  <!--</Image.Resources>-->
                 </Image>
                 <TextBlock Margin="4,0" Grid.Column="1" Text="{Binding Converter={cvt:AssetFilterViewModelToFullDisplayName}}" VerticalAlignment="Center" />
               </Grid>
             </DataTemplate>
-          </sd:SearchComboBox.ItemTemplate>
-        </sd:SearchComboBox>
-        <Button Command="{Binding ClearAssetFiltersCommand}" Visibility="{Binding CurrentAssetFilters.Count, Converter={sd:Chained {sd:NumericToBool}, {sd:VisibleOrCollapsed}}}"
-                ToolTip="{sd:Localize Clear filters, Context=ToolTip}" status:ToolTipHelper.Status="{Binding Session.Editor.Status}" ToolTipService.ShowOnDisabled="True">
+          </sd:ASearchComboBox.ItemTemplate>
+        </sd:ASearchComboBox>
+        <Button Command="{Binding ClearAssetFiltersCommand}" IsVisible="{Binding CurrentAssetFilters.Count, Converter={sd:ANumericToBool}}"
+                ToolTip.Tip="{sd:Localize Clear filters, Context=ToolTip}" >
           <Image Source="{StaticResource ImageClearFilters}"/>
         </Button>
-      </ToolBar> -->
+			  <!--</ToolBar> -->
 			  <!--  FILTER TAGS  -->
-			  <!--
-      <ToolBar ItemsSource="{Binding CurrentAssetFilters}" Style="{StaticResource TagToolBarStyle}" HorizontalAlignment="Stretch">
-        <ToolBar.ItemTemplate>
+			  
+			  <ItemsControl ItemsSource="{Binding CurrentAssetFilters}" HorizontalAlignment="Stretch">
+				  <!--<ToolBar ItemsSource="{Binding CurrentAssetFilters}" Style="{StaticResource TagToolBarStyle}" HorizontalAlignment="Stretch"> -->
+        <ItemsControl.ItemTemplate>
           <DataTemplate>
-            <sd:TagControl Height="20" Margin="2" ToolTip="{Binding Converter={cvt:AssetFilterViewModelToFullDisplayName}}"
+            <!--<sd:TagControl Height="20" Margin="2" ToolTip="{Binding Converter={cvt:AssetFilterViewModelToFullDisplayName}}"
                              VerticalAlignment="Center" CloseTagCommand="{Binding RemoveFilterCommand}">
               <sd:TagControl.Style>
                 <Style TargetType="{x:Type sd:TagControl}" BasedOn="{StaticResource {x:Type sd:TagControl}}">
                   <Style.Triggers>
-                    -->
-			  <!--  Background Color  -->
-			  <!--
+                    
+			  --><!--  Background Color  --><!--
+			  
                     <DataTrigger Binding="{Binding Category}" Value="{x:Static viewModel:FilterCategory.AssetType}">
                       <Setter Property="Background" Value="#D7AA67" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Category}" Value="{x:Static viewModel:FilterCategory.AssetName}">
                       <Setter Property="Background" Value="#84CE80" />
                     </DataTrigger>
-                    -->
-			  <!--  Opacity  -->
-			  <!--
+                    
+			  --><!--  Opacity  --><!--
+			  
                     <DataTrigger Binding="{Binding IsActive}" Value="False">
                       <Setter Property="Opacity" Value="0.5" />
                     </DataTrigger>
@@ -427,10 +439,11 @@
                   </ControlTemplate>
                 </Button.Template>
               </Button>
-            </sd:TagControl>
+            </sd:TagControl>-->
           </DataTemplate>
-        </ToolBar.ItemTemplate>
-      </ToolBar>-->
+        </ItemsControl.ItemTemplate>
+		</ItemsControl>
+      <!--</ToolBar>-->
 
 		  </StackPanel>
 			  <!--</ToolBarTray>-->
@@ -455,10 +468,6 @@
                                                     DisplayDropAdorner="{x:Static behaviors:DisplayDropAdorner.ExternalOnly}"/>
       </i:Interaction.Behaviors>-->
     </Grid>
-
-	 
-	  <sd:ATextBox Margin="2" Text="Hello World">
-	  </sd:ATextBox>
 
 	  </StackPanel>
   </DockPanel>

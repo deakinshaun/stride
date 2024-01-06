@@ -51,7 +51,7 @@ namespace Stride.GameStudio.View
     {
         private DebugWindow debugWindow;
         private bool forceClose;
-        private readonly DockingLayoutManager dockingLayout;
+        private readonly ADockingLayoutManager dockingLayout;
         private readonly AssetEditorsManager assetEditorsManager;
         private TaskCompletionSource<bool> closingTask;
 
@@ -67,7 +67,7 @@ namespace Stride.GameStudio.View
             if (editor.Session == null) throw new ArgumentException($@"A valid session must exist before creating a {nameof(GameStudioWindow)}", nameof(editor));
             DataContext = editor; // Must be set before calling InitializeComponent
 
-//            dockingLayout = new DockingLayoutManager(this, editor.Session);
+            dockingLayout = new ADockingLayoutManager(this, editor.Session);
 //            assetEditorsManager = new AssetEditorsManager(dockingLayout, editor.Session);
 //            editor.ServiceProvider.Get<IEditorDialogService>().AssetEditorsManager = assetEditorsManager;
 
@@ -77,10 +77,11 @@ namespace Stride.GameStudio.View
             BreakDebuggerCommand = new AnonymousCommand(editor.ServiceProvider, BreakDebugger);
             EditorSettings.ResetEditorLayout.Command = new AnonymousTaskCommand(editor.ServiceProvider, ResetAllLayouts);
 
+            //AttachedToVisualTree += GameStudioLoaded;
+            Initialized += GameStudioLoaded;
             InitializeComponent();
 //            Application.Current.Activated += (s, e) => editor.ServiceProvider.Get<IEditorDialogService>().ShowDelayedNotifications();
             //            Loaded += GameStudioLoaded;
-            AttachedToVisualTree += GameStudioLoaded;
 
             OpenMetricsProjectSession(editor);
         }
@@ -250,7 +251,7 @@ namespace Stride.GameStudio.View
             }
         }
 
-        private void GameStudioLoaded(object sender, VisualTreeAttachmentEventArgs e)
+        private void GameStudioLoaded(object sender, EventArgs e)
         {
             if (!Editor.Session.IsEditorInitialized)
             {
@@ -354,12 +355,12 @@ namespace Stride.GameStudio.View
             foreach (var asset in assets)
             {
                 // HACK: temporary open and await asset editor sequentially
-                await assetEditorsManager.OpenAssetEditorWindow(asset, false);
+ //               await assetEditorsManager.OpenAssetEditorWindow(asset, false);
             }
             // Close remaining hidden windows (i.e. windows that failed to load, or which asset is not available anymore)
-            assetEditorsManager.CloseAllHiddenWindows();
+ //           assetEditorsManager.CloseAllHiddenWindows();
             // Save list of opened asset editors
-            dockingLayout.SaveOpenAssets(assetEditorsManager.OpenedAssets);
+ //           dockingLayout.SaveOpenAssets(assetEditorsManager.OpenedAssets);
         }
 
         private async void OpenDefaultScene(SessionViewModel session)

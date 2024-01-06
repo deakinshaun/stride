@@ -53,6 +53,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using Avalonia.Controls.ApplicationLifetimes;
+using Microsoft.CodeAnalysis.Differencing;
 
 namespace Stride.GameStudio;
 
@@ -68,6 +69,15 @@ public static class Program
     [STAThread]
     public static void Main()
     {
+        app = new App { ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown };
+        app.InitializeComponent();
+        //AvaloniaApp.editor = editor;
+        var avaloniaThread = new Thread(startAvalonia);
+        avaloniaThread.Start();
+        return;
+
+
+
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         EditorPath.EditorTitle = StrideGameStudio.EditorName;
 
@@ -261,9 +271,6 @@ public static class Program
                 }
             }
 
-            AvaloniaApp.editor = editor;
-            var avaloniaThread = new Thread(startAvalonia);
-            avaloniaThread.Start();
 
             // No session successfully loaded, open the new/open project window
             bool? completed;
