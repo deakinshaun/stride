@@ -5,35 +5,98 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:progress="clr-namespace:Stride.Core.Assets.Editor.ViewModel.Progress"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d"
+		xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+		mc:Ignorable="d"
+				 
+xmlns:ctrl="clr-namespace:Stride.Core.Presentation.Controls"				 
+				 
         ShowInTaskbar="False"
         Title="{Binding Title}" Height="480" Width="640">
-  <Grid>
+
+	<sd:AModalWindow.Resources>
+	<ControlTheme x:Key="DefaultLogViewerStyle" TargetType="sd:ATextLogViewer">
+		<Setter Property="Focusable" Value="False" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="sd:ATextLogViewer">
+					<DockPanel>
+						<StackPanel Orientation="Vertical" DockPanel.Dock="Top"
+									 IsVisible="{Binding IsToolBarVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+							<StackPanel Orientation="Horizontal"
+							 IsVisible="{Binding CanClearLog, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+								<Button x:Name="PART_ClearLog" Content="Clear" />
+							</StackPanel>
+						<StackPanel Orientation="Horizontal" 
+									 IsVisible="{Binding CanFilterLog, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+								<ToggleButton Padding="4,0" Content="Debug"
+											  IsChecked="{Binding ShowDebugMessages, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<ToggleButton Padding="4,0" Content="Verbose"
+											  IsChecked="{Binding ShowVerboseMessages, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<ToggleButton Padding="4,0" Content="Infomation"
+											  IsChecked="{Binding ShowInfoMessages, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<ToggleButton Padding="4,0" Content="Warnings"
+											  IsChecked="{Binding ShowWarningMessages, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<ToggleButton Padding="4,0" Content="Errors"
+											  IsChecked="{Binding ShowErrorMessages, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<ToggleButton Padding="4,0" Content="Fatal errors"
+											  IsChecked="{Binding ShowFatalMessages, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<ToggleButton Padding="4,0" Content="Show Stacktrace"
+											  IsChecked="{Binding ShowStacktrace, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+								<Separator />
+							</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									IsVisible="{Binding CanSearchLog, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+								<sd:ATextBox UseTimedValidation="True" x:Name="PART_SearchTextBox" Width="150"
+											  Text="{Binding SearchToken, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											  WatermarkContent="Search" />
+								<Button Padding="4,0" x:Name="PART_PreviousResult" Content="&lt;" />
+								<Button Padding="4,0" x:Name="PART_NextResult" Content="&gt;" />
+								<ToggleButton Padding="4,0"
+											  IsChecked="{Binding SearchMatchCase, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											  Content="Match case" />
+								<ToggleButton Padding="4,0"
+											  IsChecked="{Binding SearchMatchWord, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											  Content="Match whole word" />
+							</StackPanel>
+						</StackPanel>
+						<TextBox x:Name="PART_LogTextBox" IsReadOnly="True"  FontFamily="Consolas, Courrier New" FontSize="11" />
+					</DockPanel>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</ControlTheme>
+
+	<!--<ControlTheme TargetType="sd:ATextLogViewer" BasedOn="{StaticResource DefaultLogViewerStyle}" />-->
+	</sd:AModalWindow.Resources>
+
+
+
+	<Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <DockPanel Grid.Row="0" Margin="20">
-      <TextBlock DockPanel.Dock="Top" Text="{Binding ProgressMessage}" Margin="0,0,0,10" IsVisible="{Binding WorkDone, Converter={sd:AInvertBool}}"/>
+      <TextBlock DockPanel.Dock="Top" Text="{Binding ProgressMessage2}" Margin="0,0,0,10" IsVisible="{Binding WorkDone, Converter={sd:AInvertBool}}"/>
 		<TextBlock DockPanel.Dock="Top" Text="{sd:Localize Operation completed.}" Margin="0,0,0,10" />
 		<!--<TextBlock DockPanel.Dock="Top" Text="{sd:Localize Operation completed.}" Margin="0,0,0,10" IsVisible="{sd:AMultiBinding {Binding WorkDone}, {Binding HasFailed, Converter={sd:InvertBool}}, {Binding IsCancelled, Converter={sd:InvertBool}}, Converter={sd:AAndMultiConverter}}"/>-->
 		<TextBlock DockPanel.Dock="Top" Text="{sd:Localize Operation failed.}" Margin="0,0,0,10" IsVisible="{Binding HasFailed}"/>
       <TextBlock DockPanel.Dock="Top" Text="{sd:Localize Operation cancelled.}" Margin="0,0,0,10" IsVisible="{Binding IsCancelled}"/>
       <ProgressBar Height="25" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding ProgressValue}" IsIndeterminate="{Binding IsIndeterminate}"/>
     </DockPanel>
-    <!--<sd:TextLogViewer Grid.Row="1" Margin="20" LogMessages="{Binding Log.Messages}" CanClearLog="False"/>-->
+    <sd:ATextLogViewer Grid.Row="1" Margin="20" LogMessages="{Binding Log.Messages}" CanClearLog="False" Theme="{StaticResource DefaultLogViewerStyle}"/>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
       <UniformGrid Rows="1" Margin="20,0,20,20">
         <Button Content="{sd:Localize Close, Context=Button}" Margin="10,0,0,0" Padding="16,4" IsCancel="True" IsEnabled="{Binding WorkDone}">
-          <!--<i:Interaction.Behaviors>
-            <sd:ButtonCloseWindowBehavior DialogResult="OK"/>
-          </i:Interaction.Behaviors>-->
+          <i:Interaction.Behaviors>
+            <sd:AButtonCloseWindowBehavior DialogResult="Ok"/>
+          </i:Interaction.Behaviors>
         </Button>
         <Button Content="{sd:Localize Cancel, Context=Button}" Margin="10,0,0,0" Padding="16,4" Command="{Binding CancelCommand}" IsVisible="{Binding IsCancellable}" IsEnabled="{Binding WorkDone, Converter={sd:AInvertBool}}">
-          <!--<i:Interaction.Behaviors>
-            <sd:ButtonCloseWindowBehavior DialogResult="Cancel"/>
-          </i:Interaction.Behaviors>-->
+          <i:Interaction.Behaviors>
+            <sd:AButtonCloseWindowBehavior DialogResult="Cancel"/>
+          </i:Interaction.Behaviors>
         </Button>
       </UniformGrid>
     </StackPanel>

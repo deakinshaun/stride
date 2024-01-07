@@ -25,12 +25,12 @@ namespace Stride.Core.Assets.Editor.View
 
         public AWorkProgressWindow(WorkProgressViewModel workProgress)
         {
-            InitializeComponent();
             this.workProgress = workProgress;
-            AttachedToVisualTree += WindowLoaded;
+            Initialized += WindowLoaded;
             Closing += WindowClosing;
-//            Width = Math.Min(Width, SystemParameters.WorkArea.Width);
-//            Height = Math.Min(Height, SystemParameters.WorkArea.Height);
+            //            Width = Math.Min(Width, SystemParameters.WorkArea.Width);
+            //            Height = Math.Min(Height, SystemParameters.WorkArea.Height);
+            InitializeComponent();
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -55,7 +55,7 @@ namespace Stride.Core.Assets.Editor.View
             }
         }
 
-        private void WindowLoaded(object sender, VisualTreeAttachmentEventArgs e)
+        private void WindowLoaded(object sender, EventArgs e)
         {
             if (workProgress.WorkDone && !workProgress.ShouldStayOpen())
             {

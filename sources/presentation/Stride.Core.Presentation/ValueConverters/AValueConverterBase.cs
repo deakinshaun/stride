@@ -5,9 +5,9 @@ using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
 
-
 //using System.Windows.Data;
 //using System.Windows.Markup;
+
 using Stride.Core.Annotations;
 
 namespace Stride.Core.Presentation.ValueConverters
