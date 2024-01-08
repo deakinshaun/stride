@@ -11,6 +11,10 @@
         xmlns:vm="clr-namespace:Stride.GameStudio.ViewModels"
         xmlns:xcad="https://github.com/Dirkster99/AvalonDock"
         xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
+		
+        xmlns:tt="clr-namespace:Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Views"
+
+		
         xmlns:viewModels="clr-namespace:Stride.Core.Presentation.Quantum.ViewModels;assembly=Stride.Core.Presentation.Quantum"
         xmlns:viewModels1="clr-namespace:Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels;assembly=Stride.Core.Assets.Editor"
         mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
@@ -462,8 +466,11 @@
 		</ToolBarTray>-->
 
 		<StackPanel Grid.Row="1">
-		
-		<!-- DOCKING ROW -->
+
+			<sd:AEntityHierarchyEditorView />
+
+
+				<!-- DOCKING ROW -->
 		<!--<xcad:DockingManager x:Name="Docking" Grid.Row="1" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
 							 AllowMixedOrientation="True"
 							 DocumentHeaderTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" DocumentTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" AnchorableTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}">
@@ -654,7 +661,7 @@
 											</TextBlock.ToolTip.Tip>-->
 										</TextBlock>
 									</Border>
-									<TextBlock Text="Debug 2"/>
+									
 									<!-- view -->
 									<!--<sd:AssetViewUserControl AssetCollection="{Binding Session.References.DisplayedReferences}" AssetContextMenu="{StaticResource AssetContextMenu}" GiveFocusOnSelectionChange="False"
 															   CanEditAssets="False" CanAddAssets="False" CanDeleteAssets="False" CanRecursivelyDisplayAssets="False" TileThumbnailSize="64" AssetDoubleClick="{Binding Session.ActiveAssetView.SelectAssetCommand}"

@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 // General Information about an assembly is controlled through the following 
@@ -24,4 +25,8 @@ using System.Windows;
     //(used if a resource is not found in the page, 
     // app, or any theme specific resource dictionaries)
 )]
+
+[assembly: InternalsVisibleTo("Stride.GameStudio")]
+[assembly: Avalonia.Metadata.XmlnsPrefix("http://schemas.stride3d.net/xaml/presentation", "sd")]
+[assembly: Avalonia.Metadata.XmlnsDefinition("http://schemas.stride3d.net/xaml/presentation", "Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Views")]
 
