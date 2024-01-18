@@ -52,7 +52,7 @@ namespace Stride.GameStudio.View
         private DebugWindow debugWindow;
         private bool forceClose;
         private readonly ADockingLayoutManager dockingLayout;
-        private readonly AssetEditorsManager assetEditorsManager;
+        private readonly AAssetEditorsManager assetEditorsManager;
         private TaskCompletionSource<bool> closingTask;
 
 #if DEBUG
@@ -68,8 +68,8 @@ namespace Stride.GameStudio.View
             DataContext = editor; // Must be set before calling InitializeComponent
 
             dockingLayout = new ADockingLayoutManager(this, editor.Session);
-//            assetEditorsManager = new AssetEditorsManager(dockingLayout, editor.Session);
-//            editor.ServiceProvider.Get<IEditorDialogService>().AssetEditorsManager = assetEditorsManager;
+            assetEditorsManager = new AAssetEditorsManager(dockingLayout, editor.Session);
+            editor.ServiceProvider.Get<IEditorDialogService>().AssetEditorsManager = assetEditorsManager;
 
             OpenDebugWindowCommand = new AnonymousCommand(editor.ServiceProvider, OpenDebugWindow);
             CreateTestAssetCommand = new AnonymousCommand(editor.ServiceProvider, CreateTestAsset);
@@ -355,12 +355,12 @@ namespace Stride.GameStudio.View
             foreach (var asset in assets)
             {
                 // HACK: temporary open and await asset editor sequentially
- //               await assetEditorsManager.OpenAssetEditorWindow(asset, false);
+                await assetEditorsManager.OpenAssetEditorWindow(asset, false);
             }
             // Close remaining hidden windows (i.e. windows that failed to load, or which asset is not available anymore)
- //           assetEditorsManager.CloseAllHiddenWindows();
+            assetEditorsManager.CloseAllHiddenWindows();
             // Save list of opened asset editors
- //           dockingLayout.SaveOpenAssets(assetEditorsManager.OpenedAssets);
+            dockingLayout.SaveOpenAssets(assetEditorsManager.OpenedAssets);
         }
 
         private async void OpenDefaultScene(SessionViewModel session)
@@ -407,7 +407,7 @@ namespace Stride.GameStudio.View
 
             Editor.Session.ActiveAssetView.SelectAssets(asset.Yield());
 
-            await assetEditorsManager.OpenAssetEditorWindow(asset);
+ //           await assetEditorsManager.OpenAssetEditorWindow(asset);
         }
 
         private void OpenDebugWindow()

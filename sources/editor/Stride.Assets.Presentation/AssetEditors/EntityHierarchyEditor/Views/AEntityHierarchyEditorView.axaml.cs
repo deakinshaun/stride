@@ -39,19 +39,19 @@ namespace Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Views
 
         public async Task<IAssetEditorViewModel> InitializeEditor(AssetViewModel asset)
         {
-/*            var editor = CreateEditorViewModel(asset);
+            var editor = CreateEditorViewModel(asset);
 
             // Don't set the actual Editor property until the editor object is fully initialized - we don't want data bindings to access uninitialized properties
             var result = await editor.Initialize();
 
-//            SceneView.Content = editor.Controller.EditorHost;
-//            SceneView.InvalidateVisual();
+            SceneView.Content = editor.Controller.EditorHost;
+            SceneView.InvalidateVisual();
 
             editorInitializationNotifier.SetResult(result);
             if (result)
                 return editor;
 
-            editor.Destroy();*/
+            editor.Destroy();
             return null;
         }
 
@@ -66,7 +66,7 @@ namespace Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Views
         }*/
 
         [NotNull]
-        //protected abstract EntityHierarchyEditorViewModel CreateEditorViewModel([NotNull] AssetViewModel asset);
+        protected virtual EntityHierarchyEditorViewModel CreateEditorViewModel([NotNull] AssetViewModel asset) {  return null; }
 
         private void EditorPreviewKeyDown(object sender, KeyEventArgs e)
         {

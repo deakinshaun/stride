@@ -13,7 +13,7 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Services
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void DisableDrop()
         {
-            GameForm.AllowDrop = false;
+//            GameForm.AllowDrop = false;
         }
 
         /// <summary>
@@ -23,21 +23,22 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Services
         /// <returns>A value from the <see cref="DragDropEffects"/> enumeration that represents the final effect that was performed during the drag-and-drop operation.</returns>
         protected internal DragDropEffects DoDragDrop(params object[] items)
         {
-            var data = new DragContainer(items);
-            try
-            {
-                return GameForm.DoDragDrop(new DataObject(DragContainer.Format, data), DragDropEffects.All);
-            }
-            catch (COMException)
-            {
-                return DragDropEffects.None;
-            }
+            /*           var data = new DragContainer(items);
+                       try
+                       {
+                           return GameForm.DoDragDrop(new DataObject(DragContainer.Format, data), DragDropEffects.All);
+                       }
+                       catch (COMException)
+                       {
+                           return DragDropEffects.None;
+                       }*/
+            return DragDropEffects.None;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void EnableDrop()
         {
-            GameForm.AllowDrop = true;
+ //           GameForm.AllowDrop = true;
         }
 
         /// <summary>
@@ -97,20 +98,20 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Services
 
         partial void RegisterToDragDropEvents()
         {
-            GameForm.DragDrop += OnDragDrop;
+ /*           GameForm.DragDrop += OnDragDrop;
             GameForm.DragEnter += OnDragEnter;
             GameForm.DragLeave += OnDragLeave;
             GameForm.DragOver += OnDragOver;
-            GameForm.QueryContinueDrag += OnQueryContinueDrag;
+            GameForm.QueryContinueDrag += OnQueryContinueDrag;*/
         }
 
         partial void UnregisterFromDragDropEvents()
         {
-            GameForm.QueryContinueDrag -= OnQueryContinueDrag;
+/*            GameForm.QueryContinueDrag -= OnQueryContinueDrag;
             GameForm.DragOver -= OnDragOver;
             GameForm.DragLeave -= OnDragLeave;
             GameForm.DragEnter -= OnDragEnter;
-            GameForm.DragDrop -= OnDragDrop;
+            GameForm.DragDrop -= OnDragDrop;*/
         }
     }
 }

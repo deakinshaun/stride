@@ -19,7 +19,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" >
 			 
-  <UserControl.Resources>
+  <UserControl.Resources> 
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://Stride.Core.Assets.Editor/View/ACommonResources.axaml"/>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
+// Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,7 @@ namespace Stride.Assets.Presentation.AssetEditors.SceneEditor.ViewModels
     /// View model of a <see cref="SceneViewModel"/> editor.
     /// </summary>
     [AssetEditorViewModel(typeof(SceneAsset), typeof(SceneEditorView))]
+    [AAssetEditorViewModel(typeof(SceneAsset), typeof(ASceneEditorView))]
     public sealed class SceneEditorViewModel : EntityHierarchyEditorViewModel, IMultipleAssetEditorViewModel
     {
         private readonly ObservableSet<SceneViewModel> allScenes = new ObservableSet<SceneViewModel>();

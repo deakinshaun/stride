@@ -61,7 +61,7 @@ public partial class AvaloniaApp : Application
         // TODO: this should be done elsewhere
         var dispatcherService = new ADispatcherService(Dispatcher.UIThread);
         var dialogService = new AStrideDialogService(dispatcherService, StrideGameStudio.EditorName);
-        var pluginService = new PluginService();
+        var pluginService = new APluginService();
         var services = new List<object> { new ADispatcherService(Dispatcher.UIThread), dialogService, pluginService };
         if (renderDocManager != null)
             services.Add(renderDocManager);
@@ -291,7 +291,8 @@ public partial class AvaloniaApp : Application
             //var mru = new MostRecentlyUsedFileCollection(InternalSettings.LoadProfileCopy, InternalSettings.MostRecentlyUsedSessions, InternalSettings.WriteFile);
             //mru.LoadFromSettings();
             var editor = new GameStudioViewModel(serviceProvider, mru);
-            AssetsPlugin.RegisterPlugin(typeof(StrideDefaultAssetsPlugin));
+//            AssetsPlugin.RegisterPlugin(typeof(StrideDefaultAssetsPlugin));
+            AssetsPlugin.RegisterPlugin(typeof(AStrideDefaultAssetsPlugin));
             AssetsPlugin.RegisterPlugin(typeof(StrideEditorPlugin));
 
             // Attempt to load the startup session, if available
