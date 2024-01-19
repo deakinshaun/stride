@@ -2,11 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
              x:Class="Stride.GameStudio.AvaloniaApp"
+			 
+			 xmlns:ids="using:Dock.Settings"
+             xmlns:idc="using:Dock.Avalonia.Controls"
+			 xmlns:idcr="using:Dock.Avalonia.Controls.Recycling"
+			 
              RequestedThemeVariant="Default">
 
-    <Application.Styles>
-        <FluentTheme />
-    </Application.Styles>
+   
 	<Application.Resources>
 
 		<ControlTheme x:Key="TextBox" TargetType="{x:Type sd:ATextBoxBase}">
@@ -18,9 +21,31 @@
 			<Setter Property="Background" Value="Green"/>
 			<Setter Property="BorderBrush" Value="{DynamicResource NormalTextBorderBrush}"/>
 		</ControlTheme>
+
+		<idcr:ControlRecycling x:Key="ControlRecyclingKey" TryToUseIdAsKey="True" />
+		<Color x:Key="RegionColor">Transparent</Color>	
 	</Application.Resources>
 
+	<Application.Styles>
+		<FluentTheme />
+
+		<StyleInclude Source="avares://Dock.Avalonia/Themes/DockFluentTheme.axaml" />
+
+		<Style Selector="TextBlock">
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+
+		<Style Selector="idc|DockControl">
+			<Setter Property="(ids:DockProperties.ControlRecycling)" Value="{StaticResource ControlRecyclingKey}" />
+		</Style>
+
+	</Application.Styles>
+	
 	<Application.Resources>
+		
+		
+		
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<!--<ResourceInclude Source="ATheme.AvalonDock.axaml"/>-->

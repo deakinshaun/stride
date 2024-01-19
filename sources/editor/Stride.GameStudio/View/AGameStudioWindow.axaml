@@ -13,7 +13,6 @@
         xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
 		
         xmlns:tt="clr-namespace:Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Views"
-
 		
         xmlns:viewModels="clr-namespace:Stride.Core.Presentation.Quantum.ViewModels;assembly=Stride.Core.Presentation.Quantum"
         xmlns:viewModels1="clr-namespace:Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels;assembly=Stride.Core.Assets.Editor"
@@ -467,11 +466,109 @@
 
 		<StackPanel Grid.Row="1">
 
-			<sd:AEntityHierarchyEditorView />
+			
 
 
 				<!-- DOCKING ROW -->
-		<!--<xcad:DockingManager x:Name="Docking" Grid.Row="1" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
+
+			
+
+
+			<DockControl x:Name="Dock" Grid.Row="1" InitializeLayout="True" InitializeFactory="True" Width="600" Height="400">
+				<DockControl.Factory>
+					<Factory />
+				</DockControl.Factory>
+
+				<RootDock x:Name="Root" Id="Root" IsCollapsable="False" DefaultDockable="{Binding #MainLayout}">
+
+					<!-- Windows -->
+
+					<RootDock.Windows>
+						<!--<DockWindow x:Name="DockWindow" Id="DockWindow" X="281" Y="233" Width="250" Height="400" Topmost="True">
+            <RootDock ActiveDockable="{Binding #ToolDock}" Window="{Binding #DockWindow}">
+              <ToolDock x:Name="ToolDock">
+                <Tool x:Name="ToolWindow" Id="ToolWindow" Title="Tool Window" x:DataType="Tool">
+                  <TextBlock Text="{Binding Title}"/>
+                </Tool>
+              </ToolDock>
+            </RootDock>
+          </DockWindow>-->
+					</RootDock.Windows>
+
+					<ProportionalDock x:Name="MainLayout" Id="MainLayout" Orientation="Horizontal">
+
+						<!-- Left Pane -->
+
+						<ToolDock x:Name="LeftPane" Id="LeftPane" Proportion="0.25" Alignment="Left">
+							<Tool x:Name="SolutionExplorer" Id="SolutionExplorer" Title="Solution Explorer" x:DataType="Tool">
+								<TextBlock Text="{Binding Title}"/>
+							</Tool>
+						</ToolDock>
+
+						<ProportionalDockSplitter x:Name="LeftSplitter" Id="LeftSplitter" />
+
+						<!-- Top Pane -->
+
+						<ProportionalDock x:Name="TopPane" Id="TopPane" Orientation="Vertical">
+
+							<!-- Right Pane -->
+
+							<ProportionalDock x:Name="RightPane" Id="RightPane" Orientation="Horizontal">
+
+								<!-- Documents Pane -->
+
+								<DocumentDock x:Name="DocumentsPane" Id="DocumentsPane" CanCreateDocument="True" ActiveDockable="Document1">
+									<DocumentDock.DocumentTemplate>
+										<DocumentTemplate>
+											<StackPanel x:DataType="Document">
+												<TextBlock Text="Title"/>
+												<TextBox Text="{Binding Title}"/>
+												<TextBlock Text="Context"/>
+												<TextBox Text="{Binding Context}"/>
+											</StackPanel>
+										</DocumentTemplate>
+									</DocumentDock.DocumentTemplate>
+									<Document x:Name="Document1" Id="Document1" Title="Program.cs" x:DataType="Document">
+										<TextBlock Text="{Binding Title}"/>
+									</Document>
+									<Document x:Name="Document2" Id="Document2" Title="App.axaml" x:DataType="Document">
+										<TextBlock Text="{Binding Title}"/>
+									</Document>
+								</DocumentDock>
+
+								<ProportionalDockSplitter x:Name="RightSplitter" Id="RightSplitter" />
+
+								<!-- Properties Pane -->
+								<ToolDock x:Name="PropertiesPane" Id="PropertiesPane" Proportion="0.3" Alignment="Right">
+									<Tool x:Name="Properties" Id="Properties" Title="Properties" x:DataType="Tool">
+										<TextBlock Text="{Binding Title}"/>
+									</Tool>
+								</ToolDock>
+
+							</ProportionalDock>
+
+							<ProportionalDockSplitter x:Name="BottomSplitter" Id="BottomSplitter" />
+
+							<!-- Bottom Pane -->
+
+							<ToolDock x:Name="BottomPane" Id="BottomPane" Proportion="0.3" Alignment="Bottom" ActiveDockable="Output">
+								<Tool x:Name="ErrorList" Id="ErrorList" Title="Error List" x:DataType="Tool">
+									<TextBlock Text="{Binding Title}"/>
+								</Tool>
+								<Tool x:Name="Output" Id="Output" Title="Output" x:DataType="Tool">
+									<TextBlock Text="{Binding Title}"/>
+								</Tool>
+							</ToolDock>
+
+						</ProportionalDock>
+
+					</ProportionalDock>
+				</RootDock>
+
+			</DockControl>
+
+
+			<!--<xcad:DockingManager x:Name="Docking" Grid.Row="1" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
 							 AllowMixedOrientation="True"
 							 DocumentHeaderTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" DocumentTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" AnchorableTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}">
 			<xcad:LayoutRoot>

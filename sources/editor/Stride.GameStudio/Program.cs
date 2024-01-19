@@ -54,6 +54,7 @@ using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.CodeAnalysis.Differencing;
+using Dock.Model.Avalonia;
 
 namespace Stride.GameStudio;
 
@@ -71,6 +72,7 @@ public static class Program
     {
         app = new App { ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown };
         app.InitializeComponent();
+        //startAvalonia();
         //AvaloniaApp.editor = editor;
         var avaloniaThread = new Thread(startAvalonia);
         avaloniaThread.Start();
@@ -226,6 +228,10 @@ public static class Program
 
     public static void startAvalonia()
     {
+        GC.KeepAlive(typeof(Factory).Assembly);
+
+ //       AppBuilder.Configure<AvaloniaApp>().UsePlatformDetect().LogToTrace().StartWithClassicDesktopLifetime(null);
+
         Avalonia.AppBuilder.Configure<AvaloniaApp>().UsePlatformDetect().UseReactiveUI().StartWithClassicDesktopLifetime(null);
     }
     
