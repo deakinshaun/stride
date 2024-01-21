@@ -79,11 +79,12 @@ namespace Stride.GameStudio.View
 
             //AttachedToVisualTree += GameStudioLoaded;
             Initialized += GameStudioLoaded;
-            InitializeComponent();
 //            Application.Current.Activated += (s, e) => editor.ServiceProvider.Get<IEditorDialogService>().ShowDelayedNotifications();
             //            Loaded += GameStudioLoaded;
 
             OpenMetricsProjectSession(editor);
+
+            InitializeComponent();
         }
         private async Task ResetAllLayouts()
         {
@@ -407,7 +408,7 @@ namespace Stride.GameStudio.View
 
             Editor.Session.ActiveAssetView.SelectAssets(asset.Yield());
 
- //           await assetEditorsManager.OpenAssetEditorWindow(asset);
+            await assetEditorsManager.OpenAssetEditorWindow(asset);
         }
 
         private void OpenDebugWindow()

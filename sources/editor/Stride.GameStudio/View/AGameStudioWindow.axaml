@@ -464,125 +464,55 @@
 			</ToolBar>
 		</ToolBarTray>-->
 
-		<StackPanel Grid.Row="1">
 
 			
 
 
 				<!-- DOCKING ROW -->
 
-			
 
+		<!--<xcad:DockingManager x:Name="Docking" Grid.Row="1" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
+							 AllowMixedOrientation="True"
+							 DocumentHeaderTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" DocumentTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" AnchorableTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}">
+			<xcad:LayoutRoot> -->
+		
 
-			<DockControl x:Name="Dock" Grid.Row="1" InitializeLayout="True" InitializeFactory="True" Width="600" Height="400">
+			<DockControl x:Name="Docking" Grid.Row="1" IsVisible="{Binding Session, Converter={sd:AObjectToBool}}"
+							 
+						 InitializeLayout="True" InitializeFactory="True" >
 				<DockControl.Factory>
 					<Factory />
 				</DockControl.Factory>
 
 				<RootDock x:Name="Root" Id="Root" IsCollapsable="False" DefaultDockable="{Binding #MainLayout}">
 
-					<!-- Windows -->
-
-					<RootDock.Windows>
-						<!--<DockWindow x:Name="DockWindow" Id="DockWindow" X="281" Y="233" Width="250" Height="400" Topmost="True">
-            <RootDock ActiveDockable="{Binding #ToolDock}" Window="{Binding #DockWindow}">
-              <ToolDock x:Name="ToolDock">
-                <Tool x:Name="ToolWindow" Id="ToolWindow" Title="Tool Window" x:DataType="Tool">
-                  <TextBlock Text="{Binding Title}"/>
-                </Tool>
-              </ToolDock>
-            </RootDock>
-          </DockWindow>-->
-					</RootDock.Windows>
-
-					<ProportionalDock x:Name="MainLayout" Id="MainLayout" Orientation="Horizontal">
-
-						<!-- Left Pane -->
-
-						<ToolDock x:Name="LeftPane" Id="LeftPane" Proportion="0.25" Alignment="Left">
-							<Tool x:Name="SolutionExplorer" Id="SolutionExplorer" Title="Solution Explorer" x:DataType="Tool">
-								<TextBlock Text="{Binding Title}"/>
-							</Tool>
-						</ToolDock>
-
-						<ProportionalDockSplitter x:Name="LeftSplitter" Id="LeftSplitter" />
-
-						<!-- Top Pane -->
-
-						<ProportionalDock x:Name="TopPane" Id="TopPane" Orientation="Vertical">
-
-							<!-- Right Pane -->
-
-							<ProportionalDock x:Name="RightPane" Id="RightPane" Orientation="Horizontal">
-
-								<!-- Documents Pane -->
-
-								<DocumentDock x:Name="DocumentsPane" Id="DocumentsPane" CanCreateDocument="True" ActiveDockable="Document1">
-									<DocumentDock.DocumentTemplate>
-										<DocumentTemplate>
-											<StackPanel x:DataType="Document">
-												<TextBlock Text="Title"/>
-												<TextBox Text="{Binding Title}"/>
-												<TextBlock Text="Context"/>
-												<TextBox Text="{Binding Context}"/>
-											</StackPanel>
-										</DocumentTemplate>
-									</DocumentDock.DocumentTemplate>
-									<Document x:Name="Document1" Id="Document1" Title="Program.cs" x:DataType="Document">
-										<TextBlock Text="{Binding Title}"/>
-									</Document>
-									<Document x:Name="Document2" Id="Document2" Title="App.axaml" x:DataType="Document">
-										<TextBlock Text="{Binding Title}"/>
-									</Document>
-								</DocumentDock>
-
-								<ProportionalDockSplitter x:Name="RightSplitter" Id="RightSplitter" />
-
-								<!-- Properties Pane -->
-								<ToolDock x:Name="PropertiesPane" Id="PropertiesPane" Proportion="0.3" Alignment="Right">
-									<Tool x:Name="Properties" Id="Properties" Title="Properties" x:DataType="Tool">
-										<TextBlock Text="{Binding Title}"/>
-									</Tool>
-								</ToolDock>
-
-							</ProportionalDock>
-
-							<ProportionalDockSplitter x:Name="BottomSplitter" Id="BottomSplitter" />
-
-							<!-- Bottom Pane -->
-
-							<ToolDock x:Name="BottomPane" Id="BottomPane" Proportion="0.3" Alignment="Bottom" ActiveDockable="Output">
-								<Tool x:Name="ErrorList" Id="ErrorList" Title="Error List" x:DataType="Tool">
-									<TextBlock Text="{Binding Title}"/>
-								</Tool>
-								<Tool x:Name="Output" Id="Output" Title="Output" x:DataType="Tool">
-									<TextBlock Text="{Binding Title}"/>
-								</Tool>
-							</ToolDock>
-
-						</ProportionalDock>
-
-					</ProportionalDock>
-				</RootDock>
-
-			</DockControl>
 
 
-			<!--<xcad:DockingManager x:Name="Docking" Grid.Row="1" Visibility="{Binding Session, Converter={sd:Chained {sd:ObjectToBool}, {sd:VisibleOrCollapsed}}}"
-							 AllowMixedOrientation="True"
-							 DocumentHeaderTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" DocumentTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}" AnchorableTitleTemplate="{StaticResource AvalonDock_GameStudio_TitleTemplate}">
-			<xcad:LayoutRoot>
-				<xcad:LayoutPanel Orientation="Horizontal">
-					<xcad:LayoutPanel Orientation="Vertical">
-						<xcad:LayoutPanel Orientation="Horizontal">
-							<xcad:LayoutAnchorablePane DockWidth="300">
-								--><!-- SOLUTION EXPLORER --><!--
+
+<!--						<xcad:LayoutPanel Orientation="Horizontal">
+							<xcad:LayoutPanel Orientation="Vertical">
+								<xcad:LayoutPanel Orientation="Horizontal">
+									<xcad:LayoutAnchorablePane DockWidth="300">
+										-->
+										<!-- SOLUTION EXPLORER -->
+										<!--
 								<xcad:LayoutAnchorable AutoHideMinWidth="300" ContentId="SolutionExplorer" Title="{Binding Source={sd:Localize Solution explorer, Context=View}}"
 													   gh:AvalonDockHelper.IsVisible="{Binding Panels.SessionExplorerPanelVisible, Mode=TwoWay,
                                          Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-		
-		
-									<!--<DockPanel>
+
+					
+					<ProportionalDock x:Name="MainLayout" Id="MainLayout" Orientation="Horizontal">
+
+						<ProportionalDock  Orientation="Vertical">
+							<ProportionalDock  Orientation="Horizontal">
+
+
+								<DocumentDock x:Name="SolutionExplorerPane" Id="SolutionExplorerPane" CanCreateDocument="True">
+									<Document x:Name="SolutionExplorer" Id="SolutionExplorer" Title="{Binding Source={sd:Localize Solution explorer, Context=View}}" x:DataType="Document">
+
+
+
+											<!--<DockPanel>
 										<ToolBarTray DockPanel.Dock="Top">
 											<ToolBar>
 												<Button Command="{Binding Session.NewProjectCommand}"
@@ -626,7 +556,9 @@
 												</Button>
 											</ToolBar>
 										</ToolBarTray>
-										--><!-- TODO: SearchText --><!--
+										-->
+											<!-- TODO: SearchText -->
+											<!--
 										<sd:TreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values}" AllowDrop="True" IsVirtualizing="False">
 											<sd:TreeView.Resources>
 												<ContextMenu x:Key="ContextMenu">
@@ -709,96 +641,134 @@
 											</sd:TreeView.ItemTemplate>
 										</sd:TreeView>
 									</DockPanel>-->
-		
-		
-		
-		
-								<!--</xcad:LayoutAnchorable>
+
+
+
+
+											<!--</xcad:LayoutAnchorable>
 							</xcad:LayoutAnchorablePane>
 							<xcad:LayoutDocumentPane>
-								--><!-- ASSET VIEW --><!--
+								-->
+
+										</Document>
+								</DocumentDock>
+
+								<ProportionalDockSplitter />
+
+
+								<DocumentDock x:Name="AssetViewPane" Id="AssetViewPane" CanCreateDocument="True">
+								<Document x:Name="AssetView" Id="AssetView" Title="{Binding Source={sd:Localize Asset view, Context=View}}" x:DataType="Document">
+
+
+									<!-- ASSET VIEW -->
+											<!--
 								<xcad:LayoutAnchorable AutoHideMinWidth="300" ContentId="AssetView" Title="{Binding Source={sd:Localize Asset view, Context=View}}"
 														 gh:AvalonDockHelper.IsVisible="{Binding Panels.AssetViewPanelVisible, Mode=TwoWay,
                                            Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
 
-		<sd:AAssetViewUserControl AssetCollection="{Binding Session.ActiveAssetView}" AssetContextMenu="{StaticResource AssetContextMenu}"
-														   AssetDoubleClick="{Binding Session.EditSelectedContentCommand}">
-										<!--<i:Interaction.Behaviors>
-											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
+											<sd:AAssetViewUserControl AssetCollection="{Binding Session.ActiveAssetView}" AssetContextMenu="{StaticResource AssetContextMenu}"
+																							   AssetDoubleClick="{Binding Session.EditSelectedContentCommand}">
+											<i:Interaction.Behaviors>
+											<!--<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" Command="{Binding Session.ActiveAssetView.CopyContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Paste" Command="{Binding Session.ActiveAssetView.PasteCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
-											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.ActiveAssetView.DeleteContentCommand}"/>
-											<gl:ActivateParentPaneOnGotFocusBehavior/>
-										</i:Interaction.Behaviors>-->
-									</sd:AAssetViewUserControl>
-									<!--<i:Interaction.Behaviors>
-										<gl:LayoutAnchorableActivateOnLocationChangedBehavior Collection="{Binding Session.ActiveAssetView.SelectedLocations}" />
-									</i:Interaction.Behaviors>-->
-		
-		
-		
-								<!--</xcad:LayoutAnchorable>
+											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.ActiveAssetView.DeleteContentCommand}"/>-->
+											<gl:AActivateParentPaneOnGotFocusBehavior/>
+										</i:Interaction.Behaviors>
+											</sd:AAssetViewUserControl>
+											<i:Interaction.Behaviors>
+										<gl:ALayoutAnchorableActivateOnLocationChangedBehavior Collection="{Binding Session.ActiveAssetView.SelectedLocations}" />
+									</i:Interaction.Behaviors>
+
+
+
+											<!--</xcad:LayoutAnchorable>
 							</xcad:LayoutDocumentPane>
 						</xcad:LayoutPanel>
 						<xcad:LayoutAnchorablePane DockHeight="200">
-							--><!-- REFERENCES --><!--
+							-->
+									
+									</Document>
+								</DocumentDock>
+
+							</ProportionalDock>
+
+							<ProportionalDockSplitter />
+
+
+							<!-- REFERENCES -->
+							<!--
 							<xcad:LayoutAnchorable AutoHideMinHeight="200" ContentId="References" Title="{Binding Source={sd:Localize References, Context=View}}"
 												   gh:AvalonDockHelper.IsVisible="{Binding Panels.ReferencesPanelVisible, Mode=TwoWay,
                                        Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-								
-								
-								
-								
-								<DockPanel LastChildFill="True" x:Name="RefViewDockPanel">
-									<!-- stats -->
-									<Border DockPanel.Dock="Bottom" Padding="10,5">
-										<TextBlock Text="{Binding Session.References.TypeCountersAsText}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
-												<!--<TextBlock.ToolTip.Tip>
+
+
+							<DocumentDock x:Name="ReferencesPane" Id="ReferencesPane" CanCreateDocument="True">
+								<Document x:Name="References" Id="References" Title="{Binding Source={sd:Localize References, Context=View}}" x:DataType="Document">
+
+
+									<DockPanel LastChildFill="True" x:Name="RefViewDockPanel">
+								<!-- stats -->
+								<Border DockPanel.Dock="Bottom" Padding="10,5">
+									<TextBlock Text="{Binding Session.References.TypeCountersAsText}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
+										<!--<TextBlock.ToolTip.Tip>
 												<TextBlock Text="{Binding Session.References.TypeCountersAsText}" TextTrimming="None" TextWrapping="Wrap" />
 											</TextBlock.ToolTip.Tip>-->
-										</TextBlock>
-									</Border>
-									
-									<!-- view -->
-									<!--<sd:AssetViewUserControl AssetCollection="{Binding Session.References.DisplayedReferences}" AssetContextMenu="{StaticResource AssetContextMenu}" GiveFocusOnSelectionChange="False"
+									</TextBlock>
+								</Border>
+
+								<!-- view -->
+								<!--<sd:AssetViewUserControl AssetCollection="{Binding Session.References.DisplayedReferences}" AssetContextMenu="{StaticResource AssetContextMenu}" GiveFocusOnSelectionChange="False"
 															   CanEditAssets="False" CanAddAssets="False" CanDeleteAssets="False" CanRecursivelyDisplayAssets="False" TileThumbnailSize="64" AssetDoubleClick="{Binding Session.ActiveAssetView.SelectAssetCommand}"
 															   BorderThickness="0">
 										<sd:AssetViewUserControl.PrimaryToolBarItems>
 											<ToggleButton IsChecked="{Binding Session.References.ShowReferencers, Converter={sd:InvertBool}}" Content="{sd:Localize References}" MinWidth="80"/>
 											<ToggleButton IsChecked="{Binding Session.References.ShowReferencers}" Content="{sd:Localize Referenced by}" MinWidth="80"/>
 										</sd:AssetViewUserControl.PrimaryToolBarItems>
-										--><!--<i:Interaction.Behaviors>
+										-->
+								<!--<i:Interaction.Behaviors>
 											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.References.DisplayedReferences.CutContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 											<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" Command="{Binding Session.References.DisplayedReferences.CopyContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
-										</i:Interaction.Behaviors>--><!--
+										</i:Interaction.Behaviors>-->
+								<!--
 									</sd:AssetViewUserControl>-->
-								</DockPanel>
-		
-		
-		
-							<!--</xcad:LayoutAnchorable>
-							--><!-- ASSET LOG --><!--
+							</DockPanel>
+
+								</Document>
+
+								<Document x:Name="AssetLog" Id="AssetLog" Title="{sd:ALocalize Asset error ({0}), Plural=Asset errors ({0}), Count={Binding Session.AssetLog.ErrorCount, Source={x:Static vm:GameStudioViewModel.GameStudio}}, IsStringFormat=True, Context=View}" x:DataType="Document">
+
+									<!--</xcad:LayoutAnchorable>
+							-->
+							<!-- ASSET LOG -->
+							<!--
 							<xcad:LayoutAnchorable AutoHideMinHeight="200" ContentId="AssetLog"
 												   Title="{sd:Localize Asset error ({0}), Plural=Asset errors ({0}), Count={Binding Session.AssetLog.ErrorCount, Source={x:Static vm:GameStudioViewModel.GameStudio}}, IsStringFormat=True, Context=View}"
 												   gh:AvalonDockHelper.IsVisible="{Binding Panels.AssetLogPanelVisible, Mode=TwoWay,
                                        Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-								
-								
-								
-								<!--<sd:GridLogViewer LogMessages="{Binding Session.AssetLog.FilteredMessages}" Session="{Binding Session}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="False"/>-->
-		
-		
-		
+
+
+
+							<!--<sd:GridLogViewer LogMessages="{Binding Session.AssetLog.FilteredMessages}" Session="{Binding Session}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="False"/>-->
+
+
+
 							<!--</xcad:LayoutAnchorable>
-							--><!-- BUILD LOG --><!--
+							-->
+								</Document>
+
+								<Document x:Name="BuildLog" Id="BuildLog" Title="{Binding Debugging.OutputTitle, Source={x:Static vm:GameStudioViewModel.GameStudio}}" x:DataType="Document">	
+									
+							<!-- BUILD LOG -->
+							<!--
 							<xcad:LayoutAnchorable AutoHideMinHeight="200" ContentId="BuildLog" Title="{Binding Debugging.OutputTitle, Source={x:Static vm:GameStudioViewModel.GameStudio}}"
 												   gh:AvalonDockHelper.IsVisible="{Binding Panels.BuildLogPanelVisible, Mode=TwoWay,
                                        Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-								
-								
-								
-								
-								<!--<TabControl x:Name="LogTabControl">
+
+
+
+
+							<!--<TabControl x:Name="LogTabControl">
 									<TabItem DataContext="{Binding Debugging.BuildLog}">
 										<TabItem.Header>
 											<TextBlock 
@@ -809,7 +779,9 @@
 										</TabItem.Header>
 										
 										
-										--><!--<sd:TextLogViewer LogMessages="{Binding Messages}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="True"/>--><!--
+										-->
+							<!--<sd:TextLogViewer LogMessages="{Binding Messages}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="True"/>-->
+							<!--
 										
 										
 										
@@ -817,7 +789,9 @@
 											<sd:TabItemActivateOnLogBehavior MinimumLevel="Error" Collection="{Binding Messages}"/>
 										</i:Interaction.Behaviors>
 									</TabItem>
-									--><!-- FIXME live scripting is disabled (XK-4309) --><!--
+									-->
+							<!-- FIXME live scripting is disabled (XK-4309) -->
+							<!--
 									<TabItem DataContext="{Binding Debugging.LiveScriptingLog}" >
 										<TabItem.Header>
 											<TextBlock 
@@ -829,7 +803,9 @@
 										
 										
 										
-										--><!--<sd:TextLogViewer LogMessages="{Binding Messages}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="True"/>--><!--
+										-->
+							<!--<sd:TextLogViewer LogMessages="{Binding Messages}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="True"/>-->
+							<!--
 										
 										
 										
@@ -846,57 +822,71 @@
 									<gl:LayoutAnchorableActivateOnLogBehavior MinimumLevel="Error" Collection="{Binding Debugging.BuildLog.Messages, Source={x:Static vm:GameStudioViewModel.GameStudio}}"/>
 									<gl:LayoutAnchorableActivateOnLogBehavior MinimumLevel="Error" Collection="{Binding Debugging.LiveScriptingLog.Messages, Source={x:Static vm:GameStudioViewModel.GameStudio}}"/>
 								</i:Interaction.Behaviors>-->
-		
-		
-		
+
+
+								</Document>
+								</DocumentDock>
+
 							<!--</xcad:LayoutAnchorable>
 						</xcad:LayoutAnchorablePane>
 					</xcad:LayoutPanel>
 					<xcad:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="400">
 						<xcad:LayoutAnchorablePane DockHeight="2*">
-							--><!-- PROPERTY GRID --><!--
+							-->
+
+						</ProportionalDock>
+						
+						<ProportionalDockSplitter />
+
+						<ProportionalDock  Orientation="Vertical">
+						
+						<DocumentDock x:Name="PropertyGridPane" Id="PropertyGridPane" CanCreateDocument="True">
+							<Document x:Name="PropertyGrid" Id="PropertyGrid" Title="{Binding Source={sd:Localize Property grid, Context=View}}" x:DataType="Document">
+
+								<!-- PROPERTY GRID -->
+									<!--
 							<xcad:LayoutAnchorable AutoHideMinWidth="400" ContentId="PropertyGrid" Title="{Binding Source={sd:Localize Property grid, Context=View}}"
 												   gh:AvalonDockHelper.IsVisible="{Binding Panels.PropertyGridPanelVisible, Mode=TwoWay,
                                        Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-								
-								
-								
-								
-								<Grid Background="{StaticResource ToolBarBackgroundBrush}">
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto"/>
-										<RowDefinition Height="Auto"/>
-										<RowDefinition Height="Auto"/>
-										<RowDefinition Height="Auto"/>
-										<RowDefinition Height="*"/>
-										<RowDefinition Height="5"/>
-										<RowDefinition Height="70"/>
-									</Grid.RowDefinitions>
-									<DockPanel Margin="6,6,6,2">
-										<!-- Adding tag -->
-										<sd:ATextBox MinWidth="90" ValidateOnLostFocus="False" WatermarkContent="{sd:Localize Add new tag}" x:Name="NewTagTextBox"  >
-											<!--<i:Interaction.Behaviors>
+
+
+
+
+									<Grid Background="{StaticResource ToolBarBackgroundBrush}">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="*"/>
+											<RowDefinition Height="5"/>
+											<RowDefinition Height="70"/>
+										</Grid.RowDefinitions>
+										<DockPanel Margin="6,6,6,2">
+											<!-- Adding tag -->
+											<sd:ATextBox MinWidth="90" ValidateOnLostFocus="False" WatermarkContent="{sd:Localize Add new tag}" x:Name="NewTagTextBox"  >
+												<!--<i:Interaction.Behaviors>
 												<sd:OnEventCommandBehavior EventName="Validated" Command="{Binding Session.AssetTags.AddTagCommand}" CommandParameter="{Binding Text, ElementName=NewTagTextBox}"/>
 												<sd:OnEventCommandBehavior EventName="Validated" Command="{x:Static sd:TextBox.ClearTextCommand}"/>
 											</i:Interaction.Behaviors>-->
-										</sd:ATextBox>
-										<!-- Navigation -->
-										<StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="0,0,6,0" VerticalAlignment="Center">
-											<Button Content="{sd:AImage {StaticResource ImagePrevious}, 16, 16, HighQuality}" 
-												Command="{Binding Session.PreviousSelectionCommand}"
-												ToolTip.Tip="{sd:Localize Previous selection, Context=ToolTip}" />
-											<Button Content="{sd:AImage {StaticResource ImageNext}, 16, 16, HighQuality}" 
-												Command="{Binding Session.NextSelectionCommand}"
-												ToolTip.Tip="{sd:Localize Next selection, Context=ToolTip}" />
-										</StackPanel>
-										<!-- Description -->
-										<TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
-											<Run Text="{Binding Session.ActiveProperties.TypeDescription, Mode=OneWay}" FontWeight="Bold"/>
-											<Run Text="{Binding Session.ActiveProperties.Name, Mode=OneWay}"/>
-										</TextBlock>
-									</DockPanel>
-									<!--  TAGS  -->
-									<!--<ToolBar Grid.Row="1" Margin="6,2" ItemsSource="{Binding Session.AssetTags.Tags}" HorizontalAlignment="Stretch" Visibility="{Binding Session.AssetTags.Tags.Count, Converter={sd:Chained {sd:NumericToBool}, {sd:VisibleOrCollapsed}}}"
+											</sd:ATextBox>
+											<!-- Navigation -->
+											<StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="0,0,6,0" VerticalAlignment="Center">
+												<Button Content="{sd:AImage {StaticResource ImagePrevious}, 16, 16, HighQuality}"
+													Command="{Binding Session.PreviousSelectionCommand}"
+													ToolTip.Tip="{sd:Localize Previous selection, Context=ToolTip}" />
+												<Button Content="{sd:AImage {StaticResource ImageNext}, 16, 16, HighQuality}"
+													Command="{Binding Session.NextSelectionCommand}"
+													ToolTip.Tip="{sd:Localize Next selection, Context=ToolTip}" />
+											</StackPanel>
+											<!-- Description -->
+											<TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
+												<Run Text="{Binding Session.ActiveProperties.TypeDescription, Mode=OneWay}" FontWeight="Bold"/>
+												<Run Text="{Binding Session.ActiveProperties.Name, Mode=OneWay}"/>
+											</TextBlock>
+										</DockPanel>
+										<!--  TAGS  -->
+										<!--<ToolBar Grid.Row="1" Margin="6,2" ItemsSource="{Binding Session.AssetTags.Tags}" HorizontalAlignment="Stretch" Visibility="{Binding Session.AssetTags.Tags.Count, Converter={sd:Chained {sd:NumericToBool}, {sd:VisibleOrCollapsed}}}"
 											 Style="{StaticResource TagToolBarStyle}">
 										<ToolBar.ItemTemplate>
 											<DataTemplate>
@@ -916,45 +906,47 @@
 										</ToolBar.ItemTemplate>
 									</ToolBar>-->
 
-									<DockPanel Grid.Row="3" Margin="6,2">
-										<Button Command="{Binding Session.EditSelectedContentCommand}" DockPanel.Dock="Top" HorizontalContentAlignment="Center" Margin="0,0,0,8"
+										<DockPanel Grid.Row="3" Margin="6,2">
+											<Button Command="{Binding Session.EditSelectedContentCommand}" DockPanel.Dock="Top" HorizontalContentAlignment="Center" Margin="0,0,0,8"
 												>
-											<Grid>
-												<DockPanel >
-													<Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Margin="4" DockPanel.Dock="Left" Width="16" Height="16"/>
+												<Grid>
+													<DockPanel >
+														<Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Margin="4" DockPanel.Dock="Left" Width="16" Height="16"/>
 
-													<TextBlock Text="{sd:Localize Open this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center" />
-												</DockPanel>
-												<TextBlock Text="{sd:Localize Show this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center"
+														<TextBlock Text="{sd:Localize Open this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center" />
+													</DockPanel>
+													<TextBlock Text="{sd:Localize Show this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center"
 														    />
-											</Grid>
-										</Button>
-										<DockPanel >
-											<!-- TODO: Disabling this button for now, it is relatively terrible in term of UX -->
-											<ToggleButton Margin="4,0" Height="22" Width="22" Content="{sd:AImage {StaticResource ImageAssetOverride}, 16, 16}"
-														  IsChecked="{Binding Session.ActiveProperties.ShowOverridesOnly}" ToolTip.Tip="{sd:Localize Display only overridden properties, Context=ToolTip}"
+												</Grid>
+											</Button>
+											<DockPanel >
+												<!-- TODO: Disabling this button for now, it is relatively terrible in term of UX -->
+												<ToggleButton Margin="4,0" Height="22" Width="22" Content="{sd:AImage {StaticResource ImageAssetOverride}, 16, 16}"
+															  IsChecked="{Binding Session.ActiveProperties.ShowOverridesOnly}" ToolTip.Tip="{sd:Localize Display only overridden properties, Context=ToolTip}"
 														  />
-											<!--<AdornerDecorator>
+												<!--<AdornerDecorator>
 												<sd:TextBox UseTimedValidation="True" x:Name="PropertyFilterTextBox" WatermarkContent="{sd:Localize Search properties}">
 													<i:Interaction.Behaviors>
 														<sd:ContainTextAdornerBehavior />
 													</i:Interaction.Behaviors>
 												</sd:TextBox>
 											</AdornerDecorator>-->
+											</DockPanel>
 										</DockPanel>
-									</DockPanel>
 
-									<TextBlock Grid.Row="4" Text="{Binding Session.ActiveProperties.FallbackMessage}" HorizontalAlignment="Center" VerticalAlignment="Center"
+										<TextBlock Grid.Row="4" Text="{Binding Session.ActiveProperties.FallbackMessage}" HorizontalAlignment="Center" VerticalAlignment="Center"
 										   />
-									<!--<sd:PropertyView x:Name="AssetPropertyView" Grid.Row="4"
+										<!--<sd:PropertyView x:Name="AssetPropertyView" Grid.Row="4"
 													   ItemsSource="{Binding Session.ActiveProperties.ViewModel.RootNode.Children}"
 													   Visibility="{Binding Session.ActiveProperties.CanDisplayProperties, Converter={sd:VisibleOrCollapsed}}">
 										<sd:PropertyView.Resources>
-											--><!--<RoutedUICommand x:Key="ReplaceCommand" Text="Replace">
+											-->
+										<!--<RoutedUICommand x:Key="ReplaceCommand" Text="Replace">
 												<RoutedUICommand.InputGestures>
 													<KeyGesture>Ctrl+Shift+V</KeyGesture>
 												</RoutedUICommand.InputGestures>
-											</RoutedUICommand>--><!--
+											</RoutedUICommand>-->
+										<!--
 										</sd:PropertyView.Resources>
 										<sd:PropertyView.ItemContainerStyle>
 											<Style BasedOn="{StaticResource {x:Type sd:PropertyViewItem}}" TargetType="sd:PropertyViewItem">
@@ -977,9 +969,11 @@
 												</Setter>
 												<Setter Property="HeaderTemplate">
 													<Setter.Value>
-														--><!--<HierarchicalDataTemplate ItemsSource="{Binding Children, Mode=OneWay}" DataType="viewModels:NodeViewModel">
+														-->
+										<!--<HierarchicalDataTemplate ItemsSource="{Binding Children, Mode=OneWay}" DataType="viewModels:NodeViewModel">
 															<ContentPresenter Content="{Binding}" ContentTemplateSelector="{x:Static sd:PropertyViewHelper.HeaderProviders}"/>
-														</HierarchicalDataTemplate>--><!--
+														</HierarchicalDataTemplate>-->
+										<!--
 													</Setter.Value>
 												</Setter>
 												<Setter Property="Template">
@@ -1033,7 +1027,8 @@
 														</sd:BehaviorCollection>
 													</Setter.Value>
 												</Setter>
-												--><!--<Style.Triggers>
+												-->
+										<!--<Style.Triggers>
 													<DataTrigger Binding="{Binding Documentation, FallbackValue={x:Null}}" Value="{x:Null}">
 														<Setter Property="Highlightable" Value="False"/>
 													</DataTrigger>
@@ -1046,7 +1041,8 @@
 													<Trigger Property="IsKeyboardActive" Value="True">
 														<Setter Property="Background" Value="{StaticResource NormalBrush}"/>
 													</Trigger>
-												</Style.Triggers>--><!--
+												</Style.Triggers>-->
+										<!--
 												<Style.Resources>
 													<Style TargetType="{x:Type sd:TextBox}" BasedOn="{StaticResource {x:Type sd:TextBox}}">
 														<Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
@@ -1062,60 +1058,75 @@
 										</i:Interaction.Behaviors>
 									</sd:PropertyView>-->
 
-									<GridSplitter Grid.Row="5" HorizontalAlignment="Stretch" Height="5" ResizeBehavior="PreviousAndNext"/>
+										<GridSplitter Grid.Row="5" HorizontalAlignment="Stretch" Height="5" ResizeBehavior="PreviousAndNext"/>
 
-									<Border Grid.Row="6" Background="{StaticResource ToolBarBackgroundBrush}">
-										<DockPanel>
-											<Grid Margin="4" DockPanel.Dock="Top">
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="Auto"/>
-													<ColumnDefinition/>
-													<ColumnDefinition Width="*"/>
-													<ColumnDefinition Width="Auto"/>
-												</Grid.ColumnDefinitions>
-												<TextBlock Grid.Column="0" FontWeight="Bold" FontStyle="Normal" Text="{Binding HoveredItem.DataContext.DisplayName, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
-												<TextBlock Grid.Column="2" FontWeight="Thin" FontStyle="Italic" TextAlignment="Right" Text="{Binding HoveredItem.DataContext.Type, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
-												<TextBlock Grid.Column="3" FontWeight="Bold" FontStyle="Italic" TextAlignment="Left" Text="{Binding HoveredItem.DataContext.Type, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
-												<!--<TextBlock Grid.Column="2" FontWeight="Thin" FontStyle="Italic" TextAlignment="Right" Text="{Binding HoveredItem.DataContext.Type, Converter={sd:TypeToNamespace}, ConverterParameter='$.', ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
-												<TextBlock Grid.Column="3" FontWeight="Bold" FontStyle="Italic" TextAlignment="Left" Text="{Binding HoveredItem.DataContext.Type, Converter={sd:TypeToTypeName}, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>-->												
-											</Grid>
-											<TextBlock Margin="4" Text="{Binding HoveredItem.DataContext.Documentation, ElementName=AssetPropertyView}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
-										</DockPanel>
-									</Border>
-								</Grid>
-		
-		
-		
-		
-							<!--</xcad:LayoutAnchorable>
+										<Border Grid.Row="6" Background="{StaticResource ToolBarBackgroundBrush}">
+											<DockPanel>
+												<Grid Margin="4" DockPanel.Dock="Top">
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="Auto"/>
+														<ColumnDefinition/>
+														<ColumnDefinition Width="*"/>
+														<ColumnDefinition Width="Auto"/>
+													</Grid.ColumnDefinitions>
+													<TextBlock Grid.Column="0" FontWeight="Bold" FontStyle="Normal" Text="{Binding HoveredItem.DataContext.DisplayName, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
+													<TextBlock Grid.Column="2" FontWeight="Thin" FontStyle="Italic" TextAlignment="Right" Text="{Binding HoveredItem.DataContext.Type, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
+													<TextBlock Grid.Column="3" FontWeight="Bold" FontStyle="Italic" TextAlignment="Left" Text="{Binding HoveredItem.DataContext.Type, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
+													<!--<TextBlock Grid.Column="2" FontWeight="Thin" FontStyle="Italic" TextAlignment="Right" Text="{Binding HoveredItem.DataContext.Type, Converter={sd:TypeToNamespace}, ConverterParameter='$.', ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>
+												<TextBlock Grid.Column="3" FontWeight="Bold" FontStyle="Italic" TextAlignment="Left" Text="{Binding HoveredItem.DataContext.Type, Converter={sd:TypeToTypeName}, ElementName=AssetPropertyView}" TextTrimming="CharacterEllipsis"/>-->
+												</Grid>
+												<TextBlock Margin="4" Text="{Binding HoveredItem.DataContext.Documentation, ElementName=AssetPropertyView}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+											</DockPanel>
+										</Border>
+									</Grid>
+
+
+							</Document>
+						</DocumentDock>
+
+							<ProportionalDockSplitter />
+
+							<ProportionalDock  >
+
+
+								<!--</xcad:LayoutAnchorable>
 						</xcad:LayoutAnchorablePane>
 						<xcad:LayoutAnchorablePaneGroup DockHeight="1*">
 							<xcad:LayoutAnchorablePane>
-								--><!-- ASSET PREVIEW --><!--
+								-->
+									<!-- ASSET PREVIEW -->
+									<!--
 								<xcad:LayoutAnchorable AutoHideMinWidth="400" ContentId="AssetPreview" Title="{Binding Source={sd:Localize Asset preview, Context=View}}"
 													   gh:AvalonDockHelper.IsVisible="{Binding Panels.AssetPreviewPanelVisible, Mode=TwoWay,
                                          Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-									
-									
-									
-									
-									<DockPanel LastChildFill="True">
+
+
+						<DocumentDock x:Name="AssetPreviewPane" Id="AssetPreviewPane" CanCreateDocument="True">
+							<Document x:Name="AssetPreview" Id="AssetPreview" Title="{Binding Source={sd:Localize Asset preview, Context=View}}" x:DataType="Document">
+
+
+								<DockPanel LastChildFill="True">
 										<ContentPresenter Content="{Binding Preview.PreviewObject}"/>
 									</DockPanel>
-		
-		
-		
-		
-								<!--</xcad:LayoutAnchorable>
-								--><!-- ACTION HISTORY --><!--
+
+						</Document>
+
+
+
+						<!--</xcad:LayoutAnchorable>
+								-->
+									<!-- ACTION HISTORY -->
+									<!--
 								<xcad:LayoutAnchorable AutoHideMinWidth="400" ContentId="ActionHistory" Title="{Binding Source={sd:Localize Edit history, Context=View}}"
 													   gh:AvalonDockHelper.IsVisible="{Binding Panels.ActionHistoryPanelVisible, Mode=TwoWay,
                                          Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
-									
-									
-									
-									
-									<ListBox ItemsSource="{Binding Session.ActionHistory.Transactions}" >
+
+
+							<Document x:Name="ActionHistory" Id="ActionHistory" Title="{Binding Source={sd:Localize Edit history, Context=View}}"
+									  x:DataType="Document">
+
+
+								<ListBox ItemsSource="{Binding Session.ActionHistory.Transactions}" >
 										<!--<ListBox.ItemContainerStyle>
 											<Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
 												<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -1138,17 +1149,31 @@
 											</DataTemplate>
 										</ListBox.ItemTemplate>
 									</ListBox>
-		
-		
-								<!--</xcad:LayoutAnchorable>
+
+						</Document>
+						</DocumentDock>
+
+						<!--</xcad:LayoutAnchorable>
 							</xcad:LayoutAnchorablePane>
 						</xcad:LayoutAnchorablePaneGroup>
 					</xcad:LayoutAnchorablePaneGroup>
 				</xcad:LayoutPanel>
 			</xcad:LayoutRoot>
 		</xcad:DockingManager>-->
+						</ProportionalDock>
+							<ProportionalDockSplitter />
 
-		</StackPanel>
+						</ProportionalDock>
+						<ProportionalDockSplitter />
+
+					</ProportionalDock>
+
+
+				</RootDock>
+
+			</DockControl>
+
+
 
 		<ItemsControl Grid.Row="2" Background="{StaticResource StatusBarBackgroundBrush}">
 		  <!--<ItemsControl.Resources>
