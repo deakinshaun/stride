@@ -503,12 +503,23 @@
 					
 					<ProportionalDock x:Name="MainLayout" Id="MainLayout" Orientation="Horizontal">
 
+
 						<ProportionalDock  Orientation="Vertical">
+
+							<DocumentDock x:Name="AssetEditorPane" Id="AssetEditorPane" CanCreateDocument="True">
+								<Document x:Name="AssetEditor" Id="AssetEditor" Title="AssetEditorPlaceholder" x:DataType="Document">
+								</Document>
+							</DocumentDock>
+
+							<ProportionalDockSplitter />
+
+
 							<ProportionalDock  Orientation="Horizontal">
 
 
-								<DocumentDock x:Name="SolutionExplorerPane" Id="SolutionExplorerPane" CanCreateDocument="True">
-									<Document x:Name="SolutionExplorer" Id="SolutionExplorer" Title="{Binding Source={sd:Localize Solution explorer, Context=View}}" x:DataType="Document">
+
+									<DocumentDock x:Name="SolutionExplorerPane" Id="SolutionExplorerPane" CanCreateDocument="True">
+										<Document x:Name="SolutionExplorer" Id="SolutionExplorer" Title="{Binding Source={sd:Localize Solution explorer, Context=View}}" x:DataType="Document">
 
 
 
@@ -651,7 +662,7 @@
 								-->
 
 										</Document>
-								</DocumentDock>
+									</DocumentDock>
 
 								<ProportionalDockSplitter />
 

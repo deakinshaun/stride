@@ -77,8 +77,8 @@ namespace Stride.GameStudio.View
             BreakDebuggerCommand = new AnonymousCommand(editor.ServiceProvider, BreakDebugger);
             EditorSettings.ResetEditorLayout.Command = new AnonymousTaskCommand(editor.ServiceProvider, ResetAllLayouts);
 
-            //AttachedToVisualTree += GameStudioLoaded;
-            Initialized += GameStudioLoaded;
+            Loaded += GameStudioLoaded;
+//            Initialized += GameStudioLoaded;
 //            Application.Current.Activated += (s, e) => editor.ServiceProvider.Get<IEditorDialogService>().ShowDelayedNotifications();
             //            Loaded += GameStudioLoaded;
 

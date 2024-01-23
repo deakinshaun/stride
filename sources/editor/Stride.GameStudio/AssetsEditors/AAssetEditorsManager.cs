@@ -30,16 +30,20 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using static Stride.Core.Assets.Yaml.YamlAssetPath;
 using Avalonia;
+using DynamicData;
+using Dock.Model.Avalonia.Controls;
+using Avalonia.LogicalTree;
+using Stride.GameStudio.View;
 
 namespace Stride.GameStudio.AssetsEditors
 {
     internal sealed class AAssetEditorsManager : IAssetEditorsManager, IDestroyable
     {
         private readonly ConditionalWeakTable<IMultipleAssetEditorViewModel, NotifyCollectionChangedEventHandler> registeredHandlers = new();
-        private readonly Dictionary<IAssetEditorViewModel, Window> assetEditors = new();
+        private readonly Dictionary<IAssetEditorViewModel, ALayoutAnchorable> assetEditors = new();
         private readonly HashSet<AssetViewModel> openedAssets = new HashSet<AssetViewModel>();
         // TODO have a base interface for all editors and factorize to make curve editor not be a special case anymore
-        private Tuple<CurveEditorViewModel, Window> curveEditor;
+        private Tuple<CurveEditorViewModel, ALayoutAnchorable> curveEditor;
 
         private readonly AsyncLock mutex = new AsyncLock();
         private readonly ADockingLayoutManager dockingLayoutManager;
@@ -73,7 +77,7 @@ namespace Stride.GameStudio.AssetsEditors
             if (dockingLayoutManager == null) throw new InvalidOperationException("This method can only be invoked on the IEditorDialogService that has the editor main window as parent.");
 
             CurveEditorViewModel editorViewModel = null;
-            Window editorPane = null;
+            ALayoutAnchorable editorPane = null;
 
             if (curveEditor != null)
             {
@@ -116,16 +120,17 @@ namespace Stride.GameStudio.AssetsEditors
             // Create the editor pane if needed
             if (editorPane == null)
             {
-                editorPane = new Window
+                editorPane = new ALayoutAnchorable
                 {
                     Content = new CurveEditorView { DataContext = editorViewModel },
                     Title = "Curve Editor"//,
  //                   CanClose = true,
                 };
 
-                editorPane.Closed += CurveEditorClosed;
+ //               editorPane.Closed += CurveEditorClosed;
+                editorPane.Factory.DockableClosed += CurveEditorClosed;
 
- //               AvalonDockHelper.GetDocumentPane(dockingLayoutManager.DockingManager).Children.Add(editorPane);
+                //               AvalonDockHelper.GetDocumentPane(dockingLayoutManager.DockingManager).Children.Add(editorPane);
             }
 
             curveEditor = Tuple.Create(editorViewModel, editorPane);
@@ -217,7 +222,7 @@ namespace Stride.GameStudio.AssetsEditors
         {
             foreach (var editorPane in assetEditors.Values)
             {
-                editorPane.Hide();
+//                editorPane.Hide();
             }
         }
 
@@ -257,7 +262,7 @@ namespace Stride.GameStudio.AssetsEditors
 
             using (await mutex.LockAsync())
             {
-                Window editorPane = null;
+                ALayoutAnchorable editorPane = null;
                 IEditorView view;
                 // Asset already has an editor? Then, Look for the corresponding panel
                 if (asset.Editor != null && !assetEditors.TryGetValue(asset.Editor, out editorPane))
@@ -295,21 +300,71 @@ namespace Stride.GameStudio.AssetsEditors
                     if (editorPane == null)
                     {
                         //editorPane = new LayoutAnchorable { CanClose = true };
-                        editorPane = new Window { };
-                        editorPane.AttachDevTools();
+                        editorPane = new ALayoutAnchorable { Title = $"Document999", Content = view };
+                        //                    editorPane.AttachDevTools();
                         // Stack the asset in the dictionary of editor to prevent double-opening while double-clicking twice on the asset, since the initialization is async
                         //                        AvalonDockHelper.GetDocumentPane(dockingLayoutManager.DockingManager).Children.Add(editorPane);
+                        
+                        var x = dockingLayoutManager.DockingManager.Layout.VisibleDockables;
+                        //                        dockingLayoutManager.DockingManager.Layout.Factory.AddDockable (dockingLayoutManager.DockingManager.Layout, editorPane);
 
 
+                        //                        var d = dockingLayoutManager.DockingManager.Factory.VisibleDockableControls[dockingLayoutManager.DockingManager.Factory.VisibleDockableControls.Keys.First()];
+                        DocumentDock d = (DocumentDock)((ProportionalDock)((ProportionalDock)dockingLayoutManager.DockingManager.Layout.VisibleDockables[0]).VisibleDockables[0]).VisibleDockables[0];
+                        ProportionalDock d1 = (ProportionalDock)((ProportionalDock)dockingLayoutManager.DockingManager.Layout.VisibleDockables[0]).VisibleDockables[0];
+                        var e1 = new ALayoutAnchorablePane
+                        {
+                            Title = $"Document777",
+                            //     Content = view,
+                        };
+                        var document = new Document
+                        {
+                            Title = $"Document888",
+                       //     Content = view,
+                        };
+
+                        //                        var e = dockingLayoutManager.DockingManager.Layout.VisibleDockables[0];
+                        d1.Factory.RemoveDockable(d1.VisibleDockables[0], true); 
+                        d1.Factory?.InsertDockable(d1, e1, 0);
+                        d1.Factory.OnDockableAdded(e1);
+
+                        e1.Factory?.AddDockable(e1, editorPane);
+                        e1.Factory.OnDockableAdded(editorPane);
+                        e1.Factory?.AddDockable(e1, document);
+                        e1.Factory.OnDockableAdded(document);
+
+
+                        //                        d.Factory?.AddDockable(d, document);
+                        //                        d.Factory?.AddDockable(d, editorPane);
+                        //                        d.Factory.RemoveDockable(d.VisibleDockables[0], true);
+                        /*                      var f = new ProportionalDock();
+                                              e.Factory?.InsertDockable((ProportionalDock)e, f, 1);
+
+                                              var e1 = new DocumentDock
+                                              {
+                                                  Title = $"Document777",
+                                                  //     Content = view,
+                                              };
+                                              f.Factory?.InsertDockable(((ProportionalDock)f), e1, 0);
+                                              f.Factory?.SetActiveDockable(e1);
+                                              f.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, e1);
+                                              e1.Factory?.AddDockable((e1), document);
+                                              e1.Factory?.SetActiveDockable(document);
+                                              e1.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, document);*/
+
+                        //             d.Factory?.SetActiveDockable(document);
+                        //                        d.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, document);
+
+                        // document.Content = view;
                     }
                     //                    editorPane.IsActiveChanged += EditorPaneIsActiveChanged;
                     //                   editorPane.IsSelectedChanged += EditorPaneIsSelectedChanged;
-                                        editorPane.Activated += EditorPaneIsActiveChanged;
-                    editorPane.Closing += EditorPaneClosing;
-                                        editorPane.Closed += EditorPaneClosed;
-                                        editorPane.Content = view;
+                    //                                        editorPane.Factory.ActiveDockableChanged += EditorPaneIsActiveChanged;
+                    //                    editorPane.Factory.WindowClosing += EditorPaneClosing;
+                    //                                        editorPane.Factory.DockableClosed += EditorPaneClosed;
+                    //                                        editorPane.Content = view;
                     // Make the pane visible immediately
-                                       MakeActiveVisible(editorPane);
+                    MakeActiveVisible(editorPane);
                     // Initialize the editor view
                     view.DataContext = asset;
 
@@ -479,7 +534,7 @@ namespace Stride.GameStudio.AssetsEditors
         /// </summary>
         /// <param name="editorPane">The editor pane.</param>
         /// <seealso cref="RemoveEditorPane"/>
-        private static void CleanEditorPane([NotNull] Window editorPane)
+        private static void CleanEditorPane([NotNull] ALayoutAnchorable editorPane)
         {
             // Destroy the editor view
             (editorPane.Content as IDestroyable)?.Destroy();
@@ -492,21 +547,21 @@ namespace Stride.GameStudio.AssetsEditors
         /// </summary>
         /// <param name="editorPane">The editor pane.</param>
         /// <seealso cref="CleanEditorPane"/>
-        private void RemoveEditorPane([NotNull] Window editorPane)
+        private void RemoveEditorPane([NotNull] ALayoutAnchorable editorPane)
         {
  //           editorPane.IsActiveChanged -= EditorPaneIsActiveChanged;
  //           editorPane.IsSelectedChanged -= EditorPaneIsSelectedChanged;
-            editorPane.Closing -= EditorPaneClosing;
-            editorPane.Closed -= EditorPaneClosed;
+            editorPane.Factory.WindowClosing -= EditorPaneClosing;
+            editorPane.Factory.DockableClosed -= EditorPaneClosed;
 
             // If this editor pane was closed by user, no need to do that; it is necessary for closing programmatically
  //           if (editorPane.Root != null)
-                editorPane.Close();
+//                editorPane.Close();
         }
 
-        private static void EditorPaneClosing(object sender, CancelEventArgs e)
+        private static void EditorPaneClosing(object sender, Dock.Model.Core.Events.WindowClosingEventArgs e)
         {
-            var editorPane = (Window)sender;
+            var editorPane = (ALayoutAnchorable)sender;
 
             var element = editorPane.Content as Control;
             var asset = element?.DataContext as AssetViewModel;
@@ -520,7 +575,7 @@ namespace Stride.GameStudio.AssetsEditors
 
         private void EditorPaneClosed(object sender, EventArgs eventArgs)
         {
-            var editorPane = (Window)sender;
+            var editorPane = (ALayoutAnchorable)sender;
 
             var element = editorPane.Content as Control;
             if (element?.DataContext is AssetViewModel asset)
@@ -539,7 +594,7 @@ namespace Stride.GameStudio.AssetsEditors
 
         private static void EditorPaneIsActiveChanged(object sender, EventArgs e)
         {
-            var editorPane = (Window)sender;
+            var editorPane = (ALayoutAnchorable)sender;
 
             if (editorPane.Content is Control element)
             {
@@ -572,37 +627,37 @@ namespace Stride.GameStudio.AssetsEditors
             }
         }
 
- /*       private static void EditorPaneIsSelectedChanged(object sender, EventArgs e)
-        {
-            var editorPane = (Window)sender;
+        /*       private static void EditorPaneIsSelectedChanged(object sender, EventArgs e)
+               {
+                   var editorPane = (ALayoutAnchorable)sender;
 
-            if (editorPane.Content is Control element)
-            {
-                var assetViewModel = element?.DataContext as AssetViewModel;
-                if (assetViewModel?.Editor is Assets.Presentation.AssetEditors.GameEditor.ViewModels.GameEditorViewModel gameEditor)
-                {
-                    // A tab/sub-window is visible via IsSelected, not IsVisible
-                    if (editorPane.IsSelected)
-                    {
-                        gameEditor.ShowGame();
-                    }
-                    else
-                    {
-                        gameEditor.HideGame();
-                    }
-                }
-            }
-        }*/
+                   if (editorPane.Content is Control element)
+                   {
+                       var assetViewModel = element?.DataContext as AssetViewModel;
+                       if (assetViewModel?.Editor is Assets.Presentation.AssetEditors.GameEditor.ViewModels.GameEditorViewModel gameEditor)
+                       {
+                           // A tab/sub-window is visible via IsSelected, not IsVisible
+                           if (editorPane.IsSelected)
+                           {
+                               gameEditor.ShowGame();
+                           }
+                           else
+                           {
+                               gameEditor.HideGame();
+                           }
+                       }
+                   }
+               }*/
 
         /// <summary>
         /// Makes the editor pane active and visible.
         /// </summary>
         /// <param name="editorPane"></param>
-        private static void MakeActiveVisible([NotNull] Window editorPane)
+        private static void MakeActiveVisible([NotNull] ALayoutAnchorable editorPane)
         {
-            //editorPane.IsActive = true;
-            editorPane.Show();
-            editorPane.Activate ();
+//            editorPane.IsActive = true;
+//            editorPane.Show();
+//            editorPane.Activate ();
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Stride.Core.Assets.Editor.Services
             }
         }
 
-        public void RegisterAssetEditorViewModelTypes([NotNull] IDictionary<Type, Type> assetEditorViewModelTypes)
+        public virtual void RegisterAssetEditorViewModelTypes([NotNull] IDictionary<Type, Type> assetEditorViewModelTypes)
         {
             var pluginAssembly = GetType().Assembly;
             foreach (var type in pluginAssembly.GetTypes())

@@ -66,7 +66,7 @@ namespace Stride.GameStudio.Layout
         /// <summary>
         /// Gets the <see cref="DockingManager"/> handled by this instance.
         /// </summary>
-        //public DockingManager DockingManager => gameStudioWindow.Docking;
+        public Dock.Avalonia.Controls.DockControl DockingManager => gameStudioWindow.Docking;
 
         /// <summary>
         /// Saves the currently active layout (Editor or Normal) into the settings file.
