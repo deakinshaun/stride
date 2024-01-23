@@ -30,14 +30,6 @@ public class ALayoutAnchorablePane : DockBase, IDocumentDock
 
     private bool _canCreateDocument;
 
-    /// <summary>
-    /// Initializes new instance of the <see cref="DocumentDock"/> class.
-    /// </summary>
-  /*  public DocumentDock()
-    {
-        CreateDocument = new Command(() => CreateDocumentFromTemplate());
-    }*/
-
     /// <inheritdoc/>
     [DataMember(IsRequired = false, EmitDefaultValue = true)]
     [JsonPropertyName("CanCreateDocument")]
@@ -62,29 +54,6 @@ public class ALayoutAnchorablePane : DockBase, IDocumentDock
         get => GetValue(DocumentTemplateProperty);
         set => SetValue(DocumentTemplateProperty, value);
     }
-
-    /// <summary>
-    /// Creates new document from template.
-    /// </summary>
-  /*  public virtual object? CreateDocumentFromTemplate()
-    {
-        if (DocumentTemplate is null || !CanCreateDocument)
-        {
-            return null;
-        }
-
-        var document = new Document
-        {
-            Title = $"Document{VisibleDockables?.Count ?? 0}",
-            Content = DocumentTemplate.Content
-        };
-
-        Factory?.AddDockable(this, document);
-        Factory?.SetActiveDockable(document);
-        Factory?.SetFocusedDockable(this, document);
-
-        return document;
-    }*/
 
     public ALayoutAnchorablePane()
     {

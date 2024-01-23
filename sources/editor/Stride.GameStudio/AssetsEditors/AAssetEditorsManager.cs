@@ -300,69 +300,34 @@ namespace Stride.GameStudio.AssetsEditors
                     if (editorPane == null)
                     {
                         //editorPane = new LayoutAnchorable { CanClose = true };
-                        editorPane = new ALayoutAnchorable { Title = $"Document999", Content = view };
+                        editorPane = new ALayoutAnchorable { Title = asset.Url, Content = view };
                         //                    editorPane.AttachDevTools();
                         // Stack the asset in the dictionary of editor to prevent double-opening while double-clicking twice on the asset, since the initialization is async
                         //                        AvalonDockHelper.GetDocumentPane(dockingLayoutManager.DockingManager).Children.Add(editorPane);
-                        
-                        var x = dockingLayoutManager.DockingManager.Layout.VisibleDockables;
-                        //                        dockingLayoutManager.DockingManager.Layout.Factory.AddDockable (dockingLayoutManager.DockingManager.Layout, editorPane);
 
-
-                        //                        var d = dockingLayoutManager.DockingManager.Factory.VisibleDockableControls[dockingLayoutManager.DockingManager.Factory.VisibleDockableControls.Keys.First()];
-                        DocumentDock d = (DocumentDock)((ProportionalDock)((ProportionalDock)dockingLayoutManager.DockingManager.Layout.VisibleDockables[0]).VisibleDockables[0]).VisibleDockables[0];
-                        ProportionalDock d1 = (ProportionalDock)((ProportionalDock)dockingLayoutManager.DockingManager.Layout.VisibleDockables[0]).VisibleDockables[0];
-                        var e1 = new ALayoutAnchorablePane
+                        ProportionalDock dockpanel = (ProportionalDock)((ProportionalDock)dockingLayoutManager.DockingManager.Layout.VisibleDockables[0]).VisibleDockables[0];
+                        var dockparentpane = new ALayoutAnchorablePane
                         {
-                            Title = $"Document777",
-                            //     Content = view,
-                        };
-                        var document = new Document
-                        {
-                            Title = $"Document888",
-                       //     Content = view,
+                            Title = "AnchorablePane",
                         };
 
-                        //                        var e = dockingLayoutManager.DockingManager.Layout.VisibleDockables[0];
-                        d1.Factory.RemoveDockable(d1.VisibleDockables[0], true); 
-                        d1.Factory?.InsertDockable(d1, e1, 0);
-                        d1.Factory.OnDockableAdded(e1);
+                        // On the first pane, remove the placeholder.
+                        dockpanel.Factory.RemoveDockable(dockpanel.VisibleDockables[0], true); 
+                        // Insert the new pane at the start.
+                        dockpanel.Factory?.InsertDockable(dockpanel, dockparentpane, 0);
+                        dockpanel.Factory.OnDockableAdded(dockparentpane);
 
-                        e1.Factory?.AddDockable(e1, editorPane);
-                        e1.Factory.OnDockableAdded(editorPane);
-                        e1.Factory?.AddDockable(e1, document);
-                        e1.Factory.OnDockableAdded(document);
-
-
-                        //                        d.Factory?.AddDockable(d, document);
-                        //                        d.Factory?.AddDockable(d, editorPane);
-                        //                        d.Factory.RemoveDockable(d.VisibleDockables[0], true);
-                        /*                      var f = new ProportionalDock();
-                                              e.Factory?.InsertDockable((ProportionalDock)e, f, 1);
-
-                                              var e1 = new DocumentDock
-                                              {
-                                                  Title = $"Document777",
-                                                  //     Content = view,
-                                              };
-                                              f.Factory?.InsertDockable(((ProportionalDock)f), e1, 0);
-                                              f.Factory?.SetActiveDockable(e1);
-                                              f.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, e1);
-                                              e1.Factory?.AddDockable((e1), document);
-                                              e1.Factory?.SetActiveDockable(document);
-                                              e1.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, document);*/
-
-                        //             d.Factory?.SetActiveDockable(document);
-                        //                        d.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, document);
-
-                        // document.Content = view;
+                        // Add the editor pane within the parent we've created.
+                        dockparentpane.Factory?.AddDockable(dockparentpane, editorPane);
+                        dockparentpane.Factory.OnDockableAdded(editorPane);
+                        dockparentpane.Factory?.SetActiveDockable(editorPane);
+                        dockparentpane.Factory?.SetFocusedDockable(dockingLayoutManager.DockingManager.Layout, editorPane);
                     }
                     //                    editorPane.IsActiveChanged += EditorPaneIsActiveChanged;
                     //                   editorPane.IsSelectedChanged += EditorPaneIsSelectedChanged;
-                    //                                        editorPane.Factory.ActiveDockableChanged += EditorPaneIsActiveChanged;
-                    //                    editorPane.Factory.WindowClosing += EditorPaneClosing;
-                    //                                        editorPane.Factory.DockableClosed += EditorPaneClosed;
-                    //                                        editorPane.Content = view;
+ //                   editorPane.Factory.ActiveDockableChanged += EditorPaneIsActiveChanged;
+ //                   editorPane.Factory.WindowClosing += EditorPaneClosing;
+ //                   editorPane.Factory.DockableClosed += EditorPaneClosed;
                     // Make the pane visible immediately
                     MakeActiveVisible(editorPane);
                     // Initialize the editor view

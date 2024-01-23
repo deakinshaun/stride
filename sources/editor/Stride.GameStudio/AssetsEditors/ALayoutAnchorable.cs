@@ -15,7 +15,7 @@ namespace Stride.GameStudio.AssetsEditors;
 /// Document.
 /// </summary>
 [DataContract(IsReference = true)]
-public class ALayoutAnchorable : DockableBase, IDocument, IDocumentContent, ITemplate<Control?>, IRecyclingDataTemplate
+public class ALayoutAnchorable : DockableBase, IDocumentContent, IRecyclingDataTemplate
 {
     /// <summary>
     /// Defines the <see cref="Content"/> property.
@@ -50,22 +50,6 @@ public class ALayoutAnchorable : DockableBase, IDocument, IDocumentContent, ITem
     [IgnoreDataMember]
     [JsonIgnore]
     public Type? DataType { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Control? Build()
-    {
-        // return Dock.Model.Avalonia.Controls.TemplateHelper.Load(Content)?.Result;
-        return null;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    object? ITemplate.Build() => Build();
 
     /// <summary>
     /// 
