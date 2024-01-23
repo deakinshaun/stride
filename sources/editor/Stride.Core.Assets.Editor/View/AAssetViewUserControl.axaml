@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:Stride.Core.Assets.Editor.ViewModel"
              xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:view="clr-namespace:Stride.Core.Assets.Editor.View"
              xmlns:controls="clr-namespace:Stride.Core.Assets.Editor.View.Controls"
              xmlns:behaviors="clr-namespace:Stride.Core.Assets.Editor.View.Behaviors"
@@ -210,9 +210,9 @@
 	  </DockPanel.Resources>
 
 
-	  <StackPanel DockPanel.Dock="Bottom">
+	 
 
-		  <StackPanel DockPanel.Dock="Top">
+		  <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
 			  <!--<ToolBarTray DockPanel.Dock="Top">-->
 			  
 			  <!--<FrameworkElement.Resources>
@@ -221,20 +221,33 @@
         </Style>
       </FrameworkElement.Resources>-->
 
-			  <ItemsControl ItemsSource="{Binding FilteredContent}"  ></ItemsControl>
-
+			  <ItemsControl IsVisible="{Binding PrimaryToolBarItems.Count, ElementName=AssetView, Converter={sd:ANumericToBool}}" ItemsSource="{Binding PrimaryToolBarItems, ElementName=AssetView}" >
+			  <ItemsControl.ItemsPanel>
+				  <ItemsPanelTemplate>
+					  <StackPanel Orientation="Horizontal">
+					  </StackPanel>
+				  </ItemsPanelTemplate>
+			  </ItemsControl.ItemsPanel>
+			  </ItemsControl>
+			  
 			  <!--  SECONDARY TOOLBAR  -->
 			  <ItemsControl>
+				  <ItemsControl.ItemsPanel>
+					  <ItemsPanelTemplate>
+						  <StackPanel Orientation="Horizontal">
+						  </StackPanel>
+					  </ItemsPanelTemplate>
+				  </ItemsControl.ItemsPanel>				 
 				  <!--  NEW ASSET  -->
 				  <ToggleButton x:Name="Toggle" 
 								ToolTip.Tip="{sd:Localize Add an asset to this location, Context=ToolTip}" >
 					  <StackPanel Orientation="Horizontal">
-						  <Image Source="{Binding Source={StaticResource ImageNewAsset}, Path=Source}"></Image>
+						  <Image Source="{Binding Source={StaticResource ImageNewAsset}, Path=Source}"  Stretch="None"></Image>
 						  <TextBlock Text="{sd:Localize Add asset}" Margin="2,2,4,2" VerticalAlignment="Center"/>
 					  </StackPanel>
-					  <!--<i:Interaction.Behaviors>
-						  <sd:ToggleButtonPopupBehavior/>
-					  </i:Interaction.Behaviors>-->
+					  <i:Interaction.Behaviors>
+						  <!--<sd:ToggleButtonPopupBehavior/>-->
+					  </i:Interaction.Behaviors>
 				  </ToggleButton>
 				  <Popup IsOpen="{Binding IsChecked, ElementName=Toggle, Mode=TwoWay}" >
 					  <Border MinHeight="300" Margin="6" Background="{StaticResource ControlBackgroundBrush}"
@@ -245,13 +258,14 @@
 						  <!--<templateViews:AddItemUserControl TemplateCollection="{Binding AddAssetTemplateCollection}" AddItemCommand="{Binding RunAssetTemplateCommand}"
 															SelectFilesToCreateItemCommand="{Binding SelectFilesToCreateAssetCommand}"/>-->
 					  </Border>
-					  <!--<i:Interaction.Behaviors>
-						  <sd:OnEventSetPropertyBehavior EventName="Validated" EventOwnerType="sd:FilteringComboBox" Property="{x:Static Popup.IsOpenProperty}" Value="{sd:False}"/>
-					  </i:Interaction.Behaviors>-->
+					  <i:Interaction.Behaviors>
+						  <!--<sd:OnEventSetPropertyBehavior EventName="Validated" EventOwnerType="sd:FilteringComboBox" Property="{x:Static Popup.IsOpenProperty}" Value="{sd:False}"/>-->
+					  </i:Interaction.Behaviors>
 				  </Popup>
 				  <!--  UPDATE ASSETS FROM SOURCE BUTTON  -->
 				  <Button Command="{Binding Session.SourceTracker.UpdateAllAssetsWithModifiedSourceCommand}"
-						   >
+						  ToolTip.Tip="{sd:AToolTip {sd:ALocalize Update assets whose source files have changed, Context=AToolTip}, {x:Static strings:KeyGestures.UpdateAllAssetsWithModifiedSource}}"
+						  IsVisible="{Binding CanEditAssets, ElementName=AssetView}" >
 					  <DockPanel>
 						  <TextBlock DockPanel.Dock="Right" Margin="3,0" 
 									 Text="{Binding Session.SourceTracker.AssetsToUpdate.Count, StringFormat=({0})}" VerticalAlignment="Center" />
@@ -276,7 +290,7 @@
 				  </Button>
 				  <Button Command="{Binding Session.ImportEffectLogCommand}"
 						 IsEnabled="{Binding Session.ImportEffectLogPendingCount, Converter={sd:ANumericToBool}}"
-						  
+							IsVisible="{Binding CanEditAssets, ElementName=AssetView}"
 						  ToolTip.Tip="{sd:Localize Import last effects compiled remotely, Context=ToolTip}" >
 					  <!--<Button Command="{Binding Session.ImportEffectLogCommand}"
 							  IsEnabled="{Binding Session.ImportEffectLogPendingCount, Converter={sd:NumericToBool}}"
@@ -307,21 +321,21 @@
 				  <Separator/>
 				  <!--  EDIT  -->
 				  <Button Command="{Binding Session.EditSelectedContentCommand}"
-						   >
+						  ToolTip.Tip="{sd:AToolTip {sd:ALocalize Open asset in dedicated editor, Context=AToolTip}, {x:Static strings:KeyGestures.EditAsset}}"  >
 					  <Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Stretch="None"/>
 				  </Button>
-				  <Separator  />
+				  <Separator IsVisible="{Binding CanEditAssets, ElementName=AssetView}" />
 				  <!-- VIEW OPTIONS -->
 				  <Menu Background="Transparent">
-					  <MenuItem StaysOpenOnClick="True" >
+					  <MenuItem StaysOpenOnClick="True" Theme="{StaticResource ToolBarIconMenuItemStyle}">
 						  <MenuItem.Icon>
 							  <Image Source="{StaticResource ImageView}" MaxHeight="16" MaxWidth="16"
 									 ToolTip.Tip="{sd:Localize Asset view options, Context=ToolTip}" />
 						  </MenuItem.Icon>
-						  <MenuItem.Resources>
-							  <!--<Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" />-->
-						  </MenuItem.Resources>
-						  <MenuItem Header="{sd:Localize Display, Context=Menu}">
+						  <!--<MenuItem.Resources>
+							  <ControlTheme TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" />
+						  </MenuItem.Resources>-->
+						  <MenuItem Header="{sd:ALocalize Display, Context=Menu}" Theme="{StaticResource MenuGroupWithItemsStyle}" IsVisible="{Binding CanRecursivelyDisplayAssets, ElementName=AssetView}">
 							  <MenuItem Header="{sd:Localize Assets in selected folder only, Context=Menu}"
 										Command="{Binding ChangeDisplayAssetModeCommand}" CommandParameter="{x:Static viewModel:DisplayAssetMode.AssetInSelectedFolderOnly}"
 										 />
@@ -400,12 +414,18 @@
         </sd:ASearchComboBox>
         <Button Command="{Binding ClearAssetFiltersCommand}" IsVisible="{Binding CurrentAssetFilters.Count, Converter={sd:ANumericToBool}}"
                 ToolTip.Tip="{sd:Localize Clear filters, Context=ToolTip}" >
-          <Image Source="{StaticResource ImageClearFilters}"/>
+          <Image Source="{StaticResource ImageClearFilters}"  Stretch="None"/>
         </Button>
 			  <!--</ToolBar> -->
 			  <!--  FILTER TAGS  -->
 			  
-			  <ItemsControl ItemsSource="{Binding CurrentAssetFilters}" HorizontalAlignment="Stretch">
+			  <ItemsControl ItemsSource="{Binding CurrentAssetFilters}" Theme="{StaticResource TagToolBarStyle}" HorizontalAlignment="Stretch">
+				  <ItemsControl.ItemsPanel>
+					  <ItemsPanelTemplate>
+						  <StackPanel Orientation="Horizontal">
+						  </StackPanel>
+					  </ItemsPanelTemplate>
+				  </ItemsControl.ItemsPanel>
 				  <!--<ToolBar ItemsSource="{Binding CurrentAssetFilters}" Style="{StaticResource TagToolBarStyle}" HorizontalAlignment="Stretch"> -->
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -431,7 +451,7 @@
                     </DataTrigger>
                   </Style.Triggers>
                 </Style>
-              </sd:TagControl.Style>
+              </sd:TagControl.Style>-->
               <Button Command="{Binding ToggleIsActiveCommand}" VerticalAlignment="Center">
                 <Button.Template>
                   <ControlTemplate>
@@ -439,7 +459,7 @@
                   </ControlTemplate>
                 </Button.Template>
               </Button>
-            </sd:TagControl>-->
+            <!--</sd:TagControl>-->
           </DataTemplate>
         </ItemsControl.ItemTemplate>
 		</ItemsControl>
@@ -451,7 +471,7 @@
 			  
     <Grid ContextMenu="{Binding AssetContextMenu, ElementName=AssetView}" Background="Transparent">
 		<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"
-					>
+					IsVisible="{Binding FilteredContent.Count, Converter={sd:AChained {sd:ANumericToBool}, {sd:AInvertBool}}}">
 			<!--<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"
 						Visibility="{Binding FilteredContent.Count, Converter={sd:Chained {sd:NumericToBool}, {sd:InvertBool}, {sd:VisibleOrCollapsed}}}">-->
 				<TextBlock Text="{sd:ALocalize No asset to display in this folder or no folder selected. Check your active filters.}"
@@ -463,13 +483,13 @@
       <ContentPresenter x:Name="AssetViewPresenter" Content="{Binding}" ContentTemplate="{StaticResource AssetTileView}"
                         >
       </ContentPresenter>
-      <!--<i:Interaction.Behaviors>
-        <behaviors:FrameworkElementDragDropBehavior CanDrag="False" UsePreviewEvents="True" CanDrop="{Binding CanAddAssets, ElementName=AssetView}"
-                                                    DisplayDropAdorner="{x:Static behaviors:DisplayDropAdorner.ExternalOnly}"/>
-      </i:Interaction.Behaviors>-->
+      <i:Interaction.Behaviors>
+        <!--<behaviors:FrameworkElementDragDropBehavior CanDrag="False" UsePreviewEvents="True" CanDrop="{Binding CanAddAssets, ElementName=AssetView}"
+                                                    DisplayDropAdorner="{x:Static behaviors:DisplayDropAdorner.ExternalOnly}"/>-->
+      </i:Interaction.Behaviors>
     </Grid>
 
-	  </StackPanel>
+	 
   </DockPanel>
 
 	
