@@ -10,12 +10,11 @@
 
 	<!-- Add Resources Here -->
 	<ResourceDictionary.MergedDictionaries>
-		<!--<ResourceDictionary Source="/Stride.Core.Presentation;component/Themes/ThemeSelector.xaml" />-->
+		<ResourceInclude Source="avares://Stride.Core.Presentation/Themes/AThemeSelector.axaml" />
 		<ResourceInclude Source="AImageDictionary.axaml" />
+		<ResourceInclude Source="../Themes/AThemeSelector.axaml" />
 		<!--<ResourceDictionary Source="../Themes/ThemeSelector.xaml" />-->
 	</ResourceDictionary.MergedDictionaries>
-
-
 
 	<!--<Style TargetType="view:DataGridEx">
 		<Setter Property="Background" Value="{StaticResource NormalBrush}" />

@@ -11,9 +11,6 @@
         xmlns:vm="clr-namespace:Stride.GameStudio.ViewModels"
         xmlns:xcad="https://github.com/Dirkster99/AvalonDock"
         xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
-		
-        xmlns:tt="clr-namespace:Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Views"
-		
         xmlns:viewModels="clr-namespace:Stride.Core.Presentation.Quantum.ViewModels;assembly=Stride.Core.Presentation.Quantum"
         xmlns:viewModels1="clr-namespace:Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels;assembly=Stride.Core.Assets.Editor"
         mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
@@ -41,6 +38,7 @@
 			d:DataContext="{d:DesignInstance vm:GameStudioViewModel}" x:Name="EditorWindow">-->
 		<Window.Resources>
     <ResourceDictionary>
+
       <ResourceDictionary.MergedDictionaries>
         <!--<ResourceDictionary Source="/Theme.AvalonDock.xaml"/>-->
         <ResourceInclude Source="avares://Stride.Core.Assets.Editor/View/ACommonResources.axaml" />
@@ -156,6 +154,7 @@
     </ResourceDictionary>
   </Window.Resources>
 
+	
   <!--<Window.InputBindings>
     <KeyBinding Command="{Binding Session.ActiveAssetView.CopyAssetsRecursivelyCommand}" Gesture="{sd:KeyGesture {x:Static strings:KeyGestures.CopyAssetRecursively}}" />
     <KeyBinding Command="{Binding Session.EditSelectedContentCommand}" Gesture="{sd:KeyGesture {x:Static strings:KeyGestures.EditAsset}}"/>
@@ -758,10 +757,16 @@
 												   gh:AvalonDockHelper.IsVisible="{Binding Panels.AssetLogPanelVisible, Mode=TwoWay,
                                        Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
 
+									<StackPanel>
+
+							<sd:AGridLogViewer Theme="{StaticResource AGridLogViewer}" LogMessages="{Binding Session.AssetLog.FilteredMessages, Source={x:Static vm:GameStudioViewModel.GameStudio}}" Session="{Binding Session}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="False"/>
+										<TextBlock Margin="2,0" Text="Soemjthing to see" VerticalAlignment="Center" />
+										<TextBlock Margin="2,0" Text="{Binding Session.AssetLog.ErrorCount, Source={x:Static vm:GameStudioViewModel.GameStudio}}" VerticalAlignment="Center" />
+										<TextBlock Margin="2,0" Text="{sd:ALocalize Asset error ({0}), Plural=Asset errors ({0}), Count={Binding Session.AssetLog.ErrorCount, Source={x:Static vm:GameStudioViewModel.GameStudio}}, IsStringFormat=True, Context=View}" VerticalAlignment="Center" />
+										<TextBlock Margin="2,0" Text="Soemjthing to see" VerticalAlignment="Center" />
 
 
-							<!--<sd:GridLogViewer LogMessages="{Binding Session.AssetLog.FilteredMessages}" Session="{Binding Session}" ShowDebugMessages="False" ShowVerboseMessages="False" ShowInfoMessages="False"/>-->
-
+									</StackPanel>
 
 
 							<!--</xcad:LayoutAnchorable>

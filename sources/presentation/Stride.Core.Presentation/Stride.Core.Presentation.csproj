@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <Page Include="**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Direct2D1" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
     <Compile Update="**\*.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
@@ -46,6 +48,11 @@
     <Resource Include="Resources\Images\cursor_north_south.png" />
     <Resource Include="Resources\Images\cursor_west_east.png" />
     <Resource Include="Resources\Images\warning-32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\Images\**" />
+    <AvaloniaResource Include="Resources\Cursors\**" />
   </ItemGroup>
 
   <Import Project="$(StrideSdkTargets)" />
