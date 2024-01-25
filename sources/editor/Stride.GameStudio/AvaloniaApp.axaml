@@ -24,6 +24,7 @@
 
 		<idcr:ControlRecycling x:Key="ControlRecyclingKey" TryToUseIdAsKey="True" />
 		<Color x:Key="RegionColor">Transparent</Color>	
+		
 	</Application.Resources>
 
 	<Application.Styles>
@@ -40,6 +41,7 @@
 			<Setter Property="(ids:DockProperties.ControlRecycling)" Value="{StaticResource ControlRecyclingKey}" />
 		</Style>
 
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 	</Application.Styles>
 	
 	<Application.Resources>
