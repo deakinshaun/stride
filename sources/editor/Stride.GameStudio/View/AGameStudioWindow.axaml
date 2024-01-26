@@ -521,66 +521,77 @@
 
 
 
-											<!--<DockPanel>
-										<ToolBarTray DockPanel.Dock="Top">
-											<ToolBar>
+											<DockPanel>
+												
+										<!--<ToolBarTray DockPanel.Dock="Top">
+											<ToolBar>-->
+												<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">												
+												
 												<Button Command="{Binding Session.NewProjectCommand}"
-												  ToolTip="{sd:Localize Create a project..., Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageAddNewPackage}" />
+												  ToolTip.Tip="{sd:Localize Create a project..., Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageAddNewPackage}" Stretch="None" />
 												</Button>
 												<Button Command="{Binding Session.NewDirectoryCommand}" CommandParameter="{Binding SelectedItems, ElementName=DirectoryTreeView}"
-												  ToolTip="{sd:Localize Create a folder, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageNewFolder}" />
+												  ToolTip.Tip="{sd:Localize Create a folder, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageNewFolder}" Stretch="None" />
 												</Button>
 												<Separator/>
 												<Button Command="{Binding Session.ActivatePackagePropertiesCommand}"
-												  ToolTip="{sd:Localize Display the properties of the selected package in the property grid, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImagePackageProperties}" />
+												  ToolTip.Tip="{sd:Localize Display the properties of the selected package in the property grid, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImagePackageProperties}" Stretch="None" />
 												</Button>
 												<Button Command="{Binding Session.RenameDirectoryOrPackageCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}}" CommandParameter="{Binding SelectedItems, ElementName=DirectoryTreeView}"
-												  ToolTip="{sd:Localize Rename the selected folder or package, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageRename}" />
+												  ToolTip.Tip="{sd:Localize Rename the selected folder or package, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageRename}" Stretch="None" />
 												</Button>
 												<Button Command="{Binding Session.DeleteSelectedSolutionItemsCommand}"
-												  ToolTip="{sd:Localize Delete the selected items, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageDelete}" />
+												  ToolTip.Tip="{sd:Localize Delete the selected items, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageDelete}" Stretch="None" />
 												</Button>
 												<Separator/>
-												<Button Command="{x:Static sd:SessionExplorerHelper.ExpandAssetFolders}" CommandTarget="{Binding ElementName=DirectoryTreeView}"
-												  ToolTip="{sd:Localize Expand all asset folders, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageExpandAssetFolders}" />
-												</Button>
-												<Button Command="{x:Static sd:SessionExplorerHelper.ExpandAllFolders}" CommandTarget="{Binding ElementName=DirectoryTreeView}"
-												  ToolTip="{sd:Localize Expand all, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageExpandAllFolders}" />
-												</Button>
-												<Button Command="{x:Static sd:SessionExplorerHelper.CollapseAllFolders}" CommandTarget="{Binding ElementName=DirectoryTreeView}"
-												  ToolTip="{sd:Localize Collapse all, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageCollapseAllFolders}" />
-												</Button>
+												<!--<Button Command="{x:Static sd:SessionExplorerHelper.ExpandAssetFolders}" CommandTarget="{Binding ElementName=DirectoryTreeView}"
+												  ToolTip.Tip="{sd:Localize Expand all asset folders, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageExpandAssetFolders}" Stretch="None" />
+												</Button>-->
+												<!--<Button Command="{x:Static sd:SessionExplorerHelper.ExpandAllFolders}" CommandTarget="{Binding ElementName=DirectoryTreeView}"
+												  ToolTip.Tip="{sd:Localize Expand all, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageExpandAllFolders}" Stretch="None" />
+												</Button>-->
+												<!--<Button Command="{x:Static sd:SessionExplorerHelper.CollapseAllFolders}" CommandTarget="{Binding ElementName=DirectoryTreeView}"
+												  ToolTip.Tip="{sd:Localize Collapse all, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageCollapseAllFolders}" Stretch="None" />
+												</Button>-->
 												<Separator/>
 												<Button Command="{Binding Session.ExploreCommand}" CommandParameter="{Binding SelectedItems, ElementName=DirectoryTreeView}"
-												  ToolTip="{sd:Localize Show in Explorer, Context=ToolTip}" sd:ToolTipHelper.Status="{Binding Status}" ToolTipService.ShowOnDisabled="True">
-													<Image Source="{StaticResource ImageExplore}" />
+												  ToolTip.Tip="{sd:Localize Show in Explorer, Context=ToolTip.Tip}" sd:AToolTipHelper.Status="{Binding Status}" >
+													<Image Source="{StaticResource ImageExplore}" Stretch="None" />
 												</Button>
-											</ToolBar>
-										</ToolBarTray>
-										-->
+												</StackPanel>
+											<!--</ToolBar>
+										</ToolBarTray>-->
+										
 											<!-- TODO: SearchText -->
-											<!--
-										<sd:TreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values}" AllowDrop="True" IsVirtualizing="False">
-											<sd:TreeView.Resources>
+												
+												<!--<ItemsControl x:Name="DirectoryTreeView1" ItemsSource="{Binding Session.PackageCategories.Values, Source={x:Static vm:GameStudioViewModel.GameStudio}}" ></ItemsControl>-->
+												
+												
+												<sd:ATreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values, Source={x:Static vm:GameStudioViewModel.GameStudio}}" IsVirtualizing="False">
+													
+													
+													
+													<!--<sd:ATreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values}" AllowDrop="True" IsVirtualizing="False">-->
+														<sd:ATreeView.Resources>
 												<ContextMenu x:Key="ContextMenu">
-													<MenuItem Header="{sd:Localize Folder, Context=Menu}" Style="{StaticResource MenuGroupSeparatorStyle}" Visibility="{Binding Session.NewDirectoryCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
-													<MenuItem Header="{sd:Localize Create folder, Context=Menu}" Command="{Binding Session.NewDirectoryCommand}" CommandParameter="{Binding Session.ActiveAssetView.SelectedLocations}" Icon="{sd:Image {StaticResource ImageNewFolder}}" Visibility="{Binding Session.NewDirectoryCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
+													<MenuItem Header="{sd:Localize Folder, Context=Menu}" Theme="{StaticResource MenuGroupSeparatorStyle}" IsVisible="{Binding Session.NewDirectoryCommand.IsEnabled}"/>
+													<MenuItem Header="{sd:Localize Create folder, Context=Menu}" Command="{Binding Session.NewDirectoryCommand}" CommandParameter="{Binding Session.ActiveAssetView.SelectedLocations}" Icon="{sd:AImage {StaticResource ImageNewFolder}}" IsVisible="{Binding Session.NewDirectoryCommand.IsEnabled}"/>
 
-													<MenuItem Header="{sd:Localize Package, Context=Menu}" Style="{StaticResource MenuGroupSeparatorStyle}" Visibility="{sd:MultiBinding {Binding Session.IsUpdatePackageEnabled}, {Binding Session.AddExistingProjectCommand.IsEnabled}, {Binding Session.AddDependencyCommand.IsEnabled}, {Binding Session.SetCurrentProjectCommand.IsEnabled}, Converter={sd:MultiChained {sd:OrMultiConverter}, {sd:VisibleOrCollapsed}}}"/>
-													<MenuItem Header="{sd:Localize Update package, Context=Menu}" ItemsSource="{Binding Session.UpdatePackageViewModel.Templates}" Icon="{sd:Image {StaticResource ImageAddNewProject}}" Visibility="{Binding Session.IsUpdatePackageEnabled, Converter={sd:VisibleOrCollapsed}}">
-														<MenuItem.ItemContainerStyle>
+													<!--<MenuItem Header="{sd:Localize Package, Context=Menu}" Theme="{StaticResource MenuGroupSeparatorStyle}" IsVisible="{sd:AMultiBinding {Binding Session.IsUpdatePackageEnabled}, {Binding Session.AddExistingProjectCommand.IsEnabled}, {Binding Session.AddDependencyCommand.IsEnabled}, {Binding Session.SetCurrentProjectCommand.IsEnabled}}"/>-->
+													<MenuItem Header="{sd:Localize Update package, Context=Menu}" ItemsSource="{Binding Session.UpdatePackageViewModel.Templates}" Icon="{sd:AImage {StaticResource ImageAddNewProject}}" IsVisible="{Binding Session.IsUpdatePackageEnabled}">
+														<!--<MenuItem.ItemContainerStyle>
 															<Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" d:DataContext="{d:DesignInstance viewModels1:TemplateDescriptionViewModel}">
 																<Setter Property="Command" Value="{Binding UpdatePackageCommand}"/>
 															</Style>
-														</MenuItem.ItemContainerStyle>
+														</MenuItem.ItemContainerStyle>-->
 														<MenuItem.ItemTemplate>
 															<DataTemplate DataType="viewModels1:TemplateDescriptionViewModel">
 																<DockPanel Width="384">
@@ -593,7 +604,7 @@
 															</DataTemplate>
 														</MenuItem.ItemTemplate>
 													</MenuItem>
-													<MenuItem Header="{sd:Localize Add dependency..., Context=Menu}" Command="{Binding Session.AddDependencyCommand}" Icon="{sd:Image {StaticResource ImageAddDependency}}" Visibility="{Binding Session.AddDependencyCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
+													<!--<MenuItem Header="{sd:Localize Add dependency..., Context=Menu}" Command="{Binding Session.AddDependencyCommand}" Icon="{sd:Image {StaticResource ImageAddDependency}}" Visibility="{Binding Session.AddDependencyCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 													<MenuItem Header="{sd:Localize Set as current project, Context=Menu}" Command="{Binding Session.SetCurrentProjectCommand}" CommandParameter="{Binding}" Icon="{sd:Image {StaticResource ImageStartupProject}}" Visibility="{Binding Session.SetCurrentProjectCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 													<MenuItem Header="{sd:Localize Package properties, Context=Menu}" Command="{Binding Session.ActivatePackagePropertiesCommand}" Icon="{sd:Image {StaticResource ImagePackageProperties}}" Visibility="{Binding Session.ActivatePackagePropertiesCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 
@@ -613,43 +624,44 @@
 													<MenuItem Header="{sd:Localize Add asset..., Context=Menu}" Command="{Binding Session.ActiveAssetView.ShowAddAssetDialogCommand}" InputGestureText="{x:Static strings:KeyGestures.AddAsset}" Icon="{sd:Image {StaticResource ImageNewAsset}}" Visibility="{Binding Session.NewDirectoryCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 
 													<MenuItem Header="{sd:Localize Explore, Context=Menu}" Style="{StaticResource MenuGroupSeparatorStyle}" Visibility="{Binding Session.ExploreCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
-													<MenuItem Header="{sd:Localize Show in Explorer, Context=Menu}" Command="{Binding Session.ExploreCommand}" CommandParameter="{Binding}" Icon="{sd:Image {StaticResource ImageExplore}}" Visibility="{Binding Session.ExploreCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
+													<MenuItem Header="{sd:Localize Show in Explorer, Context=Menu}" Command="{Binding Session.ExploreCommand}" CommandParameter="{Binding}" Icon="{sd:Image {StaticResource ImageExplore}}" Visibility="{Binding Session.ExploreCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>-->
 
 												</ContextMenu>
-											</sd:TreeView.Resources>
-											<i:Interaction.Behaviors>
+											</sd:ATreeView.Resources>
+											<!--<i:Interaction.Behaviors>
 												<sd:DragOverAutoScrollBehavior/>
-												<sd:TreeViewAutoExpandBehavior/>
-												<sd:TreeViewDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
-												<sd:TreeViewBindableSelectedItemsBehavior SelectedItems="{Binding Session.ActiveAssetView.SelectedLocations}"/>
+												<sd:ATreeViewAutoExpandBehavior/>
+												<sd:ATreeViewDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
+												<sd:ATreeViewBindableSelectedItemsBehavior SelectedItems="{Binding Session.ActiveAssetView.SelectedLocations}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" Command="{Binding Session.ActiveAssetView.CopyLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Paste" Command="{Binding Session.ActiveAssetView.PasteCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.DeleteSelectedSolutionItemsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
-											</i:Interaction.Behaviors>
-											<sd:TreeView.ItemContainerStyle>
-												<Style TargetType="{x:Type sd:TreeViewItem}" BasedOn="{StaticResource {x:Type sd:TreeViewItem}}">
+											</i:Interaction.Behaviors>-->
+											<!--<sd:ATreeView.ItemContainerStyle>
+												<Style TargetType="{x:Type sd:ATreeViewItem}" BasedOn="{StaticResource {x:Type sd:ATreeViewItem}}">
 													<Setter Property="IsExpanded" Value="{Binding Mode=OneTime, Converter={sd:AssetToExpandedAtInitialization}}"/>
-													<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=OneTime}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>
-													<Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>
+													--><!--<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=OneTime}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>
+													<Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>--><!--
 													<Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
 													<Setter Property="TemplateSelectorEdit" Value="{StaticResource SolutionTreeViewEditTemplate}"/>
-													<Setter Property="sd:Interaction.Behaviors">
+													--><!--<Setter Property="sd:Interaction.Behaviors">
 														<Setter.Value>
 															<sd:BehaviorCollection>
-																<sd:TreeViewStopEditOnLostFocusBehavior/>
+																<sd:ATreeViewStopEditOnLostFocusBehavior/>
 															</sd:BehaviorCollection>
 														</Setter.Value>
-													</Setter>
+													</Setter>--><!--
 												</Style>
-											</sd:TreeView.ItemContainerStyle>
-											<sd:TreeView.ItemTemplate>
-												<HierarchicalDataTemplate ItemsSource="{Binding Content}" ItemTemplateSelector="{StaticResource SolutionTreeViewTemplate}">
+											</sd:ATreeView.ItemContainerStyle>
+											<sd:ATreeView.ItemTemplate>
+												--><!--<HierarchicalDataTemplate ItemsSource="{Binding Content}" ItemTemplateSelector="{StaticResource SolutionTreeViewTemplate}">
 													<TextBlock Text="{Binding Name}"/>
-												</HierarchicalDataTemplate>
-											</sd:TreeView.ItemTemplate>
-										</sd:TreeView>
-									</DockPanel>-->
+												</HierarchicalDataTemplate>--><!--
+				<TextBlock Text="{Binding Name}"/>
+											</sd:ATreeView.ItemTemplate>-->
+										</sd:ATreeView>
+									</DockPanel>
 
 
 

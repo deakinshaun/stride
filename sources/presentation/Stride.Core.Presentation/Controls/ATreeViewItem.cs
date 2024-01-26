@@ -13,9 +13,12 @@ using System.Linq;
 //using System.Windows.Threading;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Metadata;
 using Stride.Core.Annotations;
 using Stride.Core.Presentation.Extensions;
 using Stride.Core.Presentation.Internal;
@@ -27,6 +30,8 @@ namespace Stride.Core.Presentation.Controls
     /// </summary>
     public class ATreeViewItem : AExpandableItemsControl
     {
+        protected override Type StyleKeyOverride { get { return typeof(ATreeViewItem); } }
+
         internal double ItemTopInTreeSystem; // for virtualization purposes
         internal int HierachyLevel;// for virtualization purposes
 
@@ -63,18 +68,21 @@ namespace Stride.Core.Presentation.Controls
         static ATreeViewItem()
         {
             IsEditingProperty.Changed.AddClassHandler<ATreeViewItem>(OnIsEditingChanged);
+            ItemsSourceProperty.Changed.AddClassHandler<ATreeViewItem>(OnItemsChanged);
 
-   /*         DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(typeof(TreeViewItem)));
+            //         DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(typeof(TreeViewItem)));
 
-            var vPanel = new FrameworkElementFactory(typeof(VirtualizingTreePanel));
-            vPanel.SetValue(Panel.IsItemsHostProperty, true);
-            var vPanelTemplate = new ItemsPanelTemplate { VisualTree = vPanel };
-            ItemsPanelProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(vPanelTemplate));
+            //var vPanel = new FrameworkElementFactory(typeof(VirtualizingTreePanel));
+            //var vPanel = new AVirtualizingTreePanel ();
+            var vPanel = new Func<IServiceProvider?, TemplateResult<Control>?>((sp) => new TemplateResult<Control>(new AVirtualizingTreePanel(), new NameScope()));
+            //vPanel.SetValue(Panel.IsItemsHostProperty, true);
+            var vPanelTemplate = new ItemsPanelTemplate { Content = vPanel };
+            ItemsPanelProperty.OverrideMetadata<ATreeViewItem>(new StyledPropertyMetadata<ITemplate<Panel>>(vPanelTemplate));
 
-            KeyboardNavigation.DirectionalNavigationProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(KeyboardNavigationMode.Continue));
-            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(KeyboardNavigationMode.None));
-            VirtualizingPanel.ScrollUnitProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(ScrollUnit.Item));
-            IsTabStopProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(BooleanBoxes.FalseBox));*/
+           // KeyboardNavigation.DirectionalNavigationProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(KeyboardNavigationMode.Continue));
+           // KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(KeyboardNavigationMode.None));
+           // VirtualizingPanel.ScrollUnitProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(ScrollUnit.Item));
+          //  IsTabStopProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(BooleanBoxes.FalseBox));
         }
 
         public bool IsEditable { get { return (bool)GetValue(IsEditableProperty); } set { SetValue(IsEditableProperty, value.Box()); } }
@@ -89,7 +97,7 @@ namespace Stride.Core.Presentation.Controls
 
   //      public DataTemplateSelector TemplateSelectorEdit { get { return (DataTemplateSelector)GetValue(TemplateSelectorEditProperty); } set { SetValue(TemplateSelectorEditProperty, value); } }
 
-  //      [DependsOn("Indentation")]
+        [DependsOn("Indentation")]
         public double Offset => ParentTreeViewItem?.Offset + Indentation ?? 0;
         
         public ATreeViewItem ParentTreeViewItem => ItemsControlFromItemContaner(this) as ATreeViewItem;
@@ -129,25 +137,28 @@ namespace Stride.Core.Presentation.Controls
         }
 
         /// <inheritdoc/>
-   /*     protected override void PrepareContainerForItemOverride(AvaloniaObject element, object item)
+        protected override void PrepareContainerForItemOverride(Control element, object? item, int index)
+        //protected override void PrepareContainerForItemOverride(AvaloniaObject element, object item)
         {
-            base.PrepareContainerForItemOverride(element, item);
-            RaiseEvent(new TreeViewItemEventArgs(TreeView.PrepareItemEvent, this, (TreeViewItem)element, item));
-        }*/
+            base.PrepareContainerForItemOverride(element, item, index);
+            RaiseEvent(new ATreeViewItemEventArgs(ATreeView.PrepareItemEvent, this, (ATreeViewItem)element, item));
+        }
 
         /// <inheritdoc/>
-  /*      protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+        protected override void ClearContainerForItemOverride(Control element)
+        //protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
-            RaiseEvent(new TreeViewItemEventArgs(TreeView.ClearItemEvent, this, (TreeViewItem)element, item));
-            base.ClearContainerForItemOverride(element, item);
-        }*/
+            RaiseEvent(new ATreeViewItemEventArgs(ATreeView.ClearItemEvent, this, (ATreeViewItem)element, null));
+            base.ClearContainerForItemOverride(element);
+        }
 
         /// <summary>
         /// This method is invoked when the Items property changes.
         /// </summary>
-  /*      protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+        protected static void OnItemsChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
-            switch (e.Action)
+            var item = (ATreeViewItem)d;
+/*            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Remove:
                     ParentTreeView?.ClearObsoleteItems(e.OldItems);
@@ -161,8 +172,8 @@ namespace Stride.Core.Presentation.Controls
 
                 default:
                     throw new NotSupportedException();
-            }
-        }*/
+            }*/
+        }
 
         private static void OnIsEditingChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
@@ -192,25 +203,32 @@ namespace Stride.Core.Presentation.Controls
         ///     Create or identify the element used to display the given item.
         /// </summary>
         /// <returns>The container.</returns>
- /*       protected override AvaloniaObject GetContainerForItemOverride()
+        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
+        //protected override AvaloniaObject GetContainerForItemOverride()
         {
             return new ATreeViewItem();
-        }*/
+        }
+
+        protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
+        {
+            return NeedsContainer<ATreeViewItem>(item, out recycleKey);
+        }
+
 
         public override string ToString()
         {
             return DataContext != null ? $"{DataContext} ({base.ToString()})" : base.ToString();
         }
 
-  /*      public override void OnApplyTemplate()
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnApplyTemplate();
+            base.OnApplyTemplate(e);
 
             if (ParentTreeView?.SelectedItems != null && ParentTreeView.SelectedItems.Contains(DataContext))
             {
                 IsSelected = true;
             }
-        }*/
+        }
 
         internal void ForceFocus()
         {

@@ -23,6 +23,9 @@ using Stride.Core.Presentation.Collections;
 using Stride.Core.Presentation.Extensions;
 using Stride.Core.Presentation.Internal;
 using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Templates;
+using Avalonia.Markup.Xaml.Templates;
+using Stride.Core.Diagnostics;
 
 namespace Stride.Core.Presentation.Controls
 {
@@ -30,8 +33,10 @@ namespace Stride.Core.Presentation.Controls
     /// Represents a control that displays hierarchical data in a tree structure that has items that can expand and collapse.
     /// </summary>
     [TemplatePart(Name = ScrollViewerPartName, Type = typeof(ScrollViewer))]
-    public class ATreeView : ItemsControl
+    public class ATreeView : SelectingItemsControl
     {
+        protected override Type StyleKeyOverride { get { return typeof(ATreeView); } }
+
         /// <summary>
         /// The name of the <see cref="ScrollViewer"/> contained in this <see cref="TreeView"/>.
         /// </summary>
@@ -81,8 +86,8 @@ namespace Stride.Core.Presentation.Controls
  //       internal static bool IsShiftKeyDown => (Keyboard.Modifiers & KeyModifiers.Shift) == KeyModifiers.Shift;
 
         // the space where items will be realized if virtualization is enabled. This is set by virtualizingtreepanel.
-        internal VirtualizingTreePanel.VerticalArea RealizationSpace = new VirtualizingTreePanel.VerticalArea();
-        internal VirtualizingTreePanel.SizesCache CachedSizes = new VirtualizingTreePanel.SizesCache();
+        internal AVirtualizingTreePanel.VerticalArea RealizationSpace = new AVirtualizingTreePanel.VerticalArea();
+        internal AVirtualizingTreePanel.SizesCache CachedSizes = new AVirtualizingTreePanel.SizesCache();
         private bool updatingSelection;
         private bool stoppingEdition;
         private bool allowedSelectionChanges;
@@ -98,16 +103,28 @@ namespace Stride.Core.Presentation.Controls
             SelectedItemsProperty.Changed.AddClassHandler<ATreeView>(OnSelectedItemsPropertyChanged);
             SelectionModeProperty.Changed.AddClassHandler<ATreeView>(OnSelectionModeChanged);
 
- /*           DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(typeof(TreeView)));
+       /*     var vPanel = new Func<IServiceProvider?, TemplateResult<Control>?>((sp) => new TemplateResult<Control>(new AVirtualizingTreePanel(), (NameScope) sp?.GetService(typeof (INameScope))));
+            var vPanelTemplate = new ItemsPanelTemplate { Content = vPanel };
+            ItemsPanelProperty.OverrideMetadata<ATreeView>(new StyledPropertyMetadata<ITemplate<Panel>>(vPanelTemplate));
+       */
 
-            var vPanel = new FrameworkElementFactory(typeof(VirtualizingTreePanel));
-            vPanel.SetValue(Panel.IsItemsHostProperty, true);
-            var vPanelTemplate = new ItemsPanelTemplate { VisualTree = vPanel };
-            ItemsPanelProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(vPanelTemplate));
+            FuncTemplate<Panel?> vvPanel =
+            new(() => new AVirtualizingTreePanel ());
+            FuncTemplate<Panel?> vvvPanel =
+            new(() => new WrapPanel { Orientation = Avalonia.Layout.Orientation.Horizontal });
 
-            KeyboardNavigation.DirectionalNavigationProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(KeyboardNavigationMode.Contained));
-            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(KeyboardNavigationMode.None));
-            VirtualizingPanel.ScrollUnitProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(ScrollUnit.Item));*/
+               ItemsPanelProperty.OverrideDefaultValue<ATreeView>(vvvPanel);
+
+            /*           DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(typeof(TreeView)));
+
+                       var vPanel = new FrameworkElementFactory(typeof(VirtualizingTreePanel));
+                       vPanel.SetValue(Panel.IsItemsHostProperty, true);
+                       var vPanelTemplate = new ItemsPanelTemplate { VisualTree = vPanel };
+                       ItemsPanelProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(vPanelTemplate));
+
+                       KeyboardNavigation.DirectionalNavigationProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(KeyboardNavigationMode.Contained));
+                       KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(KeyboardNavigationMode.None));
+                       VirtualizingPanel.ScrollUnitProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(ScrollUnit.Item));*/
         }
 
         /// <summary>
@@ -120,7 +137,7 @@ namespace Stride.Core.Presentation.Controls
             Items.CollectionChanged += OnItemsViewCollectionChanged;
         }
 
-        public bool IsVirtualizing { get { return (bool)GetValue(IsVirtualizingProperty); } set { SetValue(IsVirtualizingProperty, value.Box()); } }
+        public bool IsVirtualizing { get { return (bool)GetValue(IsVirtualizingProperty); } set { SetValue(IsVirtualizingProperty, value); } }
 
         /// <summary>
         /// Gets the last selected item.
@@ -151,16 +168,16 @@ namespace Stride.Core.Presentation.Controls
 
         /// <inheritdoc/>
         /// <inheritdoc />
- /*      public override void OnApplyTemplate()
+       protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnApplyTemplate();
+            base.OnApplyTemplate(e);
 
-            scroller = DependencyObjectExtensions.CheckTemplatePart<ScrollViewer>(GetTemplateChild(ScrollViewerPartName));
+            scroller = ADependencyObjectExtensions.CheckTemplatePart<ScrollViewer>(e.NameScope.Find<ScrollViewer> (ScrollViewerPartName));
             if (scroller != null)
             {
                 scroller.ScrollChanged += ScrollChanged;
             }
-        }*/
+        }
 
         // TODO: This method has been implemented with a lot of fail and retry, and should be cleaned.
         // TODO: Also, it is probably close to work with virtualization, but it needs some testing
@@ -537,16 +554,23 @@ namespace Stride.Core.Presentation.Controls
         }
 
         /// <inheritdoc />
- /*       protected override AvaloniaObject GetContainerForItemOverride()
+        //public override Control? TreeContainerFromItem(object item)
+        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
+        ///protected override AvaloniaObject GetContainerForItemOverride()
         {
             return new ATreeViewItem();
         }
 
-        /// <inheritdoc />
-        protected override bool IsItemItsOwnContainerOverride(object item)
+        protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
         {
-            return item is ATreeViewItem;
-        }*/
+            return NeedsContainer<ATreeViewItem>(item, out recycleKey);
+        }
+
+        /// <inheritdoc />
+        //   protected override bool IsItemItsOwnContainerOverride(object item)
+        //        {
+        //            return item is ATreeViewItem;
+        //        }
 
         private static void OnSelectedItemPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
