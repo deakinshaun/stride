@@ -35,7 +35,6 @@ namespace Stride.Core.Assets.Editor.View
      
         public Control Build(object? item)
         {
-            //public DataTemplate SelectTemplate(object item, AvaloniaObject container)
             if (item == null)
             {
                 return null;

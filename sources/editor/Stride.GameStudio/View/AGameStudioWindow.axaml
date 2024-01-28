@@ -13,6 +13,9 @@
         xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
         xmlns:viewModels="clr-namespace:Stride.Core.Presentation.Quantum.ViewModels;assembly=Stride.Core.Presentation.Quantum"
         xmlns:viewModels1="clr-namespace:Stride.Core.Assets.Editor.Components.TemplateDescriptions.ViewModels;assembly=Stride.Core.Assets.Editor"
+		
+		xmlns:viewModel="clr-namespace:Stride.Core.Assets.Editor.ViewModel;assembly=Stride.Core.Assets.Editor"
+		
         mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
         Title="{Binding EditorTitle, RelativeSource={RelativeSource Self}}" Width="1280" Height="900"
         x:Name="EditorWindow">
@@ -337,7 +340,79 @@
 
 	</Menu>
 
-	  <!-- DOCUMENT ROW -->
+
+	  <sd:ATreeView Grid.Row="0" x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values, Source={x:Static vm:GameStudioViewModel.GameStudio}}" IsVirtualizing="False" >
+		  <sd:ATreeView.Resources>
+
+			
+		  </sd:ATreeView.Resources>
+											<!--<i:Interaction.Behaviors>
+												<sd:DragOverAutoScrollBehavior/>
+												<sd:ATreeViewAutoExpandBehavior/>
+												<sd:ATreeViewDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
+												<sd:ATreeViewBindableSelectedItemsBehavior SelectedItems="{Binding Session.ActiveAssetView.SelectedLocations}"/>
+												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
+												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" Command="{Binding Session.ActiveAssetView.CopyLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
+												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Paste" Command="{Binding Session.ActiveAssetView.PasteCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
+												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.DeleteSelectedSolutionItemsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
+											</i:Interaction.Behaviors>-->
+											<sd:ATreeView.ItemContainerTheme>
+												<ControlTheme TargetType="{x:Type sd:ATreeViewItem}" BasedOn="{StaticResource {x:Type sd:ATreeViewItem}}">
+													<!--<Setter Property="IsExpanded" Value="{Binding Mode=OneTime, Converter={sd:AAssetToExpandedAtInitialization}}"/>-->
+													<!--<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=OneTime}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>
+													<Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>--><!--
+													<Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
+													<Setter Property="TemplateSelectorEdit" Value="{StaticResource SolutionTreeViewEditTemplate}"/>
+													--><!--<Setter Property="sd:Interaction.Behaviors">
+														<Setter.Value>
+															<sd:BehaviorCollection>
+																<sd:ATreeViewStopEditOnLostFocusBehavior/>
+															</sd:BehaviorCollection>
+														</Setter.Value>
+													</Setter>-->
+												</ControlTheme>
+											</sd:ATreeView.ItemContainerTheme>
+											<sd:ATreeView.ItemTemplate>
+
+												<!--<TreeDataTemplate ItemsSource="{Binding Content}" DataType="viewModel:PackageCategoryViewModel"  >
+														<StackPanel >
+															<TextBlock Text="{Binding Header}"/>
+															<TextBlock Text="{Binding Content}"/>
+															<TextBlock Text="{Binding Name}"/>
+														</StackPanel>
+													
+												</TreeDataTemplate>-->
+											</sd:ATreeView.ItemTemplate>
+
+		  <sd:ATreeView.DataTemplates>
+
+			  <TreeDataTemplate ItemsSource="{Binding Content}" DataType="viewModel:PackageCategoryViewModel"  >
+				  <StackPanel Orientation="Horizontal" Margin="0,2">
+					  <Image Source="{StaticResource ImageDepsRoot}" Margin="0,0,5,0"/>
+					  <sd:ATextBox Text="{Binding Name}" GetFocusOnLoad="True" SelectAllOnFocus="True" ValidateOnLostFocus="True"/>
+				  </StackPanel>
+
+			  </TreeDataTemplate>
+			  <TreeDataTemplate ItemsSource="{Binding Content}" DataType="viewModel:ProjectViewModel"  >
+				  <StackPanel Orientation="Horizontal" Margin="0,2">
+					  <Image Width="16" Height="16" Source="{Binding GenericType, Converter={sd:AStaticResourceConverter}}" Margin="0,0,5,0"/>
+					  <sd:ATextBox Text="{Binding Name}" GetFocusOnLoad="True" SelectAllOnFocus="True" ValidateOnLostFocus="True"/>
+				  </StackPanel>
+
+			  </TreeDataTemplate>
+
+		  </sd:ATreeView.DataTemplates>
+
+
+		  <sd:ATreeView.Styles>
+			  </sd:ATreeView.Styles>
+			  
+
+		  
+		  </sd:ATreeView>
+
+
+		  <!-- DOCUMENT ROW -->
     <Grid Grid.Row="1">
       <Grid.RowDefinitions>
         <!-- TOOLBAR ROW DEFINITION-->
@@ -575,23 +650,23 @@
 												<!--<ItemsControl x:Name="DirectoryTreeView1" ItemsSource="{Binding Session.PackageCategories.Values, Source={x:Static vm:GameStudioViewModel.GameStudio}}" ></ItemsControl>-->
 												
 												
-												<sd:ATreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values, Source={x:Static vm:GameStudioViewModel.GameStudio}}" IsVirtualizing="False">
+												<!--<sd:ATreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values, Source={x:Static vm:GameStudioViewModel.GameStudio}}" IsVirtualizing="False">
 													
 													
 													
-													<!--<sd:ATreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values}" AllowDrop="True" IsVirtualizing="False">-->
+													--><!--<sd:ATreeView x:Name="DirectoryTreeView" ItemsSource="{Binding Session.PackageCategories.Values}" AllowDrop="True" IsVirtualizing="False">--><!--
 														<sd:ATreeView.Resources>
 												<ContextMenu x:Key="ContextMenu">
 													<MenuItem Header="{sd:Localize Folder, Context=Menu}" Theme="{StaticResource MenuGroupSeparatorStyle}" IsVisible="{Binding Session.NewDirectoryCommand.IsEnabled}"/>
 													<MenuItem Header="{sd:Localize Create folder, Context=Menu}" Command="{Binding Session.NewDirectoryCommand}" CommandParameter="{Binding Session.ActiveAssetView.SelectedLocations}" Icon="{sd:AImage {StaticResource ImageNewFolder}}" IsVisible="{Binding Session.NewDirectoryCommand.IsEnabled}"/>
 
-													<!--<MenuItem Header="{sd:Localize Package, Context=Menu}" Theme="{StaticResource MenuGroupSeparatorStyle}" IsVisible="{sd:AMultiBinding {Binding Session.IsUpdatePackageEnabled}, {Binding Session.AddExistingProjectCommand.IsEnabled}, {Binding Session.AddDependencyCommand.IsEnabled}, {Binding Session.SetCurrentProjectCommand.IsEnabled}}"/>-->
+													--><!--<MenuItem Header="{sd:Localize Package, Context=Menu}" Theme="{StaticResource MenuGroupSeparatorStyle}" IsVisible="{sd:AMultiBinding {Binding Session.IsUpdatePackageEnabled}, {Binding Session.AddExistingProjectCommand.IsEnabled}, {Binding Session.AddDependencyCommand.IsEnabled}, {Binding Session.SetCurrentProjectCommand.IsEnabled}}"/>--><!--
 													<MenuItem Header="{sd:Localize Update package, Context=Menu}" ItemsSource="{Binding Session.UpdatePackageViewModel.Templates}" Icon="{sd:AImage {StaticResource ImageAddNewProject}}" IsVisible="{Binding Session.IsUpdatePackageEnabled}">
-														<!--<MenuItem.ItemContainerStyle>
+														--><!--<MenuItem.ItemContainerStyle>
 															<Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" d:DataContext="{d:DesignInstance viewModels1:TemplateDescriptionViewModel}">
 																<Setter Property="Command" Value="{Binding UpdatePackageCommand}"/>
 															</Style>
-														</MenuItem.ItemContainerStyle>-->
+														</MenuItem.ItemContainerStyle>--><!--
 														<MenuItem.ItemTemplate>
 															<DataTemplate DataType="viewModels1:TemplateDescriptionViewModel">
 																<DockPanel Width="384">
@@ -604,7 +679,7 @@
 															</DataTemplate>
 														</MenuItem.ItemTemplate>
 													</MenuItem>
-													<!--<MenuItem Header="{sd:Localize Add dependency..., Context=Menu}" Command="{Binding Session.AddDependencyCommand}" Icon="{sd:Image {StaticResource ImageAddDependency}}" Visibility="{Binding Session.AddDependencyCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
+													--><!--<MenuItem Header="{sd:Localize Add dependency..., Context=Menu}" Command="{Binding Session.AddDependencyCommand}" Icon="{sd:Image {StaticResource ImageAddDependency}}" Visibility="{Binding Session.AddDependencyCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 													<MenuItem Header="{sd:Localize Set as current project, Context=Menu}" Command="{Binding Session.SetCurrentProjectCommand}" CommandParameter="{Binding}" Icon="{sd:Image {StaticResource ImageStartupProject}}" Visibility="{Binding Session.SetCurrentProjectCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 													<MenuItem Header="{sd:Localize Package properties, Context=Menu}" Command="{Binding Session.ActivatePackagePropertiesCommand}" Icon="{sd:Image {StaticResource ImagePackageProperties}}" Visibility="{Binding Session.ActivatePackagePropertiesCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 
@@ -624,11 +699,11 @@
 													<MenuItem Header="{sd:Localize Add asset..., Context=Menu}" Command="{Binding Session.ActiveAssetView.ShowAddAssetDialogCommand}" InputGestureText="{x:Static strings:KeyGestures.AddAsset}" Icon="{sd:Image {StaticResource ImageNewAsset}}" Visibility="{Binding Session.NewDirectoryCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
 
 													<MenuItem Header="{sd:Localize Explore, Context=Menu}" Style="{StaticResource MenuGroupSeparatorStyle}" Visibility="{Binding Session.ExploreCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>
-													<MenuItem Header="{sd:Localize Show in Explorer, Context=Menu}" Command="{Binding Session.ExploreCommand}" CommandParameter="{Binding}" Icon="{sd:Image {StaticResource ImageExplore}}" Visibility="{Binding Session.ExploreCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>-->
+													<MenuItem Header="{sd:Localize Show in Explorer, Context=Menu}" Command="{Binding Session.ExploreCommand}" CommandParameter="{Binding}" Icon="{sd:Image {StaticResource ImageExplore}}" Visibility="{Binding Session.ExploreCommand.IsEnabled, Converter={sd:VisibleOrCollapsed}}"/>--><!--
 
 												</ContextMenu>
 											</sd:ATreeView.Resources>
-											<!--<i:Interaction.Behaviors>
+											--><!--<i:Interaction.Behaviors>
 												<sd:DragOverAutoScrollBehavior/>
 												<sd:ATreeViewAutoExpandBehavior/>
 												<sd:ATreeViewDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
@@ -637,8 +712,8 @@
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" Command="{Binding Session.ActiveAssetView.CopyLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Paste" Command="{Binding Session.ActiveAssetView.PasteCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.DeleteSelectedSolutionItemsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
-											</i:Interaction.Behaviors>-->
-											<!--<sd:ATreeView.ItemContainerStyle>
+											</i:Interaction.Behaviors>--><!--
+											--><!--<sd:ATreeView.ItemContainerStyle>
 												<Style TargetType="{x:Type sd:ATreeViewItem}" BasedOn="{StaticResource {x:Type sd:ATreeViewItem}}">
 													<Setter Property="IsExpanded" Value="{Binding Mode=OneTime, Converter={sd:AssetToExpandedAtInitialization}}"/>
 													--><!--<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=OneTime}" d:DataContext="{d:DesignInstance sd:IIsEditableViewModel}"/>
@@ -659,8 +734,8 @@
 													<TextBlock Text="{Binding Name}"/>
 												</HierarchicalDataTemplate>--><!--
 				<TextBlock Text="{Binding Name}"/>
-											</sd:ATreeView.ItemTemplate>-->
-										</sd:ATreeView>
+											</sd:ATreeView.ItemTemplate>--><!--
+										</sd:ATreeView>-->
 									</DockPanel>
 
 

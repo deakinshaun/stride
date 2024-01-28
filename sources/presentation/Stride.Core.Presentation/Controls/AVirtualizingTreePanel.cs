@@ -21,10 +21,11 @@ using Avalonia.Input;
 using Avalonia.VisualTree;
 using Stride.Core.Annotations;
 using System.Reflection.Emit;
+using SharpDX.DXGI;
 
 namespace Stride.Core.Presentation.Controls
 {
-    public class AVirtualizingTreePanel : VirtualizingPanel, IScrollable
+    public class AVirtualizingTreePanel : VirtualizingStackPanel, IScrollable
     {
  //       protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.TreeView); } }
 
@@ -178,10 +179,10 @@ namespace Stride.Core.Presentation.Controls
 
             // We need to access InternalChildren before the generator to work around a bug
             //           var children = InternalChildren;
-            //var generator = ItemContainerGenerator;
+            var generator = ItemContainerGenerator;
             var itemsControl = Avalonia.VisualTree.VisualExtensions.GetVisualParent(this).TemplatedParent;
 
-            /*if (this != null && this.IsItemsHost)
+            if (this != null && this.IsItemsHost)
             {
                 ItemsPresenter itemsPresenter = Avalonia.VisualTree.VisualExtensions.GetVisualParent(this) as ItemsPresenter;
 
@@ -189,7 +190,7 @@ namespace Stride.Core.Presentation.Controls
                 {
                     itemsControl = (ItemsControl)itemsPresenter.TemplatedParent;
                 }
-            }*/
+            }
 
 
             //var itemsControl = ItemsControl.GetItemsOwner(this);
@@ -201,162 +202,193 @@ namespace Stride.Core.Presentation.Controls
                        double maxWidth = 0;
                        double currentYinItemSystem = 0;
 
-/*                       if (treeView.IsVirtualizing)
-                       {
-                           // never forget: virtualization of a tree is an approximation. there are some use cases which theoretically work and others
-                           // we try to get it working by estimations. See GetCachedOrEstimatedHeight for more infos.
+            if (treeView.IsVirtualizing)
+            {
+                /*                           // never forget: virtualization of a tree is an approximation. there are some use cases which theoretically work and others
+                                           // we try to get it working by estimations. See GetCachedOrEstimatedHeight for more infos.
 
-                           var itemCount = itemsControl.Items.Count;
-                           var firstVisibleItemIndex = 0;
-                           var lastVisibleItemIndex = itemCount;
+                                           var itemCount = itemsControl.Items.Count;
+                                           var firstVisibleItemIndex = 0;
+                                           var lastVisibleItemIndex = itemCount;
 
-                           double itemTop;
-                           if (treeViewItem != null)
-                           {
-                               itemTop = treeViewItem.ItemTopInTreeSystem + GetHeightOfHeader(itemsControl);
-                           }
-                           else
-                           {
-                               // get the area where items have to be visualized. This is from top to bottom of the visible space in tree system. 
-                               // We add a little of offset. It seems like it improves estimation of heights.
-                               double predictionOffset = 50;
-                               var top = VerticalOffset - predictionOffset;
-                               if (top < 0) top = 0;
-                               treeView.RealizationSpace.Top = top;
-                               treeView.RealizationSpace.Bottom = VerticalOffset + availableSize.Height + predictionOffset;
+                                           double itemTop;
+                                           if (treeViewItem != null)
+                                           {
+                                               itemTop = treeViewItem.ItemTopInTreeSystem + GetHeightOfHeader(itemsControl);
+                                           }
+                                           else
+                                           {
+                                               // get the area where items have to be visualized. This is from top to bottom of the visible space in tree system. 
+                                               // We add a little of offset. It seems like it improves estimation of heights.
+                                               double predictionOffset = 50;
+                                               var top = VerticalOffset - predictionOffset;
+                                               if (top < 0) top = 0;
+                                               treeView.RealizationSpace.Top = top;
+                                               treeView.RealizationSpace.Bottom = VerticalOffset + availableSize.Height + predictionOffset;
 
-                               itemTop = GetHeightOfHeader(itemsControl);
-                           }
+                                               itemTop = GetHeightOfHeader(itemsControl);
+                                           }
 
-                           var itemGeneratorIndex = 0;
-                           var isPreviousItemVisible = false;
-                           IDisposable generatorRun = null;
-                           currentYinItemSystem = 0;
-                           var childHierarchyLevel = 0;
-                           if (treeViewItem != null) childHierarchyLevel = treeViewItem.HierachyLevel + 1;
-                           try
-                           {
-                               // iterate child items
-                               for (var i = 0; i < itemCount; i++)
-                               {
-                                   var estimatedHeight = GetCachedOrEstimatedHeight(treeView, childHierarchyLevel);
-                                   var childSpace = new VerticalArea();
-                                   childSpace.Top = itemTop + currentYinItemSystem;
-                                   childSpace.Bottom = childSpace.Top + estimatedHeight;
+                                           var itemGeneratorIndex = 0;
+                                           var isPreviousItemVisible = false;
+                                           IDisposable generatorRun = null;
+                                           currentYinItemSystem = 0;
+                                           var childHierarchyLevel = 0;
+                                           if (treeViewItem != null) childHierarchyLevel = treeViewItem.HierachyLevel + 1;
+                                           try
+                                           {
+                                               // iterate child items
+                                               for (var i = 0; i < itemCount; i++)
+                                               {
+                                                   var estimatedHeight = GetCachedOrEstimatedHeight(treeView, childHierarchyLevel);
+                                                   var childSpace = new VerticalArea();
+                                                   childSpace.Top = itemTop + currentYinItemSystem;
+                                                   childSpace.Bottom = childSpace.Top + estimatedHeight;
 
-                                   // check if item is possibly visible or could become visible if someone changes expanding of siblings
-                                   var isVisibleItem = treeView.RealizationSpace.Overlaps(childSpace);
+                                                   // check if item is possibly visible or could become visible if someone changes expanding of siblings
+                                                   var isVisibleItem = treeView.RealizationSpace.Overlaps(childSpace);
 
-                                   if (isVisibleItem)
-                                   {
-                                       // we have found a visible item, lets check if its the first visible item.
-                                       if (!isPreviousItemVisible)
-                                       {
-                                           // we found a visible item, lets initialize the visible item section of the loop
-                                           isPreviousItemVisible = true;
-                                           firstVisibleItemIndex = i;
-                                           var startPos = generator.GeneratorPositionFromIndex(i);
-                                           itemGeneratorIndex = (startPos.Offset == 0) ? startPos.Index : startPos.Index + 1;
-                                           generatorRun = generator.StartAt(startPos, GeneratorDirection.Forward, true);
-                                       }
-                                       else
-                                       {
-                                           itemGeneratorIndex++;
-                                       }
+                                                   if (isVisibleItem)
+                                                   {
+                                                       // we have found a visible item, lets check if its the first visible item.
+                                                       if (!isPreviousItemVisible)
+                                                       {
+                                                           // we found a visible item, lets initialize the visible item section of the loop
+                                                           isPreviousItemVisible = true;
+                                                           firstVisibleItemIndex = i;
+                                                           var startPos = generator.GeneratorPositionFromIndex(i);
+                                                           itemGeneratorIndex = (startPos.Offset == 0) ? startPos.Index : startPos.Index + 1;
+                                                           generatorRun = generator.StartAt(startPos, GeneratorDirection.Forward, true);
+                                                       }
+                                                       else
+                                                       {
+                                                           itemGeneratorIndex++;
+                                                       }
 
-                                       // Get or create the child
-                                       bool newlyRealized;
-                                       var child = generator.GenerateNext(out newlyRealized) as TreeViewItem;
-                                       Debug(treeViewItem, "Found visible child: " + child.DataContext);
+                                                       // Get or create the child
+                                                       bool newlyRealized;
+                                                       var child = generator.GenerateNext(out newlyRealized) as TreeViewItem;
+                                                       Debug(treeViewItem, "Found visible child: " + child.DataContext);
 
-                                       if (newlyRealized)
-                                       {
-                                           // Figure out if we need to insert the child at the end or somewhere in the middle
-                                           AddOrInsertItemToInternalChildren(itemGeneratorIndex, child);
-                                           child.ParentTreeView = treeView;
-                                           generator.PrepareItemContainer(child);
-                                       }
-                                       else
-                                       {
-                                           // The child has already been created, let's be sure it's in the right spot
-                                           if (child != children[itemGeneratorIndex]) throw new InvalidOperationException("Wrong child was generated");
-                                       }
+                                                       if (newlyRealized)
+                                                       {
+                                                           // Figure out if we need to insert the child at the end or somewhere in the middle
+                                                           AddOrInsertItemToInternalChildren(itemGeneratorIndex, child);
+                                                           child.ParentTreeView = treeView;
+                                                           generator.PrepareItemContainer(child);
+                                                       }
+                                                       else
+                                                       {
+                                                           // The child has already been created, let's be sure it's in the right spot
+                                                           if (child != children[itemGeneratorIndex]) throw new InvalidOperationException("Wrong child was generated");
+                                                       }
 
-                                       if (treeViewItem != null)
-                                       {
-                                           child.ItemTopInTreeSystem = currentYinItemSystem + itemTop;
-                                           child.HierachyLevel = treeViewItem.HierachyLevel + 1;
-                                       }
-                                       else
-                                       {
-                                           child.ItemTopInTreeSystem = currentYinItemSystem;
-                                           child.HierachyLevel = 1;
-                                       }
+                                                       if (treeViewItem != null)
+                                                       {
+                                                           child.ItemTopInTreeSystem = currentYinItemSystem + itemTop;
+                                                           child.HierachyLevel = treeViewItem.HierachyLevel + 1;
+                                                       }
+                                                       else
+                                                       {
+                                                           child.ItemTopInTreeSystem = currentYinItemSystem;
+                                                           child.HierachyLevel = 1;
+                                                       }
 
-                                       InvalidateMeasure(child);
-                                       child.Measure(new Size(double.MaxValue, double.MaxValue));
+                                                       InvalidateMeasure(child);
+                                                       child.Measure(new Size(double.MaxValue, double.MaxValue));
 
-                                       // add real height to cache
-                                       var heightOfChild = child.DesiredSize.Height;
-                                       RegisterHeight(treeView, childHierarchyLevel, heightOfChild);
-                                       currentYinItemSystem += child.DesiredSize.Height;
-                                       // save the maximum needed width
-                                       maxWidth = Math.Max(maxWidth, child.DesiredSize.Width);
-                                   }
-                                   else
-                                   {
-                                       //Debug(treeViewItem, "Found invisible child: " + i);
-                                       if (isPreviousItemVisible)
-                                       {
-                                           // set last visible index. this is important, to cleanup not anymore used items
-                                           lastVisibleItemIndex = i;
-                                           isPreviousItemVisible = false;
-                                       }
+                                                       // add real height to cache
+                                                       var heightOfChild = child.DesiredSize.Height;
+                                                       RegisterHeight(treeView, childHierarchyLevel, heightOfChild);
+                                                       currentYinItemSystem += child.DesiredSize.Height;
+                                                       // save the maximum needed width
+                                                       maxWidth = Math.Max(maxWidth, child.DesiredSize.Width);
+                                                   }
+                                                   else
+                                                   {
+                                                       //Debug(treeViewItem, "Found invisible child: " + i);
+                                                       if (isPreviousItemVisible)
+                                                       {
+                                                           // set last visible index. this is important, to cleanup not anymore used items
+                                                           lastVisibleItemIndex = i;
+                                                           isPreviousItemVisible = false;
+                                                       }
 
-                                       // dispose generator run. if we do it after the whole loop, we run in multithreading issues
-                                       if (generatorRun != null)
-                                       {
-                                           generatorRun.Dispose();
-                                           generatorRun = null;
-                                       }
+                                                       // dispose generator run. if we do it after the whole loop, we run in multithreading issues
+                                                       if (generatorRun != null)
+                                                       {
+                                                           generatorRun.Dispose();
+                                                           generatorRun = null;
+                                                       }
 
-                                       currentYinItemSystem += GetCachedOrEstimatedHeight(treeView, childHierarchyLevel);
-                                   }
-                                   //Debug(treeViewItem, "Current y for " + i + ": " + currentYinItemSystem);
-                               }
-                           }
-                           finally
-                           {
-                               //just for safety
-                               if (generatorRun != null)
-                               {
-                                   generatorRun.Dispose();
-                                   generatorRun = null;
-                               }
-                           }
+                                                       currentYinItemSystem += GetCachedOrEstimatedHeight(treeView, childHierarchyLevel);
+                                                   }
+                                                   //Debug(treeViewItem, "Current y for " + i + ": " + currentYinItemSystem);
+                                               }
+                                           }
+                                           finally
+                                           {
+                                               //just for safety
+                                               if (generatorRun != null)
+                                               {
+                                                   generatorRun.Dispose();
+                                                   generatorRun = null;
+                                               }
+                                           }
 
-                           //Debug("Cleaning all items but " + firstVisibleItemIndex + " to " + lastVisibleItemIndex + " for element " + itemsControl.DataContext);
-                           CleanUpItems(firstVisibleItemIndex, lastVisibleItemIndex);
+                                           //Debug("Cleaning all items but " + firstVisibleItemIndex + " to " + lastVisibleItemIndex + " for element " + itemsControl.DataContext);
+                                           CleanUpItems(firstVisibleItemIndex, lastVisibleItemIndex);*/
 
-                       }
-                       else
-                       {
+            }
+            else
+            {
 
                 //Debug("Virtualization is OFF.");
-                           for (var i = 0; i < ((ItemsControl) itemsControl).Items.Count; i++)
-                           {
-                                // Get or create the child
-                                bool newlyRealized;
-                    // var child = itemsControl.GenerateNext(out newlyRealized) as ATreeViewItem;
-                    var child = new ATreeViewItem();
-                    newlyRealized = true;
+                for (var i = 0; i < ((ItemsControl)itemsControl).Items.Count; i++)
+                {
+                    // Get or create the child
+                    bool newlyRealized;
+                    //var child = ((ItemsControl)itemsControl).GenerateNext(out newlyRealized) as ATreeViewItem;
+                    ATreeViewItem child;
+
+                    var item = ((ItemsControl)itemsControl).Items[i];
+                    var index = i;
+                    object recycleKey = null;
+                    newlyRealized = (Children.Count < ((ItemsControl)itemsControl).Items.Count) &&
+                        (generator.NeedsContainer(item, index, out recycleKey));
+
+                    if (newlyRealized)
+                    {
+                        var container = generator.CreateContainer(item, index, recycleKey);
+
+                        ((ATreeViewItem)container).ParentTreeView = treeView ?? treeViewItem.ParentTreeView;
+                        //container.SetValue(RecycleKeyProperty, recycleKey);
+                        generator.PrepareItemContainer(container, item, index);
+                        AddOrInsertItemToInternalChildren(i, (ATreeViewItem)container);
+                        //  AddInternalChild(container);
+                        generator.ItemContainerPrepared(container, item, index);
+                    }
+                    else
+                    {
+                        // return GetItemAsOwnContainer(item, index);
+                    }
+                
+
+
+                    /*
+                    newlyRealized = Children.Count < ((ItemsControl)itemsControl).Items.Count;
                                 if (newlyRealized)
                                 {
-                                    // Figure out if we need to insert the child at the end or somewhere in the middle
-                                    AddOrInsertItemToInternalChildren(i, child);
-                                    child.ParentTreeView = treeView ?? treeViewItem.ParentTreeView;
-                                    //generator.PrepareItemContainer(child);
-                                }
+                         child = new ATreeViewItem();
+                        // Figure out if we need to insert the child at the end or somewhere in the middle
+                        child.ParentTreeView = treeView ?? treeViewItem.ParentTreeView;
+                    //    generator.PrepareItemContainer(child, child, i);
+                        AddOrInsertItemToInternalChildren(i, child);
+                    //    generator.ItemContainerPrepared(child, child, i);
+                    
+                    }*/
+               
+                    child = (ATreeViewItem) Children[i];
                     child.Measure(new Size(double.MaxValue, double.MaxValue));
                     // now get the real height
                     var height = child.DesiredSize.Height;
@@ -365,7 +397,7 @@ namespace Stride.Core.Presentation.Controls
                     // save the maximum needed width
                     maxWidth = Math.Max(maxWidth, child.DesiredSize.Width);
 
-                }*/
+                }
                 //                           var startPos = generator.GeneratorPositionFromIndex(0);
                 //                           using (generator.StartAt(startPos, GeneratorDirection.Forward, true))
                 /*                            
@@ -393,17 +425,17 @@ namespace Stride.Core.Presentation.Controls
                                                    maxWidth = Math.Max(maxWidth, child.DesiredSize.Width);
                                                }
                                            }*/
-      //      }
+            }
 
-/*                       if (double.IsPositiveInfinity(maxWidth) || double.IsPositiveInfinity(currentYinItemSystem))
+                       if (double.IsPositiveInfinity(maxWidth) || double.IsPositiveInfinity(currentYinItemSystem))
                        {
                            throw new InvalidOperationException("???");
                        }
 
                        Extent = new Size(maxWidth, currentYinItemSystem);
-                       Viewport = availableSize;*/
+                       Viewport = availableSize;
                        //Debug(treeViewItem, "Desired height: " + Extent.Height);
-            Extent = new Size(100, 100);
+   //         Extent = new Size(100, 100);
             return Extent;
         }
 
@@ -422,7 +454,7 @@ namespace Stride.Core.Presentation.Controls
         {
             /*           var border = (FrameworkElement)itemsControl.Template.FindName("border", itemsControl);
                        return border.DesiredSize.Height;*/
-            return 100;
+            return 30;
         }
 
         /// <summary>
@@ -430,9 +462,43 @@ namespace Stride.Core.Presentation.Controls
         /// </summary>
         /// <param name="finalSize">Size available</param>
         /// <returns>Size used</returns>
+ //       protected Size ArrangeOverride1(Size finalSize)
         protected override Size ArrangeOverride(Size finalSize)
         {
-//            var itemsControl = ItemsControl.GetItemsOwner(this);
+/*            var children = Children;
+            Rect rcChild = new Rect(finalSize);
+            double previousChildSize = 0.0;
+            var spacing = 10;
+
+            //
+            // Arrange and Position Children.
+            //
+            for (int i = 0, count = children.Count; i < count; ++i)
+            {
+                var child = children[i];
+
+                if (!child.IsVisible)
+                {
+                    continue;
+                }
+
+                    rcChild = rcChild.WithY(rcChild.Y + previousChildSize);
+                    previousChildSize = child.DesiredSize.Height + 30;
+                    rcChild = rcChild.WithHeight(previousChildSize);
+                    rcChild = rcChild.WithWidth(Math.Max(finalSize.Width, child.DesiredSize.Width));
+                    previousChildSize += spacing;
+
+                child.Arrange(rcChild);
+//                ArrangeChild(child, rcChild, finalSize, Orientation);
+            }
+
+  //          RaiseEvent(new RoutedEventArgs(Orientation == Orientation.Horizontal ? HorizontalSnapPointsChangedEvent : VerticalSnapPointsChangedEvent));
+
+            return finalSize;
+*/
+
+
+            //            var itemsControl = ItemsControl.GetItemsOwner(this);
             var itemsControl = Avalonia.VisualTree.VisualExtensions.GetVisualParent (this).TemplatedParent;
             var treeViewItem = itemsControl as ATreeViewItem;
             var treeView = itemsControl as ATreeView ?? treeViewItem.ParentTreeView;
@@ -480,14 +546,16 @@ namespace Stride.Core.Presentation.Controls
             }
  //           else
             {
-            /*    for (var i = 0; i < itemsControl.Items.Count; i++)
+                for (var i = 0; i < ((ItemsControl)itemsControl).Items.Count; i++)
                 {
-                    if (itemsControl.ItemContainerGenerator.ContainerFromIndex(i) is UIElement child)
+                    //var ci = ((ItemsControl)itemsControl).ItemContainerGenerator.ContainerFromIndex(i);
+                    var ci = Children[i];
+                    if (ci is Control child)
                     {
                         child.Arrange(new Rect(-HorizontalOffset, currentY - VerticalOffset, finalSize.Width, child.DesiredSize.Height));
                         currentY += child.DesiredSize.Height;
                     }
-                }*/
+                }
             }
 
             return finalSize;
@@ -534,9 +602,9 @@ namespace Stride.Core.Presentation.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
- /*       protected override void OnItemsChanged(object sender, ItemsChangedEventArgs args)
+        protected override void OnItemsChanged(IReadOnlyList<object?> items, NotifyCollectionChangedEventArgs e)
         {
-            switch (args.Action)
+    /*        switch (args.Action)
             {
                 case NotifyCollectionChangedAction.Remove:
                 case NotifyCollectionChangedAction.Replace:
@@ -545,8 +613,8 @@ namespace Stride.Core.Presentation.Controls
                 case NotifyCollectionChangedAction.Move:
                     RemoveInternalChildRange(args.OldPosition.Index, args.ItemUICount);
                     break;
-            }
-        }*/
+            }*/
+        }
 
         #region Layout specific code
 
@@ -836,30 +904,7 @@ namespace Stride.Core.Presentation.Controls
             InvalidateMeasure();
         }
 
-        protected override Control? ScrollIntoView(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Control? ContainerFromIndex(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override int IndexFromContainer(Control container)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IEnumerable<Control>? GetRealizedContainers()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IInputElement? GetControl(NavigationDirection direction, IInputElement? from, bool wrap)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         #endregion
     }

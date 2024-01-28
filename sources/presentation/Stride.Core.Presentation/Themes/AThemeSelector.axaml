@@ -127,8 +127,8 @@
 		<!--<Setter Property="VerticalContentAlignment" Value="Center"/>-->
 		<Setter Property="ItemsPanel">
 			<ItemsPanelTemplate>
-				<WrapPanel />
-				<!--<ctrl:AVirtualizingTreePanel />-->
+				<!--<WrapPanel />-->
+			<ctrl:AVirtualizingTreePanel />
 			</ItemsPanelTemplate>
 		</Setter>
 		<Setter Property="Template">
@@ -245,8 +245,9 @@
 							<Rectangle x:Name="FocusVisualElement" Stroke="#4CFFFFFF" StrokeThickness="1" RadiusX="1" RadiusY="1" Opacity="0" IsHitTestVisible="False" Margin="1,1,1,1"/>
 						</Grid>
 						<ItemsPresenter x:Name="itemsPresenter" IsVisible="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={me:Hidden}}"
-										
-                       
+							
+						ItemsPanel="{TemplateBinding ItemsPanel}"
+    							
 										/>
 					</StackPanel>
 					<!--<ControlTemplate.Triggers>
@@ -282,6 +283,13 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
+		<Setter Property="ItemsPanel">
+			<ItemsPanelTemplate>
+				<!--<WrapPanel />-->
+				<ctrl:AVirtualizingTreePanel />
+			</ItemsPanelTemplate>
+		</Setter>
+
 	</ControlTheme>
 
 </ResourceDictionary>

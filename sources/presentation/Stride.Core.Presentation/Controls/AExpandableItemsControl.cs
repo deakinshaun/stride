@@ -4,7 +4,7 @@
 //using System.Windows.Controls;
 //using System.Windows.Input;
 using System;
-using System.Windows.Input;
+//using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -15,7 +15,7 @@ using Stride.Core.Presentation.Internal;
 
 namespace Stride.Core.Presentation.Controls
 {
-    public class AExpandableItemsControl : HeaderedItemsControl
+    public class AExpandableItemsControl : Avalonia.Controls.TreeViewItem
     {
         protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.Primitives.HeaderedItemsControl); } }
 

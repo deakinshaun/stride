@@ -68,21 +68,26 @@ namespace Stride.Core.Presentation.Controls
         static ATreeViewItem()
         {
             IsEditingProperty.Changed.AddClassHandler<ATreeViewItem>(OnIsEditingChanged);
-            ItemsSourceProperty.Changed.AddClassHandler<ATreeViewItem>(OnItemsChanged);
+            //ItemsSourceProperty.Changed.AddClassHandler<ATreeViewItem>(OnItemsChanged);
 
             //         DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(typeof(TreeViewItem)));
 
             //var vPanel = new FrameworkElementFactory(typeof(VirtualizingTreePanel));
             //var vPanel = new AVirtualizingTreePanel ();
-            var vPanel = new Func<IServiceProvider?, TemplateResult<Control>?>((sp) => new TemplateResult<Control>(new AVirtualizingTreePanel(), new NameScope()));
+        /*    var vPanel = new Func<IServiceProvider?, TemplateResult<Control>?>((sp) => new TemplateResult<Control>(new AVirtualizingTreePanel(), new NameScope()));
             //vPanel.SetValue(Panel.IsItemsHostProperty, true);
             var vPanelTemplate = new ItemsPanelTemplate { Content = vPanel };
             ItemsPanelProperty.OverrideMetadata<ATreeViewItem>(new StyledPropertyMetadata<ITemplate<Panel>>(vPanelTemplate));
-
+        */
            // KeyboardNavigation.DirectionalNavigationProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(KeyboardNavigationMode.Continue));
            // KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(KeyboardNavigationMode.None));
            // VirtualizingPanel.ScrollUnitProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(ScrollUnit.Item));
           //  IsTabStopProperty.OverrideMetadata(typeof(TreeViewItem), new FrameworkPropertyMetadata(BooleanBoxes.FalseBox));
+        }
+
+        public ATreeViewItem () : base ()
+        {
+            
         }
 
         public bool IsEditable { get { return (bool)GetValue(IsEditableProperty); } set { SetValue(IsEditableProperty, value.Box()); } }

@@ -33,7 +33,7 @@ namespace Stride.Core.Presentation.Controls
     /// Represents a control that displays hierarchical data in a tree structure that has items that can expand and collapse.
     /// </summary>
     [TemplatePart(Name = ScrollViewerPartName, Type = typeof(ScrollViewer))]
-    public class ATreeView : SelectingItemsControl
+    public class ATreeView : Avalonia.Controls.TreeView
     {
         protected override Type StyleKeyOverride { get { return typeof(ATreeView); } }
 
@@ -103,17 +103,17 @@ namespace Stride.Core.Presentation.Controls
             SelectedItemsProperty.Changed.AddClassHandler<ATreeView>(OnSelectedItemsPropertyChanged);
             SelectionModeProperty.Changed.AddClassHandler<ATreeView>(OnSelectionModeChanged);
 
-       /*     var vPanel = new Func<IServiceProvider?, TemplateResult<Control>?>((sp) => new TemplateResult<Control>(new AVirtualizingTreePanel(), (NameScope) sp?.GetService(typeof (INameScope))));
+   /*         var vPanel = new Func<IServiceProvider?, TemplateResult<Control>?>((sp) => new TemplateResult<Control>(new AVirtualizingTreePanel(), (NameScope) sp?.GetService(typeof (INameScope))));
             var vPanelTemplate = new ItemsPanelTemplate { Content = vPanel };
             ItemsPanelProperty.OverrideMetadata<ATreeView>(new StyledPropertyMetadata<ITemplate<Panel>>(vPanelTemplate));
-       */
+     */  
 
-            FuncTemplate<Panel?> vvPanel =
+  /*          FuncTemplate<Panel?> vvPanel =
             new(() => new AVirtualizingTreePanel ());
             FuncTemplate<Panel?> vvvPanel =
             new(() => new WrapPanel { Orientation = Avalonia.Layout.Orientation.Horizontal });
 
-               ItemsPanelProperty.OverrideDefaultValue<ATreeView>(vvvPanel);
+               ItemsPanelProperty.OverrideDefaultValue<ATreeView>(vvPanel);*/
 
             /*           DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeView), new FrameworkPropertyMetadata(typeof(TreeView)));
 
@@ -420,12 +420,12 @@ namespace Stride.Core.Presentation.Controls
             stoppingEdition = false;
         }
 
-        internal IEnumerable<TreeViewItem> GetChildren(TreeViewItem item)
+        internal IEnumerable<ATreeViewItem> GetChildren(ATreeViewItem item)
         {
             if (item == null) yield break;
             for (var i = 0; i < item.Items.Count; i++)
             {
-                var child = item.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
+                var child = item.ItemContainerGenerator.ContainerFromIndex(i) as ATreeViewItem;
                 if (child != null) yield return child;
             }
         }
@@ -503,6 +503,7 @@ namespace Stride.Core.Presentation.Controls
             base.PrepareContainerForItemOverride(element, item, index);
             //Send down the IsVirtualizing property if it's set on this element.
             ATreeViewItem.IsVirtualizingPropagationHelper(this, element);
+//            ((ATreeViewItem)element).ItemsSource = ((Stride.Core.Assets.Editor.ViewModelCategoryViewModel)item).Content;
             RaiseEvent(new ATreeViewItemEventArgs(PrepareItemEvent, this, (ATreeViewItem)element, item));
         }
 
@@ -560,7 +561,8 @@ namespace Stride.Core.Presentation.Controls
         {
             return new ATreeViewItem();
         }
-
+   
+        
         protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
         {
             return NeedsContainer<ATreeViewItem>(item, out recycleKey);
