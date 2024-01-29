@@ -93,23 +93,13 @@
 
 	<ControlTemplate x:Key="TreeExpanderToggleButton" TargetType="{x:Type ToggleButton}">
 		<Grid Background="Transparent">
-			<Path HorizontalAlignment="Center" x:Name="Up_Arrow" VerticalAlignment="Center" Fill="{StaticResource GlyphBrush}"
+			<Path IsVisible="{Binding !IsChecked, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" x:Name="Up_Arrow" VerticalAlignment="Center" Fill="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ctrl:ATreeViewItem}}, Mode=OneWay, Converter={sd:ABoolToParam}, ConverterParameter={StaticResource GlyphHeaderBrush}, FallbackValue={StaticResource GlyphBrush}}"
 						Data="M 0 6 V 0 l 5 3 z" RenderTransformOrigin="0.5,0.5" Stretch="Uniform" StrokeThickness="0"/>
-			<Path IsVisible="false" HorizontalAlignment="Center" x:Name="Down_Arrow" VerticalAlignment="Center" Fill="{StaticResource GlyphBrush}"
+			<Path IsVisible="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" x:Name="Down_Arrow" VerticalAlignment="Center" Fill="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ctrl:ATreeViewItem}}, Mode=OneWay, Converter={sd:ABoolToParam}, ConverterParameter={StaticResource GlyphHeaderBrush}, FallbackValue={StaticResource GlyphBrush}}"
 						Data="M 0 0 H 6 L 3 6 Z" RenderTransformOrigin="0.5,0.5" Stretch="Uniform" StrokeThickness="0"/>
 		</Grid>
-		<!--<ControlTemplate.Triggers>
-      <Trigger Property="IsChecked" Value="true">
-        <Setter Property="Visibility" Value="Collapsed" TargetName="Up_Arrow" />
-        <Setter Property="Visibility" Value="Visible" TargetName="Down_Arrow" />
-      </Trigger>
-      <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ctrl:TreeViewItem}}, Mode=OneWay}" Value="True">
-        <Setter Property="Fill" Value="{StaticResource GlyphHeaderBrush}" TargetName="Up_Arrow"/>
-        <Setter Property="Fill" Value="{StaticResource GlyphHeaderBrush}" TargetName="Down_Arrow"/>
-      </DataTrigger>
-    </ControlTemplate.Triggers>-->
+	
 	</ControlTemplate>
-
 
 	<!--  TREE VIEWS  -->
 	<ControlTheme x:Key="{x:Type ctrl:ATreeView}" TargetType="{x:Type ctrl:ATreeView}">
@@ -201,7 +191,7 @@
 							<Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}"/>
 							<Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource SelectedBackgroundBrush}"/>
 							<DockPanel x:Name="ct" Margin="{TemplateBinding Padding}">
-								<!--<FrameworkElement DockPanel.Dock="Left" Margin="{Binding Offset, RelativeSource={RelativeSource TemplatedParent}, Converter={cvt:NumericToThickness}, ConverterParameter={me:Thickness 1,0,0,0}}"/>-->
+								<Control DockPanel.Dock="Left" Margin="{Binding Offset, RelativeSource={RelativeSource TemplatedParent}, Converter={cvt:ANumericToThickness}, ConverterParameter={me:AThickness 1,0,0,0}}"/>
 								<ToggleButton DockPanel.Dock="Left"
 													IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ctrl:ATreeViewItem}},Path=IsExpanded,FallbackValue={me:False}}"
 													IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type ctrl:ATreeViewItem}},Path=HasItems, FallbackValue={me:Hidden}}"
@@ -216,8 +206,7 @@
                       <Setter Property="Height" Value="8" />
                       <Setter Property="Margin" Value="0,0,4,0" />
                       <Setter Property="Template" Value="{StaticResource TreeExpanderToggleButton}"/>
-                    
-			  </ControlTheme>
+					</ControlTheme>
                   </ToggleButton.Theme>
 								</ToggleButton>
 								<ContentPresenter x:Name="content"
