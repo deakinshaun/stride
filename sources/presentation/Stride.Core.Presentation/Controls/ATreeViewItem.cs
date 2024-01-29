@@ -105,7 +105,7 @@ namespace Stride.Core.Presentation.Controls
         [DependsOn("Indentation")]
         public double Offset => ParentTreeViewItem?.Offset + Indentation ?? 0;
         
-        public ATreeViewItem ParentTreeViewItem => ItemsControlFromItemContaner(this) as ATreeViewItem;
+        public ATreeViewItem ParentTreeViewItem;//ItemsControlFromItemContaner(this) as ATreeViewItem;
 
         public ATreeView ParentTreeView { get; internal set; }
 

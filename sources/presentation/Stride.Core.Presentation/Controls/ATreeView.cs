@@ -26,6 +26,7 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml.Templates;
 using Stride.Core.Diagnostics;
+using Avalonia.Rendering;
 
 namespace Stride.Core.Presentation.Controls
 {
@@ -362,7 +363,7 @@ namespace Stride.Core.Presentation.Controls
 
             var item = GetTreeViewItemUnderMouse(e.GetPosition(this));
             if (item == null) return;
-            if (e.GetCurrentPoint(this).Properties.IsRightButtonPressed || item.ContextMenu == null) return;
+//            if (e.GetCurrentPoint(this).Properties.IsRightButtonPressed || item.ContextMenu == null) return;
             if (item.IsEditing) return;
 
             if (!SelectedItems.Contains(item.DataContext))
@@ -770,28 +771,28 @@ namespace Stride.Core.Presentation.Controls
         [CanBeNull]
         protected ATreeViewItem GetTreeViewItemUnderMouse(Point positionRelativeToTree)
         {
- /*           var hitTestResult = VisualTreeHelper.HitTest(this, positionRelativeToTree);
-            if (hitTestResult?.VisualHit == null)
+            var hitTestResult = this.InputHitTest (positionRelativeToTree);
+            if (hitTestResult == null)
                 return null;
 
-            var child = hitTestResult.VisualHit as FrameworkElement;
+            var child = hitTestResult as Control;
 
             do
             {
                 if (child == null)
                     return null;
 
-                var treeViewItem = child as TreeViewItem;
+                var treeViewItem = child as ATreeViewItem;
                 if (treeViewItem != null)
                 {
                     return treeViewItem.IsVisible ? treeViewItem : null;
                 }
 
-                if (child is TreeView)
+                if (child is ATreeView)
                     return null;
 
-                child = VisualTreeHelper.GetParent(child) as FrameworkElement;
-            } while (child != null);*/
+                child =child.Parent as Control;
+            } while (child != null);
 
             return null;
         }

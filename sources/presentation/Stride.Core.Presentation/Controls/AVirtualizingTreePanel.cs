@@ -25,7 +25,7 @@ using SharpDX.DXGI;
 
 namespace Stride.Core.Presentation.Controls
 {
-    public class AVirtualizingTreePanel : VirtualizingStackPanel, IScrollable
+    public class AVirtualizingTreePanel : VirtualizingPanel, IScrollable
     {
  //       protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.TreeView); } }
 
@@ -151,6 +151,10 @@ namespace Stride.Core.Presentation.Controls
                 }
             }
         }
+
+        // It seems we need to manage containers explicitly in Avalonia. This
+        // list keeps containers organized by index.
+        private List<ATreeViewItem> containers = new List<ATreeViewItem> ();
 
         private const double ScrollLineDelta = 16.0;
         private readonly SizesCache cachedSizes;
@@ -354,7 +358,8 @@ namespace Stride.Core.Presentation.Controls
                     var item = ((ItemsControl)itemsControl).Items[i];
                     var index = i;
                     object recycleKey = null;
-                    newlyRealized = (Children.Count < ((ItemsControl)itemsControl).Items.Count) &&
+
+                    newlyRealized = (containers.Count < ((ItemsControl)itemsControl).Items.Count) &&
                         (generator.NeedsContainer(item, index, out recycleKey));
 
                     if (newlyRealized)
@@ -362,33 +367,21 @@ namespace Stride.Core.Presentation.Controls
                         var container = generator.CreateContainer(item, index, recycleKey);
 
                         ((ATreeViewItem)container).ParentTreeView = treeView ?? treeViewItem.ParentTreeView;
+                        ((ATreeViewItem)container).ParentTreeViewItem = (ATreeViewItem)this.GetVisualAncestors().OfType<ATreeViewItem>().FirstOrDefault ();
                         //container.SetValue(RecycleKeyProperty, recycleKey);
                         generator.PrepareItemContainer(container, item, index);
                         AddOrInsertItemToInternalChildren(i, (ATreeViewItem)container);
+                        containers.Insert(index, (ATreeViewItem) container);
                         //  AddInternalChild(container);
                         generator.ItemContainerPrepared(container, item, index);
+
+                        child = (ATreeViewItem) container;
                     }
                     else
                     {
-                        // return GetItemAsOwnContainer(item, index);
+                        child = containers[index];
                     }
-                
 
-
-                    /*
-                    newlyRealized = Children.Count < ((ItemsControl)itemsControl).Items.Count;
-                                if (newlyRealized)
-                                {
-                         child = new ATreeViewItem();
-                        // Figure out if we need to insert the child at the end or somewhere in the middle
-                        child.ParentTreeView = treeView ?? treeViewItem.ParentTreeView;
-                    //    generator.PrepareItemContainer(child, child, i);
-                        AddOrInsertItemToInternalChildren(i, child);
-                    //    generator.ItemContainerPrepared(child, child, i);
-                    
-                    }*/
-               
-                    child = (ATreeViewItem) Children[i];
                     child.Measure(new Size(double.MaxValue, double.MaxValue));
                     // now get the real height
                     var height = child.DesiredSize.Height;
@@ -702,7 +695,7 @@ namespace Stride.Core.Presentation.Controls
             return ScrollLineDelta;
         }
 
-        [Conditional("DEBUGVIRTUALIZATION")]
+/*        [Conditional("DEBUGVIRTUALIZATION")]
         private void Debug(ATreeViewItem item, [NotNull] string message)
         {
             if (item != null)
@@ -722,11 +715,11 @@ namespace Stride.Core.Presentation.Controls
 
         private int GetHierarchyLevel()
         {
-            /*            var treeViewItem = ItemsControl.GetItemsOwner(this) as TreeViewItem;
+                        var treeViewItem = ItemsControl.GetItemsOwner(this) as TreeViewItem;
                         if (treeViewItem == null) return 0;
-                        return treeViewItem.HierachyLevel;*/
+                        return treeViewItem.HierachyLevel;
             return 0;
-        }
+        }*/
 
         #region IScrollInfo implementation
 
@@ -904,7 +897,37 @@ namespace Stride.Core.Presentation.Controls
             InvalidateMeasure();
         }
 
-        
+        protected override Control? ScrollIntoView(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Control? ContainerFromIndex(int index)
+        {
+            return containers[index];
+        }
+
+        protected override int IndexFromContainer(Control container)
+        {
+            for (int i = 0; i < containers.Count; i++)
+            {
+                if (containers[i] == container)
+                    return i;
+            }
+            return -1;
+        }
+
+        protected override IEnumerable<Control>? GetRealizedContainers()
+        {
+            return containers;
+        }
+
+        protected override IInputElement? GetControl(NavigationDirection direction, IInputElement? from, bool wrap)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         #endregion
     }
