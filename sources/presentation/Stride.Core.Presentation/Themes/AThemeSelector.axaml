@@ -194,7 +194,7 @@
 								<Control DockPanel.Dock="Left" Margin="{Binding Offset, RelativeSource={RelativeSource TemplatedParent}, Converter={cvt:ANumericToThickness}, ConverterParameter={me:AThickness 1,0,0,0}}"/>
 								<ToggleButton DockPanel.Dock="Left"
 													IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ctrl:ATreeViewItem}},Path=IsExpanded,FallbackValue={me:False}}"
-													IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type ctrl:ATreeViewItem}},Path=HasItems, FallbackValue={me:Hidden}}"
+													IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type ctrl:ATreeViewItem}},Path=HasItems, FallbackValue=false}"
 													ClickMode="Press" Name="Expander" HorizontalAlignment="Right">
 						<ToggleButton.Theme>
                     <ControlTheme TargetType="{x:Type ToggleButton}">

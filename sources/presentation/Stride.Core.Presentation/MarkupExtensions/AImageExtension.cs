@@ -23,7 +23,14 @@ namespace Stride.Core.Presentation.MarkupExtensions
 
         public AImageExtension(object source)
         {
-            this.source = (IImage) source;
+            if (source is ImageBrush)
+            {
+                this.source = (IImage)((ImageBrush)source).Source;
+            }
+            else
+            {
+                this.source = (IImage)source;
+            }
             width = -1;
             height = -1;
         }

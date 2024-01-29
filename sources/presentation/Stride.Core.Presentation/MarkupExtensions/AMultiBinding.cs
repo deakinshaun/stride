@@ -3,7 +3,9 @@
 //using System.Windows.Data;
 //using System.Windows.Markup;
 
+using System;
 using Avalonia.Data;
+using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
 
 namespace Stride.Core.Presentation.MarkupExtensions
@@ -110,6 +112,11 @@ namespace Stride.Core.Presentation.MarkupExtensions
             if (binding6 != null) addChild.AddChild(binding6);
             if (binding7 != null) addChild.AddChild(binding7);
             if (binding8 != null) addChild.AddChild(binding8);
+        }
+
+        public object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return null;
         }
     }
 }

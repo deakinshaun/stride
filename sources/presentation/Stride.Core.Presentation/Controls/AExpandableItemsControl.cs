@@ -39,6 +39,8 @@ namespace Stride.Core.Presentation.Controls
         /// </summary>
         public bool IsExpanded { get { return (bool)GetValue(IsExpandedProperty); } set { SetValue(IsExpandedProperty, value.Box()); } }
 
+        public bool HasItems => (ItemCount > 0);
+
         protected bool CanExpand => (ItemCount > 0);
 
         /// <summary>

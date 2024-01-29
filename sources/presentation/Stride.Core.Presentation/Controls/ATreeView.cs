@@ -98,6 +98,8 @@ namespace Stride.Core.Presentation.Controls
         private ATreeViewItem editedItem;
         private ScrollViewer scroller;
 
+        public bool HasItems => (ItemCount > 0);
+
         static ATreeView()
         {
             SelectedItemProperty.Changed.AddClassHandler<ATreeView>(OnSelectedItemPropertyChanged);
