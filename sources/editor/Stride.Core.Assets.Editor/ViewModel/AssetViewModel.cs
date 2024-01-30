@@ -82,7 +82,7 @@ namespace Stride.Core.Assets.Editor.ViewModel
         private string name;
         private DirectoryBaseViewModel directory;
         private bool updatingUrl;
-        private ThumbnailData thumbnailData;
+        private IThumbnailData thumbnailData;
         private AssetItem assetItem;
         private IAssetEditorViewModel editor;
         private TaskCompletionSource<int> editorInitialized = new TaskCompletionSource<int>();
@@ -114,7 +114,7 @@ namespace Stride.Core.Assets.Editor.ViewModel
             createDerivedAssetCommand = new AnonymousCommand(ServiceProvider, CreateDerivedAsset) { IsEnabled = CanDerive };
             clearArchetypeCommand = new AnonymousCommand(ServiceProvider, ClearArchetype) { IsEnabled = Asset.Archetype != null };
             // TODO: make the view model independent of the view (ie. MenuCommandInfo.Icon and remove this dispatcher call.
-            Dispatcher.InvokeAsync(() =>
+ /*           Dispatcher.InvokeAsync(() =>
             {
                 assetCommands.Add(new MenuCommandInfo(ServiceProvider, createDerivedAssetCommand)
                 {
@@ -126,7 +126,7 @@ namespace Stride.Core.Assets.Editor.ViewModel
                     DisplayName = "Clear archetype",
                     Icon = new Image { Source = new BitmapImage(new Uri("/Stride.Core.Assets.Editor;component/Resources/Icons/delete_link-32.png", UriKind.RelativeOrAbsolute)) },
                 });
-            }).Forget();
+            }).Forget();*/
             NodeContainer = parameters.Container;
             PropertyGraph = Session.GraphContainer.TryGetGraph(assetItem.Id);
             if (PropertyGraph != null)
@@ -221,7 +221,7 @@ namespace Stride.Core.Assets.Editor.ViewModel
         /// <summary>
         /// Gets the <see cref="ThumbnailData"/> associated to this <see cref="AssetViewModel"/>.
         /// </summary>
-        public ThumbnailData ThumbnailData { get => thumbnailData; private set => SetValueUncancellable(ref thumbnailData, value); }
+        public IThumbnailData ThumbnailData { get => thumbnailData; private set => SetValueUncancellable(ref thumbnailData, value); }
 
         /// <summary>
         /// Gets the display name of the type of this asset.
@@ -342,7 +342,7 @@ namespace Stride.Core.Assets.Editor.ViewModel
             return initialLocation.Root.Package.MountPoints.FirstOrDefault(x => x.AcceptAssetType(assetType) && x.Package.IsEditable);
         }
 
-        internal void SetThumbnailData(ThumbnailData data)
+        internal void SetThumbnailData(IThumbnailData data)
         {
             ClearThumbnail();
             ThumbnailData = data;

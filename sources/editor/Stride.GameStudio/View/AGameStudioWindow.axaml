@@ -694,7 +694,7 @@
 														 gh:AvalonDockHelper.IsVisible="{Binding Panels.AssetViewPanelVisible, Mode=TwoWay,
                                            Source={x:Static vm:GameStudioViewModel.GameStudio}, FallbackValue={sd:True}}">-->
 
-											<sd:AAssetViewUserControl AssetCollection="{Binding Session.ActiveAssetView}" AssetContextMenu="{StaticResource AssetContextMenu}"
+											<sd:AAssetViewUserControl AssetCollection="{Binding Session.ActiveAssetView, Source={x:Static vm:GameStudioViewModel.GameStudio}}" AssetContextMenu="{StaticResource AssetContextMenu}"
 																							   AssetDoubleClick="{Binding Session.EditSelectedContentCommand}">
 											<i:Interaction.Behaviors>
 											<!--<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutContentCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>

@@ -7,7 +7,7 @@
              xmlns:sd="http://schemas.stride3d.net/xaml/presentation"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:view="clr-namespace:Stride.Core.Assets.Editor.View"
-             xmlns:controls="clr-namespace:Stride.Core.Assets.Editor.View.Controls"
+             xmlns:controls="clr-namespace:Stride.Core.Assets.Editor.View.Controls;assembly=Stride.Core.Assets.Editor"
              xmlns:behaviors="clr-namespace:Stride.Core.Assets.Editor.View.Behaviors"
              xmlns:cvt="clr-namespace:Stride.Core.Assets.Editor.View.ValueConverters"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -41,28 +41,53 @@
 				  <ResourceInclude Source="ACommonResources.axaml"/>
 			  </ResourceDictionary.MergedDictionaries>
 
-			  <!--<Style TargetType="controls:EditableContentListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}"/>
+			  <ControlTheme x:Key="{x:Type controls:AEditableContentListBoxItem}" TargetType="{x:Type controls:AEditableContentListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}"/>
+			  <!--<ControlTheme x:Key="{x:Type controls:AEditableContentListBoxItem}" TargetType="{x:Type controls:AEditableContentListBoxItem}">
+				  <Setter Property="Template">
+					  <Setter.Value>
+						  <ControlTemplate TargetType="{x:Type controls:AEditableContentListBoxItem}">
+							  <StackPanel>
+								  <TextBox Text="hello=" />
+							  </StackPanel>
+						  </ControlTemplate>
+					  </Setter.Value>
+				  </Setter>
+			  </ControlTheme>-->
 
-			  <Style TargetType="controls:EditableContentListBox" BasedOn="{StaticResource {x:Type ListBox}}"/>-->
 
-				  <!--<DataTemplate.Resources>-->
+			  <!--<ControlTheme x:Key="{x:Type controls:AEditableContentListBox}" TargetType="{x:Type controls:AEditableContentListBox}" BasedOn="{StaticResource {x:Type ListBox}}" >
+				  <Setter Property="Template">
+					  <Setter.Value>
+						  <ControlTemplate TargetType="{x:Type controls:AEditableContentListBox}">
+							  <StackPanel>
+								  <TextBox Text="hi" />
+							  </StackPanel>
+						  </ControlTemplate>
+					  </Setter.Value>
+				  </Setter>
+			  </ControlTheme>-->
+
+			  
+			  <ControlTheme x:Key="{x:Type controls:AEditableContentListBox}" TargetType="{x:Type controls:AEditableContentListBox}" BasedOn="{StaticResource {x:Type ListBox}}" />
+
+			  <!--<DataTemplate.Resources>-->
 				  
 					  <DataTemplate x:Key="ItemTemplate" DataType="{x:Type viewModel:ISessionObjectViewModel}">
 						  <HeaderedContentControl >
 							  <!--<HeaderedContentControl SnapsToDevicePixels="True" ToolTipService.InitialShowDelay="1">-->
 								  <!--<i:Interaction.Behaviors>
-								  <sd:OnEventCommandBehavior EventName="MouseDoubleClick" Command="{Binding AssetDoubleClick, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"
+								  <sd:OnEventCommandBehavior EventName="MouseDoubleClick" Command="{Binding AssetDoubleClick, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
 															   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=controls:EditableContentListBox}}"/>
 							  </i:Interaction.Behaviors>-->
 							  <HeaderedContentControl.Header>
 								  <Grid Background="Transparent">
 									  <Border BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="2" CornerRadius="3" Margin="0,3,0,0">
 										  <Image Source="{Binding ThumbnailData.Presenter, Mode=OneWay}" 
-												 Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"
-												 Height="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"/>
+												 Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
+												 Height="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"/>
 									  </Border>
 									  <ProgressBar Width="32" Height="8"
-												 IsIndeterminate="{Binding ThumbnailData, Mode=OneWay}"
+												 IsIndeterminate="{Binding ThumbnailData, Mode=OneWay, Converter={sd:AChained {sd:AObjectToBool}, {sd:AInvertBool}}}"
 												 />
 									  <!--<ProgressBar Width="32" Height="8"
 									IsIndeterminate="{Binding ThumbnailData, Mode=OneWay, Converter={sd:Chained {sd:ObjectToBool}, {sd:InvertBool}}}"
@@ -70,7 +95,7 @@
 									  <Border BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="2" CornerRadius="3" Background="{StaticResource NormalBrush}"
 											HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,3,0,0">
 										  <Button Command="{Binding Sources.UpdateFromSourceCommand}" Margin="0">
-											  <Image Source="{StaticResource UpdateSelectedAssetsFromSource}" Width="12" Height="12" Margin="5"/>
+											  <Image Source="{Binding Source={StaticResource UpdateSelectedAssetsFromSource}, Path=Source}" Width="12" Height="12" Margin="5"/>
 										  </Button>
 									  </Border>
 									  <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3" Command="{Binding Dependencies.ToggleIsRootOnSelectedAssetCommand, FallbackValue={x:Null}}">
@@ -93,11 +118,14 @@
 									  </Button>
 								  </Grid>
 							  </HeaderedContentControl.Header>
-							  <StackPanel Background="Transparent" Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}" Height="48">
+							  <StackPanel Background="Transparent" Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}" Height="48">
 								  <DockPanel HorizontalAlignment="Center" LastChildFill="False">
-									  <TextBlock DockPanel.Dock="Right" Text="{Binding IsDirty, Converter={sd:BoolToParam}, ConverterParameter=*}" HorizontalAlignment="Center"
+									  <TextBlock DockPanel.Dock="Right" Text="{Binding IsDirty, Converter={sd:ABoolToParam}, ConverterParameter=*}" HorizontalAlignment="Center"
 												 VerticalAlignment="Bottom" TextAlignment="Center" TextTrimming="CharacterEllipsis"/>
-									  <TextBlock Text="{Binding Name, Converter={cvt:NameBreakingLine}}" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxHeight="32"/>
+									  <TextBlock Text="{Binding Name, Converter={cvt:ANameBreakingLine}}" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxHeight="32"/>
+
+									  <TextBlock Text="{Binding ThumbnailData.Presenter, Mode=OneWay}" />
+
 								  </DockPanel>
 								  <TextBlock Text="{Binding TypeDisplayName}" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="10" Opacity="0.5" />
 							  </StackPanel>
@@ -151,14 +179,14 @@
 								  <Grid>
 									  <Border BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="2" CornerRadius="3" Margin="0,3,0,0">
 										  <Image Source="{Binding ThumbnailData.Presenter, Mode=OneWay}" 
-												 Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"
-												 Height="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"/>
+												 Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
+												 Height="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"/>
 									  </Border>
 									  <ProgressBar Width="32" Height="8" IsIndeterminate="{Binding ThumbnailData, Mode=OneWay}"
 												  />
 								  </Grid>
 							  </HeaderedContentControl.Header>
-							  <sd:TextBox Text="{Binding Name}" Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"
+							  <sd:TextBox Text="{Binding Name}" Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
 											Margin="0,5,0,0" GetFocusOnLoad="True" SelectAllOnFocus="True"/>
 						  </HeaderedContentControl>
 					  </DataTemplate>
@@ -166,23 +194,29 @@
 
 			  <DataTemplate x:Key="AssetTileView">
 
-				  
-				  <!--<controls:EditableContentListBox ItemsSource="{Binding FilteredContent}" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-												   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" TextSearch.TextPath="Name"
-												   CanEdit="{Binding CanEditAssets, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}}"
-												   ItemTemplate="{StaticResource ItemTemplate}" EditItemTemplate="{StaticResource EditItemTemplate}">
-					  <controls:EditableContentListBox.ItemsPanel>
-						  <ItemsPanelTemplate>
-							  <sd:VirtualizingTilePanel MaximumItemSpacing="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}, Converter={sd:Multiply}, ConverterParameter=0.375}" MinimumItemSpacing="4"
-														  ItemSlotSize="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AssetViewUserControl}, Converter={sd:Chained {sd:NumericToSize}, {sd:SumSize}, Parameter1={sd:Size 1,1}, Parameter2={sd:Size 18,64}}}">
-								  --><!--<i:Interaction.Behaviors>
+				  <!--Just testing <ItemsControl ItemsSource="{Binding FilteredContent}"></ItemsControl>-->
+
+				  <controls:AEditableContentListBox ItemsSource="{Binding FilteredContent}"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+												    
+												   CanEdit="{Binding CanEditAssets, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
+											   ItemTemplate="{StaticResource ItemTemplate}"
+													EditItemTemplate="{StaticResource EditItemTemplate}">
+					  <!--<controls:AEditableContentListBox ItemsSource="{Binding FilteredContent}" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+													   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" TextSearch.TextPath="Name"
+													   CanEdit="{Binding CanEditAssets, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
+													   ItemTemplate="{StaticResource ItemTemplate}" EditItemTemplate="{StaticResource EditItemTemplate}">-->
+						  <controls:AEditableContentListBox.ItemsPanel>
+						  <!--<ItemsPanelTemplate>
+							  <sd:AVirtualizingTilePanel MaximumItemSpacing="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}, Converter={sd:AMultiply}, ConverterParameter=0.375}" MinimumItemSpacing="4"
+														  ItemSlotSize="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}, Converter={sd:AChained {sd:ANumericToSize}, {sd:ASumSize}, Parameter1={sd:ASize 1,1}, Parameter2={sd:ASize 18,64}}}">
+								 --><!--<i:Interaction.Behaviors>
 									  <sd:TilePanelNavigationBehavior/>
 								  </i:Interaction.Behaviors>--><!--
-							  </sd:VirtualizingTilePanel>
-						  </ItemsPanelTemplate>
-					  </controls:EditableContentListBox.ItemsPanel>
-					  <controls:EditableContentListBox.ItemContainerStyle>
-						  <Style TargetType="controls:EditableContentListBoxItem" BasedOn="{StaticResource {x:Type controls:EditableContentListBoxItem}}" d:DataContext="{d:DesignInstance viewModel:AssetViewModel}">
+							  </sd:AVirtualizingTilePanel>
+						  </ItemsPanelTemplate>-->
+					  </controls:AEditableContentListBox.ItemsPanel>
+					  <!--<controls:AEditableContentListBox.ItemContainerStyle>
+						  <Style TargetType="controls:AEditableContentListBoxItem" BasedOn="{StaticResource {x:Type controls:AEditableContentListBoxItem}}" d:DataContext="{d:DesignInstance viewModel:AssetViewModel}">
 							  <Setter Property="CanEdit" Value="{Binding IsLocked, Converter={sd:InvertBool}}"/>
 							  <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
 							  <Setter Property="sd:Interaction.Behaviors">
@@ -194,15 +228,15 @@
 								  </Setter.Value>
 							  </Setter>
 						  </Style>
-					  </controls:EditableContentListBox.ItemContainerStyle>
-					  <i:Interaction.Behaviors>
+					  </controls:AEditableContentListBox.ItemContainerStyle>-->
+					  <!--<i:Interaction.Behaviors>
 						  <sd:ListBoxBindableSelectedItemsBehavior SelectedItems="{Binding SelectedContent}" GiveFocusOnSelectionChange="{Binding GiveFocusOnSelectionChange, ElementName=AssetView}"/>
 						  <behaviors:ListBoxDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
 						  <behaviors:TilePanelThumbnailPrioritizationBehavior/>
 						  <behaviors:BringSelectionToViewBehavior/>
 						  <sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding DeleteContentCommand}" IsEnabled="{Binding CanDeleteAssets, ElementName=AssetView}"/>
-					  </i:Interaction.Behaviors>
-				  </controls:EditableContentListBox>-->
+					  </i:Interaction.Behaviors>-->
+				  </controls:AEditableContentListBox>
 			  </DataTemplate>
 			  <!--<CollectionViewSource x:Key="FilteredContentView" Source="{Binding FilteredAssets}" />-->
 			  <ItemsControl x:Key="FilteredContentView" ItemsSource="{Binding FilteredAssets}" />
@@ -481,7 +515,7 @@
                    />
       </StackPanel>
       <ContentPresenter x:Name="AssetViewPresenter" Content="{Binding}" ContentTemplate="{StaticResource AssetTileView}"
-                        >
+                        IsVisible="{Binding FilteredContent.Count, Converter={sd:ANumericToBool}}">
       </ContentPresenter>
       <i:Interaction.Behaviors>
         <!--<behaviors:FrameworkElementDragDropBehavior CanDrag="False" UsePreviewEvents="True" CanDrop="{Binding CanAddAssets, ElementName=AssetView}"

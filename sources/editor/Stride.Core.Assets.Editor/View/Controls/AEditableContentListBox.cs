@@ -11,12 +11,15 @@ using Avalonia;
 //using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml.Templates;
+using Stride.Core.Presentation.Controls;
 using Stride.Core.Presentation.Extensions;
 
 namespace Stride.Core.Assets.Editor.View.Controls
 {
     public class AEditableContentListBox : ListBox
     {
+        protected override Type StyleKeyOverride { get { return typeof(AEditableContentListBox); } }
+
         private ScrollViewer scrollViewer;
 
         public static readonly StyledProperty<bool> CanEditProperty = StyledProperty<bool>.Register<AEditableContentListBox,bool>("CanEdit", true);
@@ -73,15 +76,16 @@ namespace Stride.Core.Assets.Editor.View.Controls
                 scrollViewer.ScrollChanged += ScrollViewerScrollChanged;*/
         }
 
-        /*protected override bool IsItemItsOwnContainerOverride(object item)
-        {
-            return item is EditableContentListBoxItem;
-        }
+        //protected override bool IsItemItsOwnContainerOverride(object item)
+        //{
+        //    return item is AEditableContentListBoxItem;
+        //}
 
-        protected override DependencyObject GetContainerForItemOverride()
+        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
         {
-            return new EditableContentListBoxItem(ItemTemplate, ItemTemplateSelector, EditItemTemplate, EditItemTemplateSelector);
-        }*/
+      //      return new ListBoxItem();
+            return new AEditableContentListBoxItem((DataTemplate) ItemTemplate/*, ItemTemplateSelector*/, (DataTemplate) EditItemTemplate/*, EditItemTemplateSelector*/);
+        }
 
         private void ScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
@@ -135,9 +139,9 @@ namespace Stride.Core.Assets.Editor.View.Controls
         {
             IsEditingProperty.Changed.AddClassHandler<AEditableContentListBoxItem>(IsEditingPropertyChanged);
 
-            NotifyListItemClickedMethod = typeof(ListBox).GetMethod("NotifyListItemClicked", BindingFlags.Instance | BindingFlags.NonPublic);
+   /*        NotifyListItemClickedMethod = typeof(ListBox).GetMethod("NotifyListItemClicked", BindingFlags.Instance | BindingFlags.NonPublic);
             if (NotifyListItemClickedMethod == null)
-                throw new InvalidOperationException("Unable to reach the NotifyListItemClicked internal method from ListBox class.");
+                throw new InvalidOperationException("Unable to reach the NotifyListItemClicked internal method from ListBox class.");*/
         }
 
         internal AEditableContentListBoxItem(
@@ -162,25 +166,26 @@ namespace Stride.Core.Assets.Editor.View.Controls
 
             bool check;
 
-   /*         if (container.IsEditing)
-                check = ApplyTemplate(container, container.editContentTemplate, container.editContentTemplateSelector);
+            if (container.IsEditing)
+                check = ApplyTemplate(container, container.editContentTemplate/*, container.editContentTemplateSelector*/);
             else
             {
-                check = ApplyTemplate(container, container.regularContentTemplate, container.regularContentTemplateSelector);
+                check = ApplyTemplate(container, container.regularContentTemplate/*, container.regularContentTemplateSelector*/);
                 if ((bool)e.OldValue)
                 {
                     container.Focus();
                 }
             }
-            Console.WriteLine(check);*/
+            Console.WriteLine(check);
         }
 
- /*       private static bool ApplyTemplate(ContentControl container, DataTemplate dt, DataTemplateSelector dts)
+        private static bool ApplyTemplate(ContentControl container, DataTemplate dt/*, DataTemplateSelector dts*/)
         {
             container.ContentTemplate = dt;
-            container.ContentTemplateSelector = dts;
-            return container.ApplyTemplate();
-        }*/
+            //        container.ContentTemplateSelector = dts;
+            //        return container.ApplyTemplate();
+            return true;
+        }
 
  /*       protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {

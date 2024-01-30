@@ -21,7 +21,7 @@ using Stride.Shaders.Compiler;
 
 namespace Stride.Editor.Thumbnails
 { 
-    public class GameStudioThumbnailService : IThumbnailService
+    public class AGameStudioThumbnailService : IThumbnailService
     {
         private readonly object hashLock = new object();
         private readonly Dictionary<AssetItem, PriorityQueueNode<AssetBuildUnit>> thumbnailQueueHash = new Dictionary<AssetItem, PriorityQueueNode<AssetBuildUnit>>();
@@ -46,7 +46,7 @@ namespace Stride.Editor.Thumbnails
 
         private readonly GameSettingsProviderService gameSettingsProviderService;
 
-        public GameStudioThumbnailService(SessionViewModel session, GameSettingsProviderService settingsProvider, GameStudioBuilderService assetBuilderService)
+        public AGameStudioThumbnailService(SessionViewModel session, GameSettingsProviderService settingsProvider, GameStudioBuilderService assetBuilderService)
         {
             this.session = session;
             this.assetBuilderService = assetBuilderService;
@@ -231,12 +231,12 @@ namespace Stride.Editor.Thumbnails
 
         private void ThumbnailBuilt(object sender, ThumbnailBuiltEventArgs e)
         {
-            ThumbnailData thumbnailData = null;
+            AThumbnailData thumbnailData = null;
             if (e.ThumbnailStream != null)
             {
                 var stream = new MemoryStream();
                 e.ThumbnailStream.CopyTo(stream);
-                thumbnailData = new BitmapThumbnailData(e.ThumbnailId, stream);
+                thumbnailData = new ABitmapThumbnailData(e.ThumbnailId, stream);
             }
 
             if (e.Result != ThumbnailBuildResult.Cancelled)

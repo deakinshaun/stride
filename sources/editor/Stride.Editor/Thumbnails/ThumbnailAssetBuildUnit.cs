@@ -14,10 +14,10 @@ namespace Stride.Editor.Thumbnails
     {
         private static readonly Guid ThumbnailBuildUnitContextId = Guid.NewGuid();
         private readonly AssetItem asset;
-        private readonly GameStudioThumbnailService thumbnailService;
+        private readonly IThumbnailService thumbnailService;
         private readonly GameSettingsAsset gameSettings;
 
-        public ThumbnailAssetBuildUnit(AssetItem asset, GameSettingsAsset gameSettings, GameStudioThumbnailService thumbnailService, int priorityOrder)
+        public ThumbnailAssetBuildUnit(AssetItem asset, GameSettingsAsset gameSettings, IThumbnailService thumbnailService, int priorityOrder)
             : base(new AssetBuildUnitIdentifier(ThumbnailBuildUnitContextId, asset.Id))
         {
             this.asset = asset;
