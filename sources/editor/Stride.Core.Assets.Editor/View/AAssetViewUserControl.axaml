@@ -42,38 +42,12 @@
 			  </ResourceDictionary.MergedDictionaries>
 
 			  <ControlTheme x:Key="{x:Type controls:AEditableContentListBoxItem}" TargetType="{x:Type controls:AEditableContentListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}"/>
-			  <!--<ControlTheme x:Key="{x:Type controls:AEditableContentListBoxItem}" TargetType="{x:Type controls:AEditableContentListBoxItem}">
-				  <Setter Property="Template">
-					  <Setter.Value>
-						  <ControlTemplate TargetType="{x:Type controls:AEditableContentListBoxItem}">
-							  <StackPanel>
-								  <TextBox Text="hello=" />
-							  </StackPanel>
-						  </ControlTemplate>
-					  </Setter.Value>
-				  </Setter>
-			  </ControlTheme>-->
-
-
-			  <!--<ControlTheme x:Key="{x:Type controls:AEditableContentListBox}" TargetType="{x:Type controls:AEditableContentListBox}" BasedOn="{StaticResource {x:Type ListBox}}" >
-				  <Setter Property="Template">
-					  <Setter.Value>
-						  <ControlTemplate TargetType="{x:Type controls:AEditableContentListBox}">
-							  <StackPanel>
-								  <TextBox Text="hi" />
-							  </StackPanel>
-						  </ControlTemplate>
-					  </Setter.Value>
-				  </Setter>
-			  </ControlTheme>-->
-
-			  
 			  <ControlTheme x:Key="{x:Type controls:AEditableContentListBox}" TargetType="{x:Type controls:AEditableContentListBox}" BasedOn="{StaticResource {x:Type ListBox}}" />
 
 			  <!--<DataTemplate.Resources>-->
 				  
 					  <DataTemplate x:Key="ItemTemplate" DataType="{x:Type viewModel:ISessionObjectViewModel}">
-						  <HeaderedContentControl >
+						  <HeaderedContentControl Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}">
 							  <!--<HeaderedContentControl SnapsToDevicePixels="True" ToolTipService.InitialShowDelay="1">-->
 								  <!--<i:Interaction.Behaviors>
 								  <sd:OnEventCommandBehavior EventName="MouseDoubleClick" Command="{Binding AssetDoubleClick, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
@@ -84,14 +58,12 @@
 									  <Border BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="2" CornerRadius="3" Margin="0,3,0,0">
 										  <Image Source="{Binding ThumbnailData.Presenter, Mode=OneWay}" 
 												 Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
-												 Height="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"/>
+												 Height="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}" Stretch="None"/>
 									  </Border>
 									  <ProgressBar Width="32" Height="8"
 												 IsIndeterminate="{Binding ThumbnailData, Mode=OneWay, Converter={sd:AChained {sd:AObjectToBool}, {sd:AInvertBool}}}"
-												 />
-									  <!--<ProgressBar Width="32" Height="8"
-									IsIndeterminate="{Binding ThumbnailData, Mode=OneWay, Converter={sd:Chained {sd:ObjectToBool}, {sd:InvertBool}}}"
-												 />-->
+										         IsVisible="{Binding ThumbnailData, Mode=OneWay, Converter={sd:AChained {sd:AObjectToBool}, {sd:AInvertBool}}, FallbackValue=false}" />
+									 
 									  <Border BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="2" CornerRadius="3" Background="{StaticResource NormalBrush}"
 											HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,3,0,0">
 										  <Button Command="{Binding Sources.UpdateFromSourceCommand}" Margin="0">
@@ -99,23 +71,24 @@
 										  </Button>
 									  </Border>
 									  <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3" Command="{Binding Dependencies.ToggleIsRootOnSelectedAssetCommand, FallbackValue={x:Null}}">
-										  <!--<Button.Style>
-											  <Style TargetType="Button">
+										  <!--<Button.Resources>-->
+										  <!--<ControlTheme TargetType="{x:Type Button}">
 												  <Setter Property="Template">
 													  <Setter.Value>
-														  <ControlTemplate TargetType="Button">
-															  <ContentPresenter ContentSource="Content"/>
+														  <ControlTemplate x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+															  <ContentPresenter Content="{Binding Content}"/>
 														  </ControlTemplate>
 													  </Setter.Value>
 												  </Setter>
-											  </Style>
-										  </Button.Style>-->
+											  </ControlTheme>-->
+										  <!--</Button.Resources>-->
 										  <Grid Background="Transparent">
-											  <Image Source="{StaticResource ImageAssetIsRoot}" Width="12" Height="12" Margin ="5" />
-											  <Image Source="{StaticResource ImageAssetIsIndirectlyIncluded}" Width="12" Height="12" Margin ="5" />
-											  <Image Source="{StaticResource ImageAssetIsExcluded}" Width="12" Height="12" Margin ="5" />
+											  <Image Source="{StaticResource ImageAssetIsRoot}" Width="12" Height="12" Margin ="5" IsVisible="{Binding Dependencies.IsRoot, FallbackValue=false}"/>
+											  <Image Source="{StaticResource ImageAssetIsIndirectlyIncluded}" Width="12" Height="12" Margin ="5" IsVisible="{Binding Dependencies.IsIndirectlyIncluded, FallbackValue=false}"/>
+											  <Image Source="{StaticResource ImageAssetIsExcluded}" Width="12" Height="12" Margin ="5" IsVisible="{Binding Dependencies.IsExcluded, FallbackValue=false}"/>
 										  </Grid>
-									  </Button>
+									  
+								  </Button>
 								  </Grid>
 							  </HeaderedContentControl.Header>
 							  <StackPanel Background="Transparent" Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}" Height="48">
@@ -124,52 +97,54 @@
 												 VerticalAlignment="Bottom" TextAlignment="Center" TextTrimming="CharacterEllipsis"/>
 									  <TextBlock Text="{Binding Name, Converter={cvt:ANameBreakingLine}}" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxHeight="32"/>
 
-									  <TextBlock Text="{Binding ThumbnailData.Presenter, Mode=OneWay}" />
 
 								  </DockPanel>
 								  <TextBlock Text="{Binding TypeDisplayName}" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="10" Opacity="0.5" />
 							  </StackPanel>
-							  <!--<ToolTipService.ToolTip>
+							  <ToolTip.Tip>
 								  <ContentControl Content="{Binding}">
-									  <Control.Resources>
-										  --><!-- default template (fallback) --><!--
-										  <DataTemplate DataType="{x:Type viewModel:SessionObjectViewModel}">
-											  <StackPanel>
-												  <TextBlock Text="{Binding Name, StringFormat={sd:Localize Name: {0}}}" FontWeight="Bold"/>
-												  <TextBlock Text="{Binding TypeDisplayName, StringFormat={sd:Localize Type: {0}}}"/>
-											  </StackPanel>
-										  </DataTemplate>
-										  --><!-- asset --><!--
-										  <DataTemplate DataType="{x:Type viewModel:AssetViewModel}">
+									  <ContentControl.DataTemplates>
+										  <!-- asset -->
+										  <DataTemplate DataType="viewModel:AssetViewModel">
 											  <StackPanel>
 												  <TextBlock Text="{Binding Url, StringFormat={sd:Localize URL: {0}}}" FontWeight="Bold"/>
 												  <TextBlock Text="{Binding TypeDisplayName, StringFormat={sd:Localize Type: {0}}}"/>
-												  <TextBlock Text="{Binding Tags, Converter={sd:JoinStrings}, StringFormat={sd:Localize Tags: {0}}}"  Visibility="{Binding Tags, Converter={sd:Chained {sd:CountEnumerable}, {sd:NumericToBool}, {sd:VisibleOrCollapsed}}, FallbackValue={sd:Collapsed}}"/>
-												  <StackPanel Orientation="Horizontal" Visibility="{Binding Dependencies.IsRoot, Converter={sd:VisibleOrCollapsed}, FallbackValue={sd:Collapsed}}">
+												  <TextBlock Text="{Binding Tags, Converter={sd:AJoinStrings}, StringFormat={sd:Localize Tags: {0}}}"  IsVisible="{Binding Tags, Converter={sd:AChained {sd:ACountEnumerable}, {sd:ANumericToBool}}, FallbackValue=false}"/>
+												  <StackPanel Orientation="Horizontal" IsVisible="{Binding Dependencies.IsRoot, FallbackValue=false}">
 													  <Image Source="{StaticResource ImageAssetIsRoot}" Width="16" Height="16" Margin="0,2,0,0"/>
 													  <TextBlock Text="{sd:Localize Included in build as root}"/>
 												  </StackPanel>
-												  <StackPanel Orientation="Horizontal" Visibility="{Binding Dependencies.IsIndirectlyIncluded, Converter={sd:VisibleOrCollapsed}, FallbackValue={sd:Collapsed}}">
+												  <StackPanel Orientation="Horizontal" IsVisible="{Binding Dependencies.IsIndirectlyIncluded, FallbackValue=false}">
 													  <Image Source="{StaticResource ImageAssetIsIndirectlyIncluded}" Width="16" Height="16" Margin="0,2,0,0"/>
 													  <TextBlock Text="{sd:Localize Included in build as dependency}"/>
 												  </StackPanel>
-												  <StackPanel Orientation="Horizontal" Visibility="{Binding Dependencies.IsExcluded, Converter={sd:VisibleOrCollapsed}, FallbackValue={sd:Collapsed}}">
+												  <StackPanel Orientation="Horizontal" IsVisible="{Binding Dependencies.IsExcluded, FallbackValue=false}">
 													  <Image Source="{StaticResource ImageAssetIsExcluded}" Width="16" Height="16" Margin="0,2,0,0"/>
 													  <TextBlock Text="{sd:Localize Excluded from build}"/>
 												  </StackPanel>
 											  </StackPanel>
 										  </DataTemplate>
-										  --><!-- folder --><!--
-										  <DataTemplate DataType="{x:Type viewModel:DirectoryViewModel}">
+										  <!-- folder -->
+										  <DataTemplate DataType="viewModel:DirectoryViewModel">
 											  <StackPanel>
 												  <TextBlock Text="{Binding Path, StringFormat={sd:Localize URL: {0}}}" FontWeight="Bold"/>
 												  <TextBlock Text="{Binding TypeDisplayName, StringFormat={sd:Localize Type: {0}}}"/>
+												  <TextBlock Text="Directory"/>
 											  </StackPanel>
 										  </DataTemplate>
-									  </Control.Resources>
+										  <!-- default template (fallthrough) -->
+										  <DataTemplate DataType="viewModel:SessionObjectViewModel">
+											  <StackPanel>
+												  <TextBlock Text="{Binding Name, StringFormat={sd:Localize Name: {0}}}" FontWeight="Bold"/>
+												  <TextBlock Text="{Binding TypeDisplayName, StringFormat={sd:Localize Type: {0}}}"/>
+												  <TextBlock Text="{Binding Content}"/>
+											  </StackPanel>
+										  </DataTemplate>
+									  </ContentControl.DataTemplates>
 								  </ContentControl>
 
-							  </ToolTipService.ToolTip>-->
+							  
+							  </ToolTip.Tip>
 						  </HeaderedContentControl>
 					  </DataTemplate>
 
@@ -206,29 +181,29 @@
 													   CanEdit="{Binding CanEditAssets, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
 													   ItemTemplate="{StaticResource ItemTemplate}" EditItemTemplate="{StaticResource EditItemTemplate}">-->
 						  <controls:AEditableContentListBox.ItemsPanel>
-						  <!--<ItemsPanelTemplate>
+						  <ItemsPanelTemplate>
 							  <sd:AVirtualizingTilePanel MaximumItemSpacing="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}, Converter={sd:AMultiply}, ConverterParameter=0.375}" MinimumItemSpacing="4"
 														  ItemSlotSize="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}, Converter={sd:AChained {sd:ANumericToSize}, {sd:ASumSize}, Parameter1={sd:ASize 1,1}, Parameter2={sd:ASize 18,64}}}">
-								 --><!--<i:Interaction.Behaviors>
+								 <!--<i:Interaction.Behaviors>
 									  <sd:TilePanelNavigationBehavior/>
-								  </i:Interaction.Behaviors>--><!--
+								  </i:Interaction.Behaviors>-->
 							  </sd:AVirtualizingTilePanel>
-						  </ItemsPanelTemplate>-->
+						  </ItemsPanelTemplate>
 					  </controls:AEditableContentListBox.ItemsPanel>
-					  <!--<controls:AEditableContentListBox.ItemContainerStyle>
-						  <Style TargetType="controls:AEditableContentListBoxItem" BasedOn="{StaticResource {x:Type controls:AEditableContentListBoxItem}}" d:DataContext="{d:DesignInstance viewModel:AssetViewModel}">
-							  <Setter Property="CanEdit" Value="{Binding IsLocked, Converter={sd:InvertBool}}"/>
+					  <controls:AEditableContentListBox.ItemContainerTheme>
+						  <ControlTheme TargetType="{x:Type controls:AEditableContentListBoxItem}" BasedOn="{StaticResource {x:Type controls:AEditableContentListBoxItem}}" d:DataContext="{d:DesignInstance viewModel:AssetViewModel}">
+							  <Setter Property="CanEdit" Value="{Binding IsLocked, Converter={sd:AInvertBool}}"/>
 							  <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
-							  <Setter Property="sd:Interaction.Behaviors">
+							  <!--<Setter Property="sd:Interaction.Behaviors">
 								  <Setter.Value>
 									  <sd:BehaviorCollection>
-										  <sd:OnEventSetPropertyBehavior EventName="Validated" EventOwnerType="sd:TextBox" Property="controls:EditableContentListBoxItem.IsEditing" Value="False"/>
-										  <sd:OnEventSetPropertyBehavior EventName="Cancelled" EventOwnerType="sd:TextBox" Property="controls:EditableContentListBoxItem.IsEditing" Value="False"/>
+										  <sd:OnEventSetPropertyBehavior EventName="Validated" EventOwnerType="sd:ATextBox" Property="controls:AEditableContentListBoxItem.IsEditing" Value="False"/>
+										  <sd:OnEventSetPropertyBehavior EventName="Cancelled" EventOwnerType="sd:ATextBox" Property="controls:AEditableContentListBoxItem.IsEditing" Value="False"/>
 									  </sd:BehaviorCollection>
 								  </Setter.Value>
-							  </Setter>
-						  </Style>
-					  </controls:AEditableContentListBox.ItemContainerStyle>-->
+							  </Setter>-->
+						  </ControlTheme>
+					  </controls:AEditableContentListBox.ItemContainerTheme>
 					  <!--<i:Interaction.Behaviors>
 						  <sd:ListBoxBindableSelectedItemsBehavior SelectedItems="{Binding SelectedContent}" GiveFocusOnSelectionChange="{Binding GiveFocusOnSelectionChange, ElementName=AssetView}"/>
 						  <behaviors:ListBoxDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
