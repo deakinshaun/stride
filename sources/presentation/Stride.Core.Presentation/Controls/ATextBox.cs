@@ -12,6 +12,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Stride.Core.Presentation.Internal;
 using Stride.Core.Presentation.Behaviors;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Presenters;
 
 namespace Stride.Core.Presentation.Controls
 {
@@ -19,12 +21,12 @@ namespace Stride.Core.Presentation.Controls
     /// An implementation of the <see cref="TextBoxBase"/> control that provides additional features such as a proper
     /// validation/cancellation workflow, and a watermark to display when the text is empty.
     /// </summary>
-    [TemplatePart(Name = "PART_TrimmedText", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_TextPresenter", Type = typeof(TextPresenter))]
     public class ATextBox : ATextBoxBase
     {
-        protected override Type StyleKeyOverride { get { return typeof(Avalonia.Controls.TextBox); } }
+        protected override Type StyleKeyOverride { get { return typeof(ATextBox); } }
 
-        private TextBlock trimmedTextBlock;
+        private TextPresenter trimmedTextBlock;
         private readonly Timer validationTimer;
 
         /// <summary>
@@ -87,14 +89,14 @@ namespace Stride.Core.Presentation.Controls
         //public string TrimmedText { get { return (string)GetValue(TrimmedTextPropertyKey.DependencyProperty); } private set { SetValue(TrimmedTextPropertyKey, value); } }
 
         /// <inheritdoc/>
-        /*public override void OnApplyTemplate()
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnApplyTemplate();
+            base.OnApplyTemplate(e);
 
-            trimmedTextBlock = GetTemplateChild("PART_TrimmedText") as TextBlock;
+            trimmedTextBlock = e.NameScope.Find<TextPresenter>("PART_TextPresenter");
             if (trimmedTextBlock == null)
-                throw new InvalidOperationException("A part named 'PART_TrimmedText' must be present in the ControlTemplate, and must be of type 'TextBlock'.");
-        }*/
+                throw new InvalidOperationException("A part named 'PART_TextPresenter' must be present in the ControlTemplate, and must be of type 'TextBlock'.");
+        }
 
         /// <summary>
         /// Raised when the text of the TextBox changes.
@@ -115,12 +117,11 @@ namespace Stride.Core.Presentation.Controls
                 }
             }
 
-            /*
-            var availableWidth = ActualWidth;
+            var availableWidth = Bounds.Width;
             if (trimmedTextBlock != null)
                 availableWidth -= trimmedTextBlock.Margin.Left + trimmedTextBlock.Margin.Right;
 
-            TrimmedText = Trimming.ProcessTrimming(this, Text, availableWidth);*/
+            TrimmedText = ATrimming.ProcessTrimming(this.trimmedTextBlock, Text, availableWidth);
         }
 
         protected override Size ArrangeOverride(Size arrangeBounds)
@@ -130,8 +131,8 @@ namespace Stride.Core.Presentation.Controls
             if (trimmedTextBlock != null)
                 availableWidth -= trimmedTextBlock.Margin.Left + trimmedTextBlock.Margin.Right;
 
-            //TrimmedText = Trimming.ProcessTrimming(this, Text, availableWidth);
-            TrimmedText = Text;
+            TrimmedText = ATrimming.ProcessTrimming(this.trimmedTextBlock, Text, availableWidth);
+            
             return arrangedSize;
         }
 

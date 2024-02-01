@@ -58,11 +58,11 @@
     </Setter>
   </ControlTheme>
 
-	<ControlTheme x:Key="PropertyView" TargetType="ctrl:PropertyView">
+	<ControlTheme x:Key="{x:Type ctrl:APropertyView}" TargetType="{x:Type ctrl:APropertyView}">
     <!-- TODO: Replace DynamicResource by StaticResource once it is stylized in the correct theme -->
     <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
     <Setter Property="BorderBrush" Value="{DynamicResource NormalBrush}" />
-    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <!--<Setter Property="HorizontalContentAlignment" Value="Stretch" />-->
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
@@ -73,7 +73,7 @@
     </Setter>
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="ctrl:PropertyView">
+        <ControlTemplate TargetType="{x:Type ctrl:APropertyView}">
           <Border BorderThickness="{TemplateBinding Border.BorderThickness}"
                   BorderBrush="{TemplateBinding Border.BorderBrush}" Name="Bd">
             <ScrollViewer x:Name="_pv_scrollviewer_" 
@@ -95,25 +95,25 @@
     </Setter>
   </ControlTheme>
 
-  <ControlTheme x:Key="PropertyViewItem" TargetType="ctrl:PropertyViewItem">
+  <ControlTheme x:Key="{x:Type ctrl:APropertyViewItem}" TargetType="{x:Type ctrl:APropertyViewItem}">
     <Setter Property="Increment" Value="15" />
-    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    <!--<Setter Property="Template">
+    <!--<Setter Property="HorizontalContentAlignment" Value="Stretch" />-->
+    <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="ctrl:PropertyViewItem">
+        <ControlTemplate TargetType="{x:Type ctrl:APropertyViewItem}">
           <Border BorderThickness="{TemplateBinding Border.BorderThickness}"
-                  BorderBrush="{TemplateBinding Border.BorderBrush}" Name="Bd" SnapsToDevicePixels="True">
+                  BorderBrush="{TemplateBinding Border.BorderBrush}" Name="Bd">
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
               </Grid.ColumnDefinitions>
               <ToggleButton IsChecked="False" ClickMode="Press" Name="Expander">
-                <ToggleButton.Style>
-                  <Style TargetType="ToggleButton">
-                    <Style.Resources>
+                <ToggleButton.Theme>
+                  <ControlTheme TargetType="ToggleButton">
+                    <ControlTheme.Resources>
                       <ResourceDictionary />
-                    </Style.Resources>
+                    </ControlTheme.Resources>
                     <Setter Property="Focusable" Value="False" />
                     <Setter Property="Width" Value="16" />
                     <Setter Property="Height" Value="16" />
@@ -130,7 +130,7 @@
                               </Path.RenderTransform>
                             </Path>
                           </Border>
-                          <ControlTemplate.Triggers>
+                          <!--<ControlTemplate.Triggers>
                             <Trigger Property="UIElement.IsMouseOver" Value="True">
                               <Setter TargetName="ExpandPath" Property="Shape.Stroke" Value="#FF1BBBFA" />
                               <Setter TargetName="ExpandPath" Property="Shape.Fill" Value="#00FFFFFF" />
@@ -144,12 +144,12 @@
                               <Setter TargetName="ExpandPath" Property="Shape.Fill" Value="#FF595959" />
                               <Setter TargetName="ExpandPath" Property="Shape.Stroke" Value="#FF262626" />
                             </Trigger>
-                          </ControlTemplate.Triggers>
+                          </ControlTemplate.Triggers>-->
                         </ControlTemplate>
                       </Setter.Value>
                     </Setter>
-                  </Style>
-                </ToggleButton.Style>
+                  </ControlTheme>
+                </ToggleButton.Theme>
               </ToggleButton>
               <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -158,12 +158,12 @@
                 </Grid.RowDefinitions>
                 <ContentPresenter Content="{TemplateBinding HeaderedContentControl.Header}"
                                   ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
-                                  ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}"
-                                  ContentSource="Header" Name="PART_Header"
-                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                                  
+                                  Name="PART_Header"
+                                  
+                                   />
                 <Expander x:Name="propertyExpander" Grid.Row="1" IsExpanded="{TemplateBinding IsExpanded}"
-                          Style="{StaticResource PropertyExpanderStyle}" IsEnabled="True">
+                          Theme="{StaticResource PropertyExpanderStyle}" IsEnabled="True">
                   <ItemsPresenter Name="ItemsHost" Grid.Row="1" />
                 </Expander>
               </Grid>
@@ -171,7 +171,7 @@
           </Border>
         </ControlTemplate>
       </Setter.Value>
-    </Setter>-->
+    </Setter>
   </ControlTheme>
 
   <ControlTheme x:Key="DefaultTextBoxStyle" TargetType="ctrl:TextBox" BasedOn="{StaticResource {x:Type TextBox}}">

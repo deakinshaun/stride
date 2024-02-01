@@ -889,7 +889,7 @@
 										</Grid.RowDefinitions>
 										<DockPanel Margin="6,6,6,2">
 											<!-- Adding tag -->
-											<sd:ATextBox MinWidth="90" ValidateOnLostFocus="False" WatermarkContent="{sd:Localize Add new tag}" x:Name="NewTagTextBox"  >
+											<sd:ATextBox MinWidth="90" DockPanel.Dock="Right" ValidateOnLostFocus="False" WatermarkContent="{sd:Localize Add new tag}" x:Name="NewTagTextBox"  IsVisible="{Binding Session.ActiveAssetView.SelectedAssets.Count, Converter={sd:ANumericToBool}}" >
 												<!--<i:Interaction.Behaviors>
 												<sd:OnEventCommandBehavior EventName="Validated" Command="{Binding Session.AssetTags.AddTagCommand}" CommandParameter="{Binding Text, ElementName=NewTagTextBox}"/>
 												<sd:OnEventCommandBehavior EventName="Validated" Command="{x:Static sd:TextBox.ClearTextCommand}"/>
@@ -912,71 +912,88 @@
 										</DockPanel>
 										<!--  TAGS  -->
 										<!--<ToolBar Grid.Row="1" Margin="6,2" ItemsSource="{Binding Session.AssetTags.Tags}" HorizontalAlignment="Stretch" Visibility="{Binding Session.AssetTags.Tags.Count, Converter={sd:Chained {sd:NumericToBool}, {sd:VisibleOrCollapsed}}}"
-											 Style="{StaticResource TagToolBarStyle}">
-										<ToolBar.ItemTemplate>
-											<DataTemplate>
-												<sd:TagControl Height="20" Margin="2" ToolTip="{Binding Name}" Visibility="{Binding Assets.Count, Converter={sd:Chained {sd:NumericToBool}, {sd:VisibleOrCollapsed}}}"
-															 VerticalAlignment="Center" CloseTagCommand="{Binding RemoveTagCommand}">
-													<StackPanel Orientation="Horizontal">
-														<TextBlock Margin="2,0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" MaxWidth="100" VerticalAlignment="Center" />
-														<TextBlock Text="{Binding Counter}" Cursor="Hand" IsEnabled="{Binding Counter, Converter={sd:Chained {sd:StringEquals}, {sd:InvertBool}, Parameter1={} (all)}}"
-																   ToolTip="{sd:Localize Add tag to all, Context=ToolTip}">
-															<i:Interaction.Behaviors>
-																<sd:OnEventCommandBehavior EventName="MouseDown" Command="{Binding AddTagToAllCommand}"/>
-															</i:Interaction.Behaviors>
-														</TextBlock>
-													</StackPanel>
-												</sd:TagControl>
-											</DataTemplate>
-										</ToolBar.ItemTemplate>
-									</ToolBar>-->
+											 Style="{StaticResource TagToolBarStyle}">-->
+										<ItemsControl Grid.Row="1" Margin="6,2" ItemsSource="{Binding Session.AssetTags.Tags}" HorizontalAlignment="Stretch" IsVisible="{Binding Session.AssetTags.Tags.Count, Converter={sd:ANumericToBool}}"
+											 Theme="{StaticResource TagToolBarStyle}">
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<!--<sd:ATagControl Height="20" Margin="2" ToolTip="{Binding Name}" IsVisible="{Binding Assets.Count, Converter={sd:ANumericToBool}}"
+																 VerticalAlignment="Center" CloseTagCommand="{Binding RemoveTagCommand}">-->
+														<StackPanel Orientation="Horizontal">
+															<TextBlock Margin="2,0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" MaxWidth="100" VerticalAlignment="Center" />
+															<TextBlock Text="{Binding Counter}" Cursor="Hand" IsEnabled="{Binding Counter, Converter={sd:AChained {sd:AStringEquals}, {sd:AInvertBool}, Parameter1={} (all)}}"
+																	   ToolTip.Tip="{sd:Localize Add tag to all, Context=ToolTip}">
+																<!--<i:Interaction.Behaviors>
+																	<sd:AOnEventCommandBehavior EventName="MouseDown" Command="{Binding AddTagToAllCommand}"/>
+																</i:Interaction.Behaviors>-->
+															</TextBlock>
+														</StackPanel>
+													<!--</sd:ATagControl>-->
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+										</ItemsControl>
+											<!--</ToolBar>-->
 
 										<DockPanel Grid.Row="3" Margin="6,2">
-											<Button Command="{Binding Session.EditSelectedContentCommand}" DockPanel.Dock="Top" HorizontalContentAlignment="Center" Margin="0,0,0,8"
-												>
-												<Grid>
-													<DockPanel >
-														<Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Margin="4" DockPanel.Dock="Left" Width="16" Height="16"/>
 
+											<Button Command="{Binding Session.EditSelectedContentCommand}" DockPanel.Dock="Top" HorizontalContentAlignment="Center" Margin="0,0,0,8"
+													 IsVisible="{Binding Session.EditSelectedContentCommand.IsEnabled, FallbackValue=false}">
+												<Grid>
+													<DockPanel IsVisible="{Binding Session.ActiveProperties.CanDisplayProperties}">
+														<Image Source="{Binding Source={StaticResource ImageEditAsset}, Path=Source}" Margin="4" DockPanel.Dock="Left" Width="16" Height="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
 														<TextBlock Text="{sd:Localize Open this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center" />
 													</DockPanel>
 													<TextBlock Text="{sd:Localize Show this asset in editor}" Margin="0,4,4,4" VerticalAlignment="Center"
-														    />
+															   IsVisible="{Binding Session.ActiveProperties.CanDisplayProperties, Converter={sd:AInvertBool}}" />
 												</Grid>
 											</Button>
-											<DockPanel >
+											<DockPanel IsVisible="{Binding Session.ActiveProperties.CanDisplayProperties}">
 												<!-- TODO: Disabling this button for now, it is relatively terrible in term of UX -->
 												<ToggleButton Margin="4,0" Height="22" Width="22" Content="{sd:AImage {StaticResource ImageAssetOverride}, 16, 16}"
 															  IsChecked="{Binding Session.ActiveProperties.ShowOverridesOnly}" ToolTip.Tip="{sd:Localize Display only overridden properties, Context=ToolTip}"
-														  />
-												<!--<AdornerDecorator>
-												<sd:TextBox UseTimedValidation="True" x:Name="PropertyFilterTextBox" WatermarkContent="{sd:Localize Search properties}">
-													<i:Interaction.Behaviors>
-														<sd:ContainTextAdornerBehavior />
-													</i:Interaction.Behaviors>
-												</sd:TextBox>
-											</AdornerDecorator>-->
+															  IsVisible="false"/>
+												<AdornerLayer>
+													<sd:ATextBox UseTimedValidation="True" x:Name="PropertyFilterTextBox" WatermarkContent="{sd:Localize Search properties}">
+														<!--<i:Interaction.Behaviors>
+															<sd:AContainTextAdornerBehavior />
+														</i:Interaction.Behaviors>-->
+													</sd:ATextBox>
+												</AdornerLayer>
 											</DockPanel>
 										</DockPanel>
 
 										<TextBlock Grid.Row="4" Text="{Binding Session.ActiveProperties.FallbackMessage}" HorizontalAlignment="Center" VerticalAlignment="Center"
 										   />
-										<!--<sd:PropertyView x:Name="AssetPropertyView" Grid.Row="4"
-													   ItemsSource="{Binding Session.ActiveProperties.ViewModel.RootNode.Children}"
-													   Visibility="{Binding Session.ActiveProperties.CanDisplayProperties, Converter={sd:VisibleOrCollapsed}}">
-										<sd:PropertyView.Resources>
-											-->
+										<sd:APropertyView x:Name="AssetPropertyView" Grid.Row="4"
+													   ItemsSource="{Binding Session.ActiveProperties.ViewModel.RootNode.Children, Source={x:Static vm:GameStudioViewModel.GameStudio}}"
+													   IsVisible="{Binding Session.ActiveProperties.CanDisplayProperties}">
+											
+										<sd:APropertyView.Resources>
+											
 										<!--<RoutedUICommand x:Key="ReplaceCommand" Text="Replace">
 												<RoutedUICommand.InputGestures>
 													<KeyGesture>Ctrl+Shift+V</KeyGesture>
 												</RoutedUICommand.InputGestures>
 											</RoutedUICommand>-->
-										<!--
-										</sd:PropertyView.Resources>
-										<sd:PropertyView.ItemContainerStyle>
-											<Style BasedOn="{StaticResource {x:Type sd:PropertyViewItem}}" TargetType="sd:PropertyViewItem">
-												<Setter Property="Background" Value="Transparent"/>
-												<Setter Property="ContextMenu">
+										
+										</sd:APropertyView.Resources>
+											
+											
+											
+											<!--<sd:APropertyView.ItemTemplate>
+												<DataTemplate>
+												<TextBox Text="Hello"></TextBox>
+												</DataTemplate>
+												</sd:APropertyView.ItemTemplate>-->
+											
+											
+											
+											
+													<sd:APropertyView.ItemContainerTheme>
+											<ControlTheme TargetType="{x:Type sd:APropertyViewItem}" BasedOn="{StaticResource {x:Type sd:APropertyViewItem}}">
+												<!--<ControlTheme TargetType="{x:Type sd:APropertyViewItem}" BasedOn="{StaticResource {x:Type sd:APropertyViewItem}}">-->
+													<Setter Property="Background" Value="Transparent"/>
+												<!--<Setter Property="ContextMenu">
 													<Setter.Value>
 														<ContextMenu Visibility="{Binding HasItems, RelativeSource={RelativeSource Self}, Converter={sd:VisibleOrHidden}, FallbackValue={sd:Hidden}}">
 															<MenuItem Header="{sd:Localize Reset to base value, Context=Menu}" Command="{Binding ResetOverride, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"
@@ -991,48 +1008,35 @@
 																	  Command="{StaticResource ReplaceCommand}" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type MenuBase}}}"/>
 														</ContextMenu>
 													</Setter.Value>
-												</Setter>
-												<Setter Property="HeaderTemplate">
+												</Setter>-->
+												<!--<Setter Property="HeaderTemplate">
 													<Setter.Value>
 														-->
 										<!--<HierarchicalDataTemplate ItemsSource="{Binding Children, Mode=OneWay}" DataType="viewModels:NodeViewModel">
 															<ContentPresenter Content="{Binding}" ContentTemplateSelector="{x:Static sd:PropertyViewHelper.HeaderProviders}"/>
-														</HierarchicalDataTemplate>-->
-										<!--
+														</HierarchicalDataTemplate>--><!--
+										
 													</Setter.Value>
-												</Setter>
+												</Setter>-->
 												<Setter Property="Template">
 													<Setter.Value>
-														<ControlTemplate TargetType="sd:PropertyViewItem">
-															<Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" SnapsToDevicePixels="True"
-																	Visibility="{Binding IsVisible, Converter={sd:VisibleOrCollapsed}}" d:DataContext="{d:DesignInstance viewModels:NodeViewModel}">
+														<ControlTemplate TargetType="{x:Type sd:APropertyViewItem}">
+															<Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" 
+																	IsVisible="{Binding IsVisible}" d:DataContext="{d:DesignInstance viewModels:NodeViewModel}">
 																<DockPanel>
 																	<Border DockPanel.Dock="Top" Background="{TemplateBinding Background}">
-																		<ContentPresenter ContentSource="Header" Name="PART_Header"
+																		<ContentPresenter Name="PART_Header"
 																						  Content="{TemplateBinding HeaderedContentControl.Header}"
 																						  ContentTemplate="{TemplateBinding HeaderTemplate}"
-																						  ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-																						  ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}"
-																						  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-																						  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
-																						  Visibility="{sd:MultiBinding {Binding DataContext.Session.ActiveProperties.ShowOverridesOnly, Converter={sd:InvertBool}, RelativeSource={RelativeSource AncestorType=sd:PropertyView}},
-                                                                                       {Binding IsOverridden},
-                                                                                       {Binding HasBase, Converter={sd:InvertBool}},
-                                                                                       Converter={sd:MultiChained {sd:OrMultiConverter}, {sd:VisibleOrCollapsed}}}"/>
+																						  IsVisible="true"/>
 																	</Border>
-																	<Expander x:Name="propertyExpander" IsExpanded="{TemplateBinding IsExpanded}" Style="{StaticResource PropertyExpanderStyle}" IsEnabled="True">
+																	<Expander x:Name="propertyExpander" IsExpanded="{TemplateBinding IsExpanded}" Theme="{StaticResource PropertyExpanderStyle}" IsEnabled="True">
 																		<StackPanel>
 																			<ItemsPresenter Name="ItemsHost"/>
 																			<Border Background="{TemplateBinding Background}">
 																				<ContentPresenter Name="PART_Footer"
 																								  Content="{TemplateBinding HeaderedContentControl.Header}"
-																								  ContentTemplateSelector="{x:Static sd:PropertyViewHelper.FooterProviders}"
-																								  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-																								  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
-																								  Visibility="{sd:MultiBinding {Binding DataContext.Session.ActiveProperties.ShowOverridesOnly, Converter={sd:InvertBool}, RelativeSource={RelativeSource AncestorType=sd:PropertyView}},
-                                                                                           {Binding IsOverridden},
-                                                                                           {Binding HasBase, Converter={sd:InvertBool}},
-                                                                                           Converter={sd:MultiChained {sd:OrMultiConverter}, {sd:VisibleOrCollapsed}}}"/>
+																								  IsVisible="true"/>
 																			</Border>
 																		</StackPanel>
 																	</Expander>
@@ -1041,7 +1045,7 @@
 														</ControlTemplate>
 													</Setter.Value>
 												</Setter>
-												<Setter Property="sd:Interaction.Behaviors">
+												<!--<Setter Property="sd:Interaction.Behaviors">
 													<Setter.Value>
 														<sd:BehaviorCollection>
 															<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" ContinueRouting="False" Command="{Binding CopyProperty, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
@@ -1051,8 +1055,8 @@
 															<sd:PropertyViewItemDragDropBehavior CanDrop="False" CanDrag="False" CanInsert="True"/>
 														</sd:BehaviorCollection>
 													</Setter.Value>
-												</Setter>
-												-->
+												</Setter>-->
+											
 										<!--<Style.Triggers>
 													<DataTrigger Binding="{Binding Documentation, FallbackValue={x:Null}}" Value="{x:Null}">
 														<Setter Property="Highlightable" Value="False"/>
@@ -1073,15 +1077,15 @@
 														<Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
 														<Setter Property="ToolTipService.IsEnabled" Value="{Binding Text, RelativeSource={RelativeSource Self}, Converter={sd:Chained {sd:EmptyStringToBool}, {sd:InvertBool}, Parameter1={sd:True}}}" />
 													</Style>
-												</Style.Resources>
-											</Style>
-										</sd:PropertyView.ItemContainerStyle>
-										<i:Interaction.Behaviors>
+												</Style.Resources>-->
+											</ControlTheme>
+										</sd:APropertyView.ItemContainerTheme>
+										<!--<i:Interaction.Behaviors>
 											<sd:PropertyViewDragDropBehavior Target="{Binding Session.ActiveProperties.ViewModel}" CanDrag="False" CanDrop="True" CanInsert="False" />
 											<sd:PropertyViewFilteringBehavior FilterToken="{Binding Text, ElementName=PropertyFilterTextBox, Mode=OneWay}"/>
 											<sd:PropertyViewAutoExpandNodesBehavior ViewModel="{Binding Session.ActiveProperties.ViewModel, Mode=OneWay}"/>
-										</i:Interaction.Behaviors>
-									</sd:PropertyView>-->
+										</i:Interaction.Behaviors>-->
+									</sd:APropertyView>
 
 										<GridSplitter Grid.Row="5" HorizontalAlignment="Stretch" Height="5" ResizeBehavior="PreviousAndNext"/>
 
