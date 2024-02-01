@@ -627,16 +627,16 @@
 
 												</ContextMenu>
 											</sd:ATreeView.Resources>
-											<!--<i:Interaction.Behaviors>
-												<sd:DragOverAutoScrollBehavior/>
+											<i:Interaction.Behaviors>
+												<!--<sd:DragOverAutoScrollBehavior/>
 												<sd:ATreeViewAutoExpandBehavior/>
-												<sd:ATreeViewDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
-												<sd:ATreeViewBindableSelectedItemsBehavior SelectedItems="{Binding Session.ActiveAssetView.SelectedLocations}"/>
-												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
+												<sd:ATreeViewDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>-->
+												<sd:ATreeViewBindableSelectedItemsBehavior SelectedItems="{Binding Session.ActiveAssetView.SelectedLocations, Source={x:Static vm:GameStudioViewModel.GameStudio}}"/>
+												<!--<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Cut" Command="{Binding Session.ActiveAssetView.CutLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Copy" Command="{Binding Session.ActiveAssetView.CopyLocationsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
 												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Paste" Command="{Binding Session.ActiveAssetView.PasteCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
-												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.DeleteSelectedSolutionItemsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>
-											</i:Interaction.Behaviors>-->
+												<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding Session.DeleteSelectedSolutionItemsCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}, Mode=OneWay}"/>-->
+											</i:Interaction.Behaviors>
 													<sd:ATreeView.ItemContainerTheme>
 														<ControlTheme TargetType="{x:Type sd:ATreeViewItem}" BasedOn="{StaticResource {x:Type sd:ATreeViewItem}}">
 															<!--<Setter Property="IsExpanded" Value="{Binding Mode=OneTime, Converter={sd:AAssetToExpandedAtInitialization}}"/>-->
@@ -705,7 +705,7 @@
 										</i:Interaction.Behaviors>
 											</sd:AAssetViewUserControl>
 											<i:Interaction.Behaviors>
-										<gl:ALayoutAnchorableActivateOnLocationChangedBehavior Collection="{Binding Session.ActiveAssetView.SelectedLocations}" />
+										<gl:ALayoutAnchorableActivateOnLocationChangedBehavior Collection="{Binding Session.ActiveAssetView.SelectedLocations, Source={x:Static vm:GameStudioViewModel.GameStudio}}" />
 									</i:Interaction.Behaviors>
 
 

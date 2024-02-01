@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Windows.Documents;
+//using System.Windows.Documents;
 using Stride.Core.Annotations;
 
 namespace Stride.Core.Presentation.Collections
@@ -88,7 +88,15 @@ namespace Stride.Core.Presentation.Collections
         public ObservableList ([NotNull] IObservableList<T> list = null)
             : base(new FakeList<T>())
         {
-            this.list = new List<T>();
+            if (list != null)
+            {
+                this.list = new List<T>(list);
+            }
+            else 
+            {
+                this.list = new List<T>();
+
+            }
             List = this;
         }
 

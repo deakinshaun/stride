@@ -89,7 +89,7 @@ namespace Stride.Core.Presentation.Controls
         // the space where items will be realized if virtualization is enabled. This is set by virtualizingtreepanel.
         internal AVirtualizingTreePanel.VerticalArea RealizationSpace = new AVirtualizingTreePanel.VerticalArea();
         internal AVirtualizingTreePanel.SizesCache CachedSizes = new AVirtualizingTreePanel.SizesCache();
-        private bool updatingSelection;
+        private bool updatingSelection = false;
         private bool stoppingEdition;
         private bool allowedSelectionChanges;
         private bool mouseDown;
