@@ -103,15 +103,15 @@ namespace Stride.Core.Presentation.MarkupExtensions
         /// <param name="binding8">The eighth binding.</param>
         public AMultiBinding(Binding binding1, Binding binding2, Binding binding3, Binding binding4, Binding binding5, Binding binding6, Binding binding7, Binding binding8)
         {
-            var addChild = (IAddChild)this;
-            if (binding1 != null) addChild.AddChild(binding1);
-            if (binding2 != null) addChild.AddChild(binding2);
-            if (binding3 != null) addChild.AddChild(binding3);
-            if (binding4 != null) addChild.AddChild(binding4);
-            if (binding5 != null) addChild.AddChild(binding5);
-            if (binding6 != null) addChild.AddChild(binding6);
-            if (binding7 != null) addChild.AddChild(binding7);
-            if (binding8 != null) addChild.AddChild(binding8);
+            //var addChild = (IAddChild)this;
+            if (binding1 != null) Bindings.Add(binding1);
+            if (binding2 != null) Bindings.Add(binding2);
+            if (binding3 != null) Bindings.Add(binding3);
+            if (binding4 != null) Bindings.Add(binding4);
+            if (binding5 != null) Bindings.Add(binding5);
+            if (binding6 != null) Bindings.Add(binding6);
+            if (binding7 != null) Bindings.Add(binding7);
+            if (binding8 != null) Bindings.Add(binding8);
         }
 
         public object ProvideValue(IServiceProvider serviceProvider)

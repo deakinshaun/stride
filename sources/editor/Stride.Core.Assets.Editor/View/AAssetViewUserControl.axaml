@@ -204,13 +204,13 @@
 							  </Setter>-->
 						  </ControlTheme>
 					  </controls:AEditableContentListBox.ItemContainerTheme>
-					  <!--<i:Interaction.Behaviors>
-						  <sd:ListBoxBindableSelectedItemsBehavior SelectedItems="{Binding SelectedContent}" GiveFocusOnSelectionChange="{Binding GiveFocusOnSelectionChange, ElementName=AssetView}"/>
-						  <behaviors:ListBoxDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
-						  <behaviors:TilePanelThumbnailPrioritizationBehavior/>
-						  <behaviors:BringSelectionToViewBehavior/>
-						  <sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding DeleteContentCommand}" IsEnabled="{Binding CanDeleteAssets, ElementName=AssetView}"/>
-					  </i:Interaction.Behaviors>-->
+					  <i:Interaction.Behaviors>
+						  <sd:AListBoxBindableSelectedItemsBehavior SelectedItems="{Binding SelectedContent}" GiveFocusOnSelectionChange="{Binding GiveFocusOnSelectionChange, ElementName=AssetView}"/>
+						  <!--<behaviors:ListBoxDragDropBehavior DragVisualTemplate="{StaticResource DragVisualTemplate}"/>-->
+						  <!--<behaviors:TilePanelThumbnailPrioritizationBehavior/>-->
+						  <!--<behaviors:BringSelectionToViewBehavior/>-->
+						  <!--<sd:CommandBindingBehavior RoutedCommand="ApplicationCommands.Delete" Command="{Binding DeleteContentCommand}" IsEnabled="{Binding CanDeleteAssets, ElementName=AssetView}"/>-->
+					  </i:Interaction.Behaviors>
 				  </controls:AEditableContentListBox>
 			  </DataTemplate>
 			  <!--<CollectionViewSource x:Key="FilteredContentView" Source="{Binding FilteredAssets}" />-->

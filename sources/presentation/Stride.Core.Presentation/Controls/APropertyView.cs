@@ -17,7 +17,7 @@ using Stride.Core.Presentation.Extensions;
 
 namespace Stride.Core.Presentation.Controls
 {
-    public class APropertyView : ItemsControl
+    public class APropertyView : Avalonia.Controls.TreeView
     {
         protected override Type StyleKeyOverride { get { return typeof(APropertyView); } }
 

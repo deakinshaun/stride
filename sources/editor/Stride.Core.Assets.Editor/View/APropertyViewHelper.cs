@@ -1,7 +1,6 @@
 // Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 using System;
-using System.Windows;
 
 //using System.Windows;
 using System.Windows.Input;
@@ -42,11 +41,12 @@ namespace Stride.Core.Assets.Editor.View
 
         public static RoutedCommand ToggleNestedPropertiesCommand { get; }
 
-        public static readonly TemplateProviderSelector HeaderProviders = new TemplateProviderSelector();
+        public static ATemplateProviderSelector HeaderProviders { get; set; } = new ATemplateProviderSelector();
+        //public static readonly ATemplateProviderSelector HeaderProviders = new ATemplateProviderSelector();
 
-        public static readonly TemplateProviderSelector EditorProviders = new TemplateProviderSelector();
+        public static readonly ATemplateProviderSelector EditorProviders = new ATemplateProviderSelector();
 
-        public static readonly TemplateProviderSelector FooterProviders = new TemplateProviderSelector();
+        public static readonly ATemplateProviderSelector FooterProviders = new ATemplateProviderSelector();
 
         public static double GetIncrement(AvaloniaObject target)
         {
@@ -79,7 +79,7 @@ namespace Stride.Core.Assets.Editor.View
             target.SetValue(IsExpandedProperty, value);
         }
 
-        private static void OnPropertyChanged(AvaloniaObject d, DependencyProperty property, object newValue)
+        private static void OnPropertyChanged(AvaloniaObject d, AvaloniaProperty property, object newValue)
         {
             if (newValue == null)
                 return;
@@ -90,12 +90,12 @@ namespace Stride.Core.Assets.Editor.View
 
         private static void OnIncrementChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
-            OnPropertyChanged(d, PropertyViewItem.IncrementProperty, e.NewValue);
+            OnPropertyChanged(d, APropertyViewItem.IncrementProperty, e.NewValue);
         }
 
         private static void OnIsExpandedChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
-            OnPropertyChanged(d, PropertyViewItem.IsExpandedProperty, e.NewValue);
+            OnPropertyChanged(d, APropertyViewItem.IsExpandedProperty, e.NewValue);
         }
 
         private static void OnToggleNestedProperties(object sender, ExecutedRoutedEventArgs e)

@@ -30,6 +30,7 @@ using Stride.Core.Presentation.View;
 using Stride.Core.Presentation.ViewModel;
 using Stride.Core.Presentation.Windows;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml.Styling;
 
 namespace Stride.Core.Assets.Editor.View
 {
@@ -37,7 +38,7 @@ namespace Stride.Core.Assets.Editor.View
     using MessageBoxImage = Presentation.Services.MessageBoxImage;
     using MessageBoxResult = Presentation.Services.MessageBoxResult;
 
-    public class AEditorDialogService : DialogService, IEditorDialogService
+    public class AEditorDialogService : DialogService, AIEditorDialogService
     {
         private struct PendingWorkProgress
         {
@@ -52,7 +53,7 @@ namespace Stride.Core.Assets.Editor.View
             public TaskCompletionSource<int> Displayed { get; }
         }
 
-        private static readonly List<ITemplateProvider> AdditionalProviders = new List<ITemplateProvider>();
+        private static readonly List<AITemplateProvider> AdditionalProviders = new List<AITemplateProvider>();
         private readonly List<NotificationWindow> notificationWindows = new List<NotificationWindow>();
         private readonly List<PendingWorkProgress> pendingProgressWindows = new List<PendingWorkProgress>();
         private readonly ConcurrentQueue<Tuple<SettingsKey, Action>> delayedNotifications = new ConcurrentQueue<Tuple<SettingsKey, Action>>();
@@ -244,11 +245,13 @@ namespace Stride.Core.Assets.Editor.View
 
         public void RegisterDefaultTemplateProviders()
         {
- /*           var dictionary = (ResourceDictionary)Application.LoadComponent(new Uri("/Stride.Core.Assets.Editor;component/View/DefaultPropertyTemplateProviders.xaml", UriKind.RelativeOrAbsolute));
-            RegisterResourceDictionary(dictionary);*/
+            //var dictionary = (ResourceDictionary)Application.LoadComponent(new Uri("/Stride.Core.Assets.Editor;component/View/DefaultPropertyTemplateProviders.xaml", UriKind.RelativeOrAbsolute));
+            var uri = new Uri("avares://Stride.Core.Assets.Editor/View/ADefaultPropertyTemplateProviders.axaml");
+            var dictionary = new ResourceInclude (uri) { Source = uri }; 
+            RegisterResourceDictionary((ResourceDictionary) dictionary.Loaded);
         }
 
-        public void RegisterDefaultTemplateProvider(ITemplateProvider provider)
+        public void RegisterDefaultTemplateProvider(AITemplateProvider provider)
         {
             var dependencyObject = provider as AvaloniaObject;
             if (dependencyObject == null)
@@ -258,13 +261,13 @@ namespace Stride.Core.Assets.Editor.View
             switch (category)
             {
                 case APropertyViewHelper.Category.PropertyHeader:
-                    PropertyViewHelper.HeaderProviders.RegisterTemplateProvider(provider);
+                    APropertyViewHelper.HeaderProviders.RegisterTemplateProvider(provider);
                     break;
                 case APropertyViewHelper.Category.PropertyFooter:
-                    PropertyViewHelper.FooterProviders.RegisterTemplateProvider(provider);
+                    APropertyViewHelper.FooterProviders.RegisterTemplateProvider(provider);
                     break;
                 case APropertyViewHelper.Category.PropertyEditor:
-                    PropertyViewHelper.EditorProviders.RegisterTemplateProvider(provider);
+                    APropertyViewHelper.EditorProviders.RegisterTemplateProvider(provider);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -272,7 +275,7 @@ namespace Stride.Core.Assets.Editor.View
         }
 
         // TODO: Move this in PluginService
-        public void RegisterAdditionalTemplateProvider(ITemplateProvider provider)
+        public void RegisterAdditionalTemplateProvider(AITemplateProvider provider)
         {
             AdditionalProviders.Add(provider);
             var dependencyObject = provider as AvaloniaObject;
@@ -283,13 +286,13 @@ namespace Stride.Core.Assets.Editor.View
             switch (category)
             {
                 case APropertyViewHelper.Category.PropertyHeader:
-                    PropertyViewHelper.HeaderProviders.RegisterTemplateProvider(provider);
+                    APropertyViewHelper.HeaderProviders.RegisterTemplateProvider(provider);
                     break;
                 case APropertyViewHelper.Category.PropertyFooter:
-                    PropertyViewHelper.FooterProviders.RegisterTemplateProvider(provider);
+                    APropertyViewHelper.FooterProviders.RegisterTemplateProvider(provider);
                     break;
                 case APropertyViewHelper.Category.PropertyEditor:
-                    PropertyViewHelper.EditorProviders.RegisterTemplateProvider(provider);
+                    APropertyViewHelper.EditorProviders.RegisterTemplateProvider(provider);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -301,21 +304,26 @@ namespace Stride.Core.Assets.Editor.View
         {
             foreach (var provider in AdditionalProviders)
             {
-                PropertyViewHelper.HeaderProviders.UnregisterTemplateProvider(provider);
-                PropertyViewHelper.FooterProviders.UnregisterTemplateProvider(provider);
-                PropertyViewHelper.EditorProviders.UnregisterTemplateProvider(provider);
+                APropertyViewHelper.HeaderProviders.UnregisterTemplateProvider(provider);
+                APropertyViewHelper.FooterProviders.UnregisterTemplateProvider(provider);
+                APropertyViewHelper.EditorProviders.UnregisterTemplateProvider(provider);
             }
         }
 
         public void RegisterResourceDictionary(ResourceDictionary dictionary)
         {
-            foreach (object value in dictionary.Values)
+            foreach (object key in dictionary.Keys)
             {
-                var provider = value as ITemplateProvider;
+                //foreach (object value in dictionary.Values)
+                object value = dictionary[key];
+                //dictionary.TryGetValue(key, out value);
+            
+                var provider = value as AITemplateProvider;
                 if (provider != null)
                 {
                     RegisterDefaultTemplateProvider(provider);
                 }
+  //              RegisterDefaultTemplateProvider((AvaloniaObject)value);
             }
         }
 

@@ -189,16 +189,15 @@
 			</StackPanel>
 		</Border>
 	</DataTemplate>
-
-	<Style x:Key="ImageButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+-->
+	<ControlTheme x:Key="ImageButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="Margin" Value="2,0"/>
 		<Setter Property="Padding" Value="0"/>
 		<Setter Property="Background" Value="Transparent"/>
-		<Setter Property="SnapsToDevicePixels" Value="True"/>
 		<Setter Property="Width" Value="16"/>
 		<Setter Property="Height" Value="16"/>
-	</Style>
-
+	</ControlTheme>
+<!--
 	<Style x:Key="MenuGroupSeparatorStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
 		<Setter Property="Margin" Value="0"/>
 		--><!-- IsEnabled=False is necessary for proper navigation in the menu (this separator will be skipped). --><!--

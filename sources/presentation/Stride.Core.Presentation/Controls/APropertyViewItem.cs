@@ -97,22 +97,26 @@ namespace Stride.Core.Presentation.Controls
         /// </summary>
         /// <seealso cref="Highlightable"/>
         /// <seealso cref="IsHovered"/>
-        public bool IsHighlighted => (bool)GetValue(IsHighlightedPropertyKey);
+        private bool _IsHighlighted;
+        public bool IsHighlighted { get { return _IsHighlighted; } private set { SetAndRaise(IsHighlightedPropertyKey, ref _IsHighlighted, value); } }
 
         /// <summary>
         /// Gets whether the mouse cursor is currently over this control.
         /// </summary>
-        public bool IsHovered => (bool)GetValue(IsHoveredPropertyKey);
+        private bool _IsHovered;
+        public bool IsHovered { get { return _IsHovered; } private set { SetAndRaise(IsHoveredPropertyKey, ref _IsHovered, value); } }
 
         /// <summary>
         /// Gets whether this control is the closest control to the control that has the keyboard focus.
         /// </summary>
-        public bool IsKeyboardActive => (bool)GetValue(IsKeyboardActivePropertyKey);
+        private bool _IsKeyboardActive;
+        public bool IsKeyboardActive { get { return _IsKeyboardActive; } private set { SetAndRaise(IsKeyboardActivePropertyKey, ref _IsKeyboardActive, value); } }
 
         /// <summary>
         /// Gets the absolute offset of this <see cref="PropertyViewItem"/>.
         /// </summary>
-        public double Offset { get { return (double)GetValue(OffsetPropertyKey); } private set { SetValue(OffsetPropertyKey, value); } }
+        private double _Offset;
+        public double Offset { get { return _Offset; } private set { SetAndRaise(OffsetPropertyKey, ref _Offset, value); } }
 
         /// <summary>
         /// Gets or set the increment value used to calculate the <see cref="Offset "/>of the <see cref="PropertyViewItem"/> contained in the <see cref="Properties"/> of this control..
