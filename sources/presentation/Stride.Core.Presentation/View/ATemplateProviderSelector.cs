@@ -70,6 +70,7 @@ namespace Stride.Core.Presentation.View
             }
         }
 
+        /*
 //        public override DataTemplate SelectTemplate(object item, AvaloniaObject container)
         public DataTemplate SelectTemplate(object item, AvaloniaObject container)
         {
@@ -92,7 +93,7 @@ namespace Stride.Core.Presentation.View
             //    contentPresenter.ContentTemplate = template;
             //}
             return template;
-        }
+        }*/
         
         private static void InsertTemplateProvider([NotNull] List<AITemplateProvider> list, AITemplateProvider templateProvider, [NotNull] List<AITemplateProvider> movedItems)
         {
@@ -114,7 +115,7 @@ namespace Stride.Core.Presentation.View
                 }
             }
         }
-
+/*
         [CanBeNull]
         private AITemplateProvider FindTemplateProvider([NotNull] object item, Control container)
         {
@@ -158,15 +159,41 @@ namespace Stride.Core.Presentation.View
             }
             return result;
         }
-
+*/
         public bool Match(object? data)
         {
-            return true;
-            throw new NotImplementedException();
+            var item = data;
+            var usedProvidersForItem = usedProviders.GetOrCreateValue(item);
+            var availableSelectors = templateProviders.Where(x => x.Match(item));
+
+            var result = availableSelectors.FirstOrDefault(x => !usedProvidersForItem.Contains(x.Name));
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+//            throw new NotImplementedException();
         }
 
         public Control? Build(object? param)
         {
+            var item = param;
+            var usedProvidersForItem = usedProviders.GetOrCreateValue(item);
+            var availableSelectors = templateProviders.Where(x => x.Match(item));
+
+            var result = availableSelectors.FirstOrDefault(x => !usedProvidersForItem.Contains(x.Name));
+            if (result != null)
+            {
+                usedProvidersForItem.Add(result.Name);
+                return result.Template.Build (param);
+            }
+            else
+            {
+                return null;
+            }
             return templateProviders[0].Template.Build (param);
             throw new NotImplementedException();
         }

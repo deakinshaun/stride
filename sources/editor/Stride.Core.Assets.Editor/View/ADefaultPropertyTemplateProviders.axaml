@@ -62,10 +62,10 @@
     <!--<Setter Property="IsEditable" Value="False"/>-->
     <Setter Property="ToolTip.Tip" Value="{sd:Localize Replace..., Context=ToolTip}"/>
     <!-- Visible if: we have the command to create a new instance, we're not read-only, we not a collection -->
-    <Setter Property="IsVisible" Value="{sd:AMultiBinding {Binding HasCommand_CreateNewInstance},
+    <!--<Setter Property="IsVisible" Value="{sd:AMultiBinding {Binding HasCommand_CreateNewInstance},
                                                             {Binding IsReadOnly, Converter={sd:AInvertBool}},
                                                             {Binding HasCollection, Converter={sd:AInvertBool}},
-                                         Converter={sd:AAndMultiConverter}}"/>
+                                         Converter={sd:AAndMultiConverter}}"/>-->
     <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Tag" Value="{StaticResource ImageDropDown}"/>
@@ -209,16 +209,16 @@
                                         IsVisible="{Binding VisibleChildrenCount, Converter={sd:ANumericToBool}}"/>
           <TextBlock x:Name="PropertyNameBlock" Grid.Column="2" Text="{Binding DisplayName}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                      TextTrimming="CharacterEllipsis" IsVisible="{Binding HasCommand_RenameStringKey, Converter={sd:AInvertBool}}"/>
-          <!--<sd:TextBox x:Name="PropertyNameBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                        CancelOnLostFocus="True" SelectAllOnFocus="True" sd:Trimming.TextTrimming="WordEllipsis"
+          <sd:ATextBox x:Name="PropertyNameBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        CancelOnLostFocus="True" SelectAllOnFocus="True" sd:ATrimming.TextTrimming="WordEllipsis"
                         Text="{Binding DisplayName, Mode=OneWay}"
                         ValidateCommand="{Binding RenameStringKey}"
                         ValidateCommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
-                        IsVisible="{Binding HasCommand_RenameStringKey, Converter={sd:VisibleOrCollapsed}}"
-                        ContextMenu="{Binding ContextMenu, RelativeSource={RelativeSource AncestorType={x:Type sd:PropertyViewItem}}}">
-            <sd:TextBox.Style>
-              <Style TargetType="{x:Type sd:TextBox}" BasedOn="{StaticResource {x:Type sd:TextBox}}">
-                <Style.Triggers>
+                        IsVisible="{Binding HasCommand_RenameStringKey}"
+                        ContextMenu="{Binding ContextMenu, RelativeSource={RelativeSource AncestorType={x:Type sd:APropertyViewItem}}}">
+            <sd:ATextBox.Theme>
+              <ControlTheme TargetType="{x:Type sd:ATextBox}" BasedOn="{StaticResource {x:Type sd:ATextBox}}">
+                <!--<ControlTheme.Triggers>
                   <Trigger Property="IsKeyboardFocused" Value="False">
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
@@ -227,10 +227,10 @@
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                   </Trigger>
-                </Style.Triggers>
-              </Style>
-            </sd:TextBox.Style>
-          </sd:TextBox>-->
+                </ControlTheme.Triggers>-->
+              </ControlTheme>
+            </sd:ATextBox.Theme>
+          </sd:ATextBox>
           <CheckBox Grid.Column="3" Margin="2,0" VerticalAlignment="Center" HorizontalAlignment="Left"
                     IsThreeState="{Binding Enabled.NodeValue, Converter={sd:AIsEqualToParam}, ConverterParameter={x:Static qvm:NodeViewModel.DifferentValues}}"
                     IsChecked="{Binding Enabled.NodeValue, Converter={view:ADifferentValueToParam}, ConverterParameter={x:Null}}"
@@ -240,6 +240,7 @@
       <GridSplitter Grid.Column="2" Width="2" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{DynamicResource TextBoxBackgroundBrush}"/>
       <Border x:Name="PART_Editor" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,5,0">
 		  <ContentControl x:Name="PART_ValueContainer" Content="{Binding}" 
+						  ContentTemplate="{x:Static edvw:APropertyViewHelper.EditorProviders}"
 						  Focusable="False" VerticalAlignment="Center" d:DataContext="{d:DesignInstance qvm:NodeViewModel}"/>
 		  <!--<ContentControl x:Name="PART_ValueContainer" Content="{Binding}" ContentTemplateSelector="{x:Static edvw:APropertyViewHelper.EditorProviders}"
 						  Focusable="False" VerticalAlignment="Center" d:DataContext="{d:DesignInstance qvm:NodeViewModel}"/>-->
@@ -264,42 +265,42 @@
     </DataTemplate.Triggers>-->
   </DataTemplate>
 
-  <!--<DataTemplate x:Key="HeaderReadOnlyProperty" DataType="qvm:NodeViewModel">
-    <Grid IsVisible="{Binding IsVisible, Converter={sd:VisibleOrCollapsed}}" edvw:PropertyViewHelper.Increment="0"
-              Margin="{Binding Offset, Converter={sd:NumericToThickness}, ConverterParameter={sd:Thickness 1,0,0,0},
-                               RelativeSource={RelativeSource AncestorType=sd:PropertyViewItem}, Mode=OneWay}" x:Name="Grid">
+  <DataTemplate x:Key="HeaderReadOnlyProperty" DataType="qvm:NodeViewModel">
+    <Grid IsVisible="{Binding IsVisible}" edvw:APropertyViewHelper.Increment="0"
+              Margin="{Binding Offset, Converter={sd:ANumericToThickness}, ConverterParameter={sd:AThickness 1,0,0,0},
+                               RelativeSource={RelativeSource AncestorType=sd:APropertyViewItem}, Mode=OneWay}" x:Name="Grid">
       <Border x:Name="PART_Name" MinHeight="20" Margin="6" Background="{StaticResource EmphasisColorBrush}"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ToolTip.Tip="{Binding Documentation}"/>
       <DockPanel Margin="10,8" x:Name="HeaderDockPanel">
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
           <Button Theme="{StaticResource RemoveItemButtonStyle}"/>
           <Button Theme="{StaticResource AddNewItemButtonStyle}"/>
-          <ComboBox DockPanel.Dock="Right" x:Name="InstanceTypeSelectionComboBox" Theme="{StaticResource AddItemComboBox}" ItemsSource="{Binding AbstractNodeMatchingEntries}">
-            <i:Interaction.Behaviors>
+          <!--<ComboBox DockPanel.Dock="Right" x:Name="InstanceTypeSelectionComboBox" Theme="{StaticResource AddItemComboBox}" ItemsSource="{Binding AbstractNodeMatchingEntries}">-->
+            <!--<i:Interaction.Behaviors>
               <behaviors:OnComboBoxClosedWithSelectionBehavior Command="{Binding AddNewItem}" CommandParameter="{Binding SelectedItem, ElementName=InstanceTypeSelectionComboBox}"/>
-            </i:Interaction.Behaviors>
-          </ComboBox>
+            </i:Interaction.Behaviors>-->
+          <!--</ComboBox>-->
         </StackPanel>
         <ToggleButton DockPanel.Dock="Left" Template="{StaticResource PropertyGridHeaderExpanderToggleButton}" Width="8" Height="8"
-                                    IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType=sd:PropertyViewItem}}"
-                                    IsVisible="{Binding VisibleChildrenCount, Converter={sd:Chained {sd:NumericToBool}, {sd:VisibleOrCollapsed}}}"/>
+                                    IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType=sd:APropertyViewItem}}"
+                                    IsVisible="{Binding VisibleChildrenCount, Converter={sd:ANumericToBool}}"/>
         <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
           <CheckBox Margin="4,0" VerticalAlignment="Center"
-                    IsThreeState="{Binding Enabled.NodeValue, Converter={sd:IsEqualToParam}, ConverterParameter={x:Static qvm:NodeViewModel.DifferentValues}}"
-                    IsChecked="{Binding Enabled.NodeValue, Converter={view:DifferentValueToParam}, ConverterParameter={x:Null}}"
-                    IsVisible="{Binding HasChild_Enabled, Converter={sd:VisibleOrCollapsed}}"/>
-          <Image Source="{Binding NodeValue, Converter={sd:Chained {sd:ObjectToType}, {cvt:TypeToResource}}}" MaxWidth="16" MaxHeight="16"
+                    IsThreeState="{Binding Enabled.NodeValue, Converter={sd:AIsEqualToParam}, ConverterParameter={x:Static qvm:NodeViewModel.DifferentValues}}"
+                    IsChecked="{Binding Enabled.NodeValue, Converter={view:ADifferentValueToParam}, ConverterParameter={x:Null}}"
+                    IsVisible="{Binding HasChild_Enabled}"/>
+          <Image Source="{Binding NodeValue, Converter={sd:AChained {sd:AObjectToType}, {cvt:ATypeToResource}}}" MaxWidth="16" MaxHeight="16"
                             RenderOptions.BitmapInterpolationMode="LowQuality" Margin="0,0,4,0"/>
           <TextBlock x:Name="HeaderTextBlock" FontSize="16" TextTrimming="CharacterEllipsis"
                      Text="{Binding DisplayName, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"
                      Foreground="{StaticResource SelectedTextBrush}"/>
         </StackPanel>
       </DockPanel>
-      <i:Interaction.Behaviors>
+      <!--<i:Interaction.Behaviors>
         <behaviors:PropertyViewItemDragDropBehavior CanDrop="False" CanInsert="False" DragVisualTemplate="{StaticResource DragVisualTemplate}"/>
-      </i:Interaction.Behaviors>
+      </i:Interaction.Behaviors>-->
     </Grid>
-    <DataTemplate.Triggers>
+    <!--<DataTemplate.Triggers>
       <DataTrigger Binding="{sd:MultiBinding {Binding IsOverridden},
                                                {Binding Enabled.IsOverridden},
                                                {Binding InlinedProperty.IsOverridden},
@@ -326,8 +327,8 @@
         <Setter TargetName="HeaderDockPanel" Property="Margin" Value="10,4"/>
         <Setter TargetName="Grid" Property="Margin" Value="15,0,0,0"/>
       </DataTrigger>
-    </DataTemplate.Triggers>
-  </DataTemplate>-->
+    </DataTemplate.Triggers>-->
+  </DataTemplate>
 
   <!-- Base provider for property footer: nothing inside! -->
   <!--<sd:ADefaultTemplateProvider x:Key="DefaultPropertyFooterTemplateProvider" edvw:PropertyViewHelper.TemplateCategory="PropertyFooter" OverrideRule="None">
@@ -339,8 +340,8 @@
                                   Template="{StaticResource DefaultPropertyHeaderTemplate}">
   </sd:ADefaultTemplateProvider>
 
-  <!--<pvdr:CategoryNodeTemplateProvider x:Key="CategoryNodeTemplateProvider" Template="{StaticResource HeaderReadOnlyProperty}"
-                                                    edvw:PropertyViewHelper.TemplateCategory="PropertyHeader"/>-->
+  <pvdr:ACategoryNodeTemplateProvider x:Key="CategoryNodeTemplateProvider" Template="{StaticResource HeaderReadOnlyProperty}"
+                               edvw:APropertyViewHelper.TemplateCategory="PropertyHeader"/>
 
   <!-- Provider for abstract types: ComboBox that allows to select a type and create an instance of the selected type, visible if the current value is null -->
   <!--<pvdr:AAbstractTypeTemplateProvider x:Key="InlinedAbstractTypePropertyTemplateProvider" OverrideRule="Most" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
@@ -823,7 +824,7 @@
   </view:TypeMatchTemplateProvider>-->
 
   <!-- Providers for color editors -->
-  <!--<DataTemplate x:Key="ColorEditorTemplate" DataType="qvm:NodeViewModel">
+  <DataTemplate x:Key="ColorEditorTemplate" DataType="qvm:NodeViewModel">
     <Grid>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
@@ -832,15 +833,17 @@
       <ToggleButton Grid.Column="0" x:Name="PickerToggleButton" VerticalAlignment="Center" Margin="2" Width="22" Height="22" Background="Black">
         <ToggleButton.Template>
           <ControlTemplate TargetType="ToggleButton">
-            <Rectangle VerticalAlignment="Center" Width="20" Height="20" Stroke="Black" StrokeThickness="1"
-                       Fill="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}, FallbackValue={x:Static Brushes.Black}}"/>
-          </ControlTemplate>
+			  <Rectangle VerticalAlignment="Center" Width="20" Height="20" Stroke="Black" StrokeThickness="1"
+						 Fill="{Binding x:Static Brushes.Black}"/>
+			  <!--<Rectangle VerticalAlignment="Center" Width="20" Height="20" Stroke="Black" StrokeThickness="1"
+						 Fill="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}, FallbackValue={x:Static Brushes.Black}}"/>-->
+		  </ControlTemplate>
         </ToggleButton.Template>
         <i:Interaction.Behaviors>
-          <sd:ToggleButtonPopupBehavior/>
+          <sd:AToggleButtonPopupBehavior/>
         </i:Interaction.Behaviors>
       </ToggleButton>
-      --><!--<sd:TextBox x:Name="TextBox" Grid.Column="1" Margin="2" SelectAllOnFocus="True" VerticalAlignment="Center"
+      <!--<sd:TextBox x:Name="TextBox" Grid.Column="1" Margin="2" SelectAllOnFocus="True" VerticalAlignment="Center"
                     Text="{Binding NodeValue, Converter={sd:Chained {cvt:DifferentValuesToNull}, {sd:ColorConverter}}}"
                     WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}">
         <i:Interaction.Behaviors>
@@ -870,19 +873,19 @@
             </TabItem>
           </TabControl>
         </Grid>
-      </Popup>--><!--
+      </Popup>-->
     </Grid>
-    --><!--<DataTemplate.Triggers>
+    <!--<DataTemplate.Triggers>
       <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
         <Setter TargetName="TextBox" Property="WatermarkContent" Value="{sd:Localize (Different values)}"/>
       </DataTrigger>
-    </DataTemplate.Triggers>--><!--
-  </DataTemplate>-->
+    </DataTemplate.Triggers>-->
+  </DataTemplate>
 	
 	
-  <!--<view:TypeMatchTemplateProvider x:Key="ColorPropertyTemplateProvider" Type="{x:Type math:Color}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource ColorEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="Color3PropertyTemplateProvider" Type="{x:Type math:Color3}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource ColorEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="Color4PropertyTemplateProvider" Type="{x:Type math:Color4}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource ColorEditorTemplate}"/>-->
+  <view:ATypeMatchTemplateProvider x:Key="ColorPropertyTemplateProvider" Type="{x:Type math:Color}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource ColorEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="Color3PropertyTemplateProvider" Type="{x:Type math:Color3}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource ColorEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="Color4PropertyTemplateProvider" Type="{x:Type math:Color4}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource ColorEditorTemplate}"/>
 
   <!-- Providers for number with a range editors -->
   <!--<pvdr:RangedValueTemplateProvider x:Key="RangedValueTemplateProvider" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" OverrideRule="Most">
@@ -928,8 +931,13 @@
   </pvdr:RangedValueTemplateProvider>-->
 
   <!-- Providers for floating-point number editors -->
-  <!--<DataTemplate x:Key="FloatEditorTemplate" DataType="qvm:NodeViewModel">
-    <sd:NumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
+  <DataTemplate x:Key="FloatEditorTemplate" DataType="qvm:NodeViewModel">
+
+	  <TextBlock x:Name="TextBox" Margin="2"
+					  Text="{Binding NodeValue}"
+/>
+
+	  <!--<sd:ANumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
                          Value="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
                          Minimum="{Binding Minimum, FallbackValue={x:Static s:Double.MinValue}, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
                          Maximum="{Binding Maximum, FallbackValue={x:Static s:Double.MaxValue}, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
@@ -942,17 +950,18 @@
         --><!--<sd:NumericTextBoxTransactionalRepeatButtonsBehavior UndoRedoService="{Binding Session.UndoRedoService}"/>--><!--
         <behaviors:TextBoxPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
       </i:Interaction.Behaviors>--><!--
-    </sd:NumericTextBox>
-    --><!--<DataTemplate.Triggers>
+    </sd:ANumericTextBox>-->
+    <!--<DataTemplate.Triggers>
       <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
         <Setter TargetName="TextBox" Property="WatermarkContent" Value="{sd:Localize (Different values)}"/>
       </DataTrigger>
-    </DataTemplate.Triggers>--><!--
+    </DataTemplate.Triggers>-->
   </DataTemplate>
-  --><!--<view:TypeMatchTemplateProvider x:Key="FloatPropertyTemplateProvider" Type="{x:Type s:Single}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource FloatEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="DoublePropertyTemplateProvider" Type="{x:Type s:Double}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource FloatEditorTemplate}"/>--><!--
+  
+	<view:ATypeMatchTemplateProvider x:Key="FloatPropertyTemplateProvider" Type="{x:Type s:Single}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource FloatEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="DoublePropertyTemplateProvider" Type="{x:Type s:Double}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource FloatEditorTemplate}"/>
 
-  --><!-- Providers for fixed-point number editors --><!--
+  <!-- Providers for fixed-point number editors --><!--
   <DataTemplate x:Key="IntEditorTemplate" DataType="qvm:NodeViewModel">
     <sd:NumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
                          Value="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
