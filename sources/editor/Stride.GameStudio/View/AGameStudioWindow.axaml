@@ -1035,13 +1035,13 @@
 																						  ContentTemplate="{TemplateBinding HeaderTemplate}"
 																						  IsVisible="true"/>
 																	</Border>
-																	<Expander x:Name="propertyExpander" IsExpanded="{TemplateBinding IsExpanded}"  IsEnabled="True">
+																	<Expander x:Name="propertyExpander3" IsExpanded="{TemplateBinding IsExpanded}"  IsEnabled="True">
 																		<StackPanel>
 																			<ItemsPresenter Name="ItemsHost"/>
 																			<Border Background="{TemplateBinding Background}">
 																				<ContentPresenter Name="PART_Footer"
 																								  Content="{TemplateBinding HeaderedContentControl.Header}"
-																								  ContentTemplate="{TemplateBinding HeaderTemplate}"
+																								  ContentTemplate="{x:Static sd:APropertyViewHelper.FooterProviders}"
 																								  IsVisible="true"/>
 																				<!--<ContentPresenter Name="PART_Footer"
 																								  Content="{TemplateBinding HeaderedContentControl.Header}"

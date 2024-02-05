@@ -2,21 +2,17 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 using System;
 using System.Globalization;
-using Stride.Core.Presentation.Quantum.ViewModels;
+using Stride.Core.Assets.Editor.Quantum.NodePresenters.Commands;
 using Stride.Core.Presentation.ValueConverters;
 
 namespace Stride.Core.Assets.Editor.View.ValueConverters
 {
-    public class ADifferentValuesToNull : AOneWayValueConverter<ADifferentValuesToNull>
+    public class AAbstractNodeEntryToDisplayName : AOneWayValueConverter<AAbstractNodeEntryToDisplayName>
     {
         public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return value != NodeViewModel.DifferentValues ? value : null;
+            var entry = value as AbstractNodeEntry;
+            return entry?.DisplayValue ?? string.Empty;
         }
-
- /*       public override object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            return value;
-        }*/
     }
 }
