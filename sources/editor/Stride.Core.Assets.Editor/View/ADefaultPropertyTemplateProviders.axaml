@@ -1050,35 +1050,36 @@
     </DataTemplate>
   </view:TypeMatchTemplateProvider>
 
-  --><!-- Provider for vector2 editor --><!--
-  <view:TypeMatchTemplateProvider x:Key="Vector2PropertyTemplateProvider" Type="{x:Type math:Vector2}" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
-    <DataTemplate DataType="qvm:NodeViewModel">
-      <sd:Vector2Editor X="{Binding X.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                          Y="{Binding Y.NodeValue, Converter={cvt:DifferentValuesToNull}}"
+  -->
+  <!-- Provider for vector2 editor -->
+  <view:ATypeMatchTemplateProvider x:Key="Vector2PropertyTemplateProvider" Type="{x:Type math:Vector2}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+	  <view:ATypeMatchTemplateProvider.Template>
+		  <DataTemplate DataType="qvm:NodeViewModel">
+      <sd:AVector2Editor X="{Binding Children[0].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Y="{Binding Children[1].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor">
-        --><!--<i:Interaction.Behaviors>
+        <!--<i:Interaction.Behaviors>
           <behaviors:TextBoxVectorPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
-        </i:Interaction.Behaviors>--><!--
-      </sd:Vector2Editor>
-      --><!--<DataTemplate.Triggers>
+        </i:Interaction.Behaviors>-->
+      </sd:AVector2Editor>
+      <!--<DataTemplate.Triggers>
         <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
           <Setter TargetName="VectorEditor" Property="WatermarkContent" Value="≠"/>
         </DataTrigger>
-      </DataTemplate.Triggers>--><!--
+      </DataTemplate.Triggers>-->
     </DataTemplate>
-  </view:TypeMatchTemplateProvider>-->
+	  </view:ATypeMatchTemplateProvider.Template>
+  </view:ATypeMatchTemplateProvider>
 
   <!-- Provider for vector3 editor -->
   <view:ATypeMatchTemplateProvider x:Key="Vector3PropertyTemplateProvider" Type="{x:Type math:Vector3}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
 	  <view:ATypeMatchTemplateProvider.Template>
 	  <DataTemplate DataType="qvm:NodeViewModel">
-		  <StackPanel>
-			  <sd:AVector3Editor X="{Binding Children[0].NodeValue}"
-                          Y="{Binding Children[1].NodeValue}"
-                          Z="{Binding Children[2].NodeValue}"
+			  <sd:AVector3Editor X="{Binding Children[0].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Y="{Binding Children[1].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Z="{Binding Children[2].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor">
           </sd:AVector3Editor>
-		  </StackPanel>
 		  <!--<sd:AVector3Editor X="{Binding X.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           Y="{Binding Y.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           Z="{Binding Z.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
@@ -1096,27 +1097,29 @@
     </view:ATypeMatchTemplateProvider.Template>
   </view:ATypeMatchTemplateProvider>
 
-  <!-- Provider for vector4 editor --><!--
-  <view:TypeMatchTemplateProvider x:Key="Vector4PropertyTemplateProvider" Type="{x:Type math:Vector4}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+  <!-- Provider for vector4 editor -->
+  <view:ATypeMatchTemplateProvider x:Key="Vector4PropertyTemplateProvider" Type="{x:Type math:Vector4}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+	  <view:ATypeMatchTemplateProvider.Template>
     <DataTemplate DataType="qvm:NodeViewModel">
-      <sd:Vector4Editor X="{Binding X.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                          Y="{Binding Y.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                          Z="{Binding Z.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                          W="{Binding W.NodeValue, Converter={cvt:DifferentValuesToNull}}"
+      <sd:AVector4Editor X="{Binding Children[0].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Y="{Binding Children[1].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Z="{Binding Children[2].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          W="{Binding Children[3].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor">
-        --><!--<i:Interaction.Behaviors>
+        <!--<i:Interaction.Behaviors>
           <behaviors:TextBoxVectorPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
-        </i:Interaction.Behaviors>--><!--
-      </sd:Vector4Editor>
-      --><!--<DataTemplate.Triggers>
+        </i:Interaction.Behaviors>-->
+      </sd:AVector4Editor>
+      <!--<DataTemplate.Triggers>
         <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
           <Setter TargetName="VectorEditor" Property="WatermarkContent" Value="≠"/>
         </DataTrigger>
-      </DataTemplate.Triggers>--><!--
+      </DataTemplate.Triggers>-->
     </DataTemplate>
-  </view:TypeMatchTemplateProvider>
+		  </view:ATypeMatchTemplateProvider.Template>
+  </view:ATypeMatchTemplateProvider>
 
-  --><!-- Provider for int2 editor --><!--
+  <!-- Provider for int2 editor --><!--
   <view:TypeMatchTemplateProvider x:Key="Int2PropertyTemplateProvider" Type="{x:Type math:Int2}" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
     <DataTemplate DataType="qvm:NodeViewModel">
       <sd:Int2Editor X="{Binding X.NodeValue, Converter={cvt:DifferentValuesToNull}}"

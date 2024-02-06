@@ -36,9 +36,9 @@ namespace Stride.Core.Presentation.ValueConverters
         }
 
         /// <inheritdoc/>
-        public abstract object Convert(object value, [NotNull] Type targetType, object parameter, CultureInfo culture);
+        public abstract object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture);
 
         /// <inheritdoc/>
-        public abstract object ConvertBack(object value, [NotNull] Type targetType, object parameter, CultureInfo culture);
+        public abstract object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture);
     }
 }
