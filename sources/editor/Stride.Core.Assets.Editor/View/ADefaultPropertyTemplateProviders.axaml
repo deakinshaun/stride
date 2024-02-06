@@ -30,10 +30,10 @@
   </Storyboard>-->
 
   <ControlTheme x:Key="AddNewItemButtonStyle" BasedOn="{StaticResource ImageButtonStyle}" TargetType="Button">
-    <!--<Setter Property="IsVisible" Value="{sd:AMultiBinding {Binding HasCommand_AddNewItem}, {Binding HasCollection},
-                                                            {Binding HasAssociatedData_ReadOnlyCollection, Converter={sd:InvertBool}},
-                                                            {Binding HasAssociatedData_AbstractNodeMatchingEntries, Converter={sd:InvertBool}},
-                                                            Converter={sd:MultiChained {sd:AndMultiConverter}, {sd:VisibleOrCollapsed}}, FallbackValue={sd:Collapsed}}"/>-->
+    <Setter Property="IsVisible" Value="{sd:AMultiBinding {Binding HasCommand_AddNewItem}, {Binding HasCollection},
+                                                            {Binding HasAssociatedData_ReadOnlyCollection, Converter={sd:AInvertBool}},
+                                                            {Binding HasAssociatedData_AbstractNodeMatchingEntries, Converter={sd:AInvertBool}},
+                                                            Converter={sd:AAndMultiConverter}, FallbackValue=false}"/>
     <Setter Property="Command" Value="{Binding AddNewItem}"/>
     <Setter Property="ToolTip.Tip" Value="{sd:Localize Add..., Context=ToolTip}"/>
     <Setter Property="ContentTemplate">
@@ -113,14 +113,14 @@
                 </ControlTemplate>
               </ToggleButton.Template>
             </ToggleButton>
-            <!--<Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False"  PopupAnimation="Slide">
-              <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown" >
+            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="PART_Popup" Focusable="False"  >
+              <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding Width}" x:Name="DropDown" >
                 <Border x:Name="DropDownBorder" Background="{DynamicResource ControlBackgroundBrush}" CornerRadius="3,3,3,3" />
-                <ScrollViewer Margin="1" Theme="{DynamicResource NuclearScrollViewer}"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}">
-                  <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                <ScrollViewer Margin="1" Theme="{DynamicResource NuclearScrollViewer}"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  >
+                  <StackPanel />
                 </ScrollViewer>
               </Grid>
-            </Popup>-->
+            </Popup>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
@@ -132,16 +132,16 @@
     <Setter Property="Height" Value="16"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
-    <!--<Setter Property="IsVisible" Value="{sd:MultiBinding {Binding HasCommand_AddNewItem}, {Binding HasCollection}, {Binding HasAssociatedData_AbstractNodeMatchingEntries},
-                                                            Converter={sd:MultiChained {sd:AndMultiConverter}, {sd:VisibleOrCollapsed}}, FallbackValue={sd:Collapsed}}"/>-->
+    <Setter Property="IsVisible" Value="{sd:AMultiBinding {Binding HasCommand_AddNewItem}, {Binding HasCollection}, {Binding HasAssociatedData_AbstractNodeMatchingEntries},
+                                                            Converter={sd:AAndMultiConverter}, FallbackValue=false}"/>
     <Setter Property="ToolTip.Tip" Value="{sd:Localize Add..., Context=ToolTip}" />
     <Setter Property="Tag" Value="{StaticResource ImageAdd}"/>
   </ControlTheme>
 
   <ControlTheme x:Key="RemoveItemButtonStyle" BasedOn="{StaticResource ImageButtonStyle}" TargetType="Button">
-    <!--<Setter Property="IsVisible" Value="{sd:MultiBinding {Binding HasCommand_RemoveItem},
-                                                            {Binding HasAssociatedData_ReadOnlyCollection, Converter={sd:InvertBool}},
-                                          Converter={sd:MultiChained {sd:AndMultiConverter}, {sd:VisibleOrCollapsed}}}"/>-->
+    <Setter Property="IsVisible" Value="{sd:AMultiBinding {Binding HasCommand_RemoveItem},
+                                                            {Binding HasAssociatedData_ReadOnlyCollection, Converter={sd:AInvertBool}},
+                                          Converter={sd:AAndMultiConverter}}"/>
     <Setter Property="Command" Value="{Binding RemoveItem}"/>
     <Setter Property="ToolTip.Tip" Value="{sd:Localize Delete, Context=ToolTip}"/>
     <Setter Property="ContentTemplate">
@@ -275,11 +275,11 @@
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
           <Button Theme="{StaticResource RemoveItemButtonStyle}"/>
           <Button Theme="{StaticResource AddNewItemButtonStyle}"/>
-          <!--<ComboBox DockPanel.Dock="Right" x:Name="InstanceTypeSelectionComboBox" Theme="{StaticResource AddItemComboBox}" ItemsSource="{Binding AbstractNodeMatchingEntries}">-->
+          <ComboBox DockPanel.Dock="Right" x:Name="InstanceTypeSelectionComboBox" Theme="{StaticResource AddItemComboBox}" ItemsSource="{Binding AbstractNodeMatchingEntries}">
             <!--<i:Interaction.Behaviors>
               <behaviors:OnComboBoxClosedWithSelectionBehavior Command="{Binding AddNewItem}" CommandParameter="{Binding SelectedItem, ElementName=InstanceTypeSelectionComboBox}"/>
             </i:Interaction.Behaviors>-->
-          <!--</ComboBox>-->
+          </ComboBox>
         </StackPanel>
         <ToggleButton DockPanel.Dock="Left" Template="{StaticResource PropertyGridHeaderExpanderToggleButton}" Width="8" Height="8"
                                     IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType=sd:APropertyViewItem}}"
@@ -331,9 +331,11 @@
   </DataTemplate>
 
   <!-- Base provider for property footer: nothing inside! -->
-  <!--<sd:ADefaultTemplateProvider x:Key="DefaultPropertyFooterTemplateProvider" edvw:PropertyViewHelper.TemplateCategory="PropertyFooter" OverrideRule="None">
-    <DataTemplate/>
-  </sd:ADefaultTemplateProvider>-->
+  <sd:ADefaultTemplateProvider x:Key="DefaultPropertyFooterTemplateProvider" edvw:APropertyViewHelper.TemplateCategory="PropertyFooter" OverrideRule="None">
+	  <sd:ADefaultTemplateProvider.Template>
+		  <DataTemplate/>
+	  </sd:ADefaultTemplateProvider.Template>
+  </sd:ADefaultTemplateProvider>
 
   <!-- Base provider for properties: ToggleButton for expander, TextBlock for property name (respecting alignment), and a ContentControl for the actual property editor -->
   <sd:ADefaultTemplateProvider x:Key="DefaultPropertyTemplateProvider" edvw:APropertyViewHelper.TemplateCategory="PropertyHeader" OverrideRule="None"
@@ -376,11 +378,13 @@
   </pvdr:AAbstractTypeTemplateProvider>-->
 
   <!-- Hide header of inlined properties but allow to display its children -->
-  <!--<pvdr:InlinedPropertyValueTemplateProvider x:Key="InlinedPropertyHeaderTemplateProvider" OverrideRule="Some" edvw:PropertyViewHelper.TemplateCategory="PropertyHeader">
+  <pvdr:AInlinedPropertyValueTemplateProvider x:Key="InlinedPropertyHeaderTemplateProvider" OverrideRule="Some" edvw:APropertyViewHelper.TemplateCategory="PropertyHeader">
+	  <pvdr:AInlinedPropertyValueTemplateProvider.Template>
     <DataTemplate>
-      --><!--<Border edvw:PropertyViewHelper.Increment="0" edvw:PropertyViewHelper.IsExpanded="True"/>--><!--
+      <Border edvw:APropertyViewHelper.Increment="0" edvw:APropertyViewHelper.IsExpanded="True"/>
     </DataTemplate>
-  </pvdr:InlinedPropertyValueTemplateProvider>-->
+	  </pvdr:AInlinedPropertyValueTemplateProvider.Template>
+  </pvdr:AInlinedPropertyValueTemplateProvider>
 
   <!-- Hide footer of inlined properties but allow to display its children -->
   <!--<pvdr:InlinedPropertyValueTemplateProvider x:Key="InlinedPropertyFooterTemplateProvider" OverrideRule="Some" edvw:PropertyViewHelper.TemplateCategory="PropertyFooter">
@@ -1055,8 +1059,8 @@
   <view:ATypeMatchTemplateProvider x:Key="Vector2PropertyTemplateProvider" Type="{x:Type math:Vector2}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
 	  <view:ATypeMatchTemplateProvider.Template>
 		  <DataTemplate DataType="qvm:NodeViewModel">
-      <sd:AVector2Editor X="{Binding Children[0].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
-                          Y="{Binding Children[1].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+      <sd:AVector2Editor X="{Binding X.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Y="{Binding Y.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor">
         <!--<i:Interaction.Behaviors>
           <behaviors:TextBoxVectorPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
@@ -1075,9 +1079,9 @@
   <view:ATypeMatchTemplateProvider x:Key="Vector3PropertyTemplateProvider" Type="{x:Type math:Vector3}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
 	  <view:ATypeMatchTemplateProvider.Template>
 	  <DataTemplate DataType="qvm:NodeViewModel">
-			  <sd:AVector3Editor X="{Binding Children[0].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
-                          Y="{Binding Children[1].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
-                          Z="{Binding Children[2].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+			  <sd:AVector3Editor X="{Binding X.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Y="{Binding Y.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Z="{Binding Z.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor">
           </sd:AVector3Editor>
 		  <!--<sd:AVector3Editor X="{Binding X.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
@@ -1101,10 +1105,10 @@
   <view:ATypeMatchTemplateProvider x:Key="Vector4PropertyTemplateProvider" Type="{x:Type math:Vector4}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
 	  <view:ATypeMatchTemplateProvider.Template>
     <DataTemplate DataType="qvm:NodeViewModel">
-      <sd:AVector4Editor X="{Binding Children[0].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
-                          Y="{Binding Children[1].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
-                          Z="{Binding Children[2].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
-                          W="{Binding Children[3].NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+      <sd:AVector4Editor X="{Binding X.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Y="{Binding Y.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          Z="{Binding Z.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                          W="{Binding W.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                           WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor">
         <!--<i:Interaction.Behaviors>
           <behaviors:TextBoxVectorPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
@@ -1221,35 +1225,38 @@
     </DataTemplate>
   </view:TypeMatchTemplateProvider>
 
-  --><!-- Provider for matrix editor --><!--
-  <view:TypeMatchTemplateProvider x:Key="MatrixPropertyTemplateProvider" Type="{x:Type math:Matrix}" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
+  -->
+  <!-- Provider for matrix editor -->
+  <view:ATypeMatchTemplateProvider x:Key="MatrixPropertyTemplateProvider" Type="{x:Type math:Matrix}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+	  <view:ATypeMatchTemplateProvider.Template>
     <DataTemplate DataType="qvm:NodeViewModel">
-      <sd:MatrixEditor M11="{Binding M11.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M12="{Binding M12.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M13="{Binding M13.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M14="{Binding M14.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M21="{Binding M21.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M22="{Binding M22.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M23="{Binding M23.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M24="{Binding M24.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M31="{Binding M31.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M32="{Binding M32.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M33="{Binding M33.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M34="{Binding M34.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M41="{Binding M41.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M42="{Binding M42.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M43="{Binding M43.NodeValue, Converter={cvt:DifferentValuesToNull}}"
-                         M44="{Binding M44.NodeValue, Converter={cvt:DifferentValuesToNull}}"
+      <sd:AMatrixEditor M11="{Binding M11.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M12="{Binding M12.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M13="{Binding M13.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M14="{Binding M14.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M21="{Binding M21.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M22="{Binding M22.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M23="{Binding M23.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M24="{Binding M24.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M31="{Binding M31.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M32="{Binding M32.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M33="{Binding M33.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M34="{Binding M34.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M41="{Binding M41.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M42="{Binding M42.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M43="{Binding M43.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
+                         M44="{Binding M44.NodeValue, Converter={cvt:ADifferentValuesToNull}}"
                          WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}" DecimalPlaces="3" x:Name="VectorEditor"/>
-      --><!--<DataTemplate.Triggers>
+      <!--<DataTemplate.Triggers>
         <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
           <Setter TargetName="VectorEditor" Property="WatermarkContent" Value="≠"/>
         </DataTrigger>
-      </DataTemplate.Triggers>--><!--
+      </DataTemplate.Triggers>-->
     </DataTemplate>
-  </view:TypeMatchTemplateProvider>
+		  </view:ATypeMatchTemplateProvider.Template>
+  </view:ATypeMatchTemplateProvider>
 
-  --><!-- Provider for angleSingle editor --><!--
+  <!-- Provider for angleSingle editor --><!--
   <view:TypeMatchTemplateProvider x:Key="AnglePropertyTemplateProvider" Type="{x:Type math:AngleSingle}" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
     <DataTemplate DataType="qvm:NodeViewModel">
       --><!--<sd:NumericTextBox x:Name="TextBox" DecimalPlaces="3"
@@ -1635,7 +1642,8 @@
 	</sd:ADefaultTemplateProvider.Template>
   </sd:ADefaultTemplateProvider>
 
-  <!--<pvdr:UnloadableObjectTemplateProvider x:Key="YamlProxyTemplateProvider" OverrideRule="All" edvw:PropertyViewHelper.TemplateCategory="PropertyHeader">
+  <pvdr:AUnloadableObjectTemplateProvider x:Key="YamlProxyTemplateProvider" OverrideRule="All" edvw:APropertyViewHelper.TemplateCategory="PropertyHeader">
+	  <pvdr:AUnloadableObjectTemplateProvider.Template>
     <DataTemplate DataType="qvm:NodeViewModel">
       <DockPanel>
         <Border DockPanel.Dock="Top" BorderBrush="Black" Margin="4,8" BorderThickness="1" Background="{StaticResource NormalBrush}">
@@ -1653,6 +1661,7 @@
         </Border>
       </DockPanel>
     </DataTemplate>
-  </pvdr:UnloadableObjectTemplateProvider>-->
+		  </pvdr:AUnloadableObjectTemplateProvider.Template>
+  </pvdr:AUnloadableObjectTemplateProvider>
 
 </ResourceDictionary>

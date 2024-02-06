@@ -4,6 +4,7 @@
 //using System.Windows.Markup;
 
 using System;
+using System.Globalization;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
@@ -116,7 +117,7 @@ namespace Stride.Core.Presentation.MarkupExtensions
 
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            return null;
+            return this;
         }
     }
 }

@@ -7,16 +7,16 @@ using Stride.Core.Presentation.ValueConverters;
 
 namespace Stride.Core.Assets.Editor.View.ValueConverters
 {
-    public class ADifferentValuesToNull : AOneWayValueConverter<ADifferentValuesToNull>
+    public class ADifferentValuesToNull : AAValueConverterBase<ADifferentValuesToNull>
     {
         public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value != NodeViewModel.DifferentValues ? value : null;
         }
 
- /*       public override object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public override object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value;
-        }*/
+        }
     }
 }

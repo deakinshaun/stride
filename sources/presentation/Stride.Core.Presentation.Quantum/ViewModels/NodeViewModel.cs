@@ -20,7 +20,9 @@ using Stride.Core.Presentation.Quantum.Presenters;
 using Stride.Core.Presentation.ViewModel;
 using Stride.Core.Quantum;
 using Expression = System.Linq.Expressions.Expression;
-using System.Windows;
+using Avalonia.Data.Core.Plugins;
+using Avalonia.Data;
+//using System.Windows;
 
 namespace Stride.Core.Presentation.Quantum.ViewModels
 {
@@ -227,6 +229,68 @@ namespace Stride.Core.Presentation.Quantum.ViewModels
         /// </summary>
         protected int? Order => NodePresenters.First().Order;
 
+
+        /// Patching in some avalonia dependency here to provide access to additional properties. This will have to
+        /// move to a more appropriate place in the future - just getting the functionality working.
+        public class AssociatedDataPropertyAccessorPlugin : IPropertyAccessorPlugin
+        {
+            private NodeViewModel datasource;
+            public AssociatedDataPropertyAccessorPlugin (NodeViewModel source)
+            {
+                datasource = source;
+            }
+            public bool Match(object obj, string propertyName)
+            {
+                var name = EscapeName(propertyName);
+                var value = datasource.GetChild(name) ?? datasource.GetCommand(name) ?? datasource.GetAssociatedData(name) ?? null;
+                return value != null;
+            }
+
+            public IPropertyAccessor? Start(WeakReference<object?> reference, string propertyName)
+            {
+                return new AssociatedDataAccessor(reference, propertyName, datasource);
+            }
+            private class AssociatedDataAccessor : PropertyAccessorBase
+            {
+                public override Type? PropertyType => Value.GetType ();
+
+                public override object? Value
+                {
+                    get
+                    {
+                        var name = EscapeName(propertyName);
+                        var value = datasource.GetChild(name) ?? datasource.GetCommand(name) ?? datasource.GetAssociatedData(name) ?? null;
+                        return value;
+                    }
+                }
+
+                private readonly WeakReference<object?> _reference;
+                private readonly string propertyName;
+                private NodeViewModel datasource;
+
+                public AssociatedDataAccessor(WeakReference<object?> reference, string property, NodeViewModel source)
+                {
+                    _reference = reference;
+                    propertyName = property;
+                    datasource = source;
+                }
+
+                public override bool SetValue(object? value, BindingPriority priority)
+                {
+                    throw new NotImplementedException();
+                }
+
+                protected override void SubscribeCore()
+                {
+                    PublishValue(Value);
+                }
+
+                protected override void UnsubscribeCore()
+                {
+                }
+            }
+        }
+
         public void FinishInitialization()
         {
             if (initializingChildren != null)
@@ -276,6 +340,8 @@ namespace Stride.Core.Presentation.Quantum.ViewModels
                 var value = values.Count == 1 ? values[0] : combiner(values);
                 AddAssociatedData(attachedProperty.Key.Name, value);
             }
+
+            BindingPlugins.PropertyAccessors.Add(new AssociatedDataPropertyAccessorPlugin(this));
         }
 
         /// <summary>

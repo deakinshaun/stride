@@ -713,6 +713,82 @@
       </Setter.Value>
     </Setter>
   </ControlTheme>
-	
-	
+
+	<ControlTheme x:Key="{x:Type ctrl:AMatrixEditor}" TargetType="{x:Type ctrl:AMatrixEditor}">
+		<Setter Property="Focusable" Value="False"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ctrl:AMatrixEditor}">
+					<UniformGrid Rows="4" Columns="4">
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M11, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M12, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M13, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M14, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M21, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M22, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M23, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M24, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M31, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M32, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M33, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M34, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M41, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M42, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:NumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M43, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+						<ctrl:ANumericTextBox Margin="2" TextAlignment="Center" DisplayUpDownButtons="False" SelectAllOnFocus="True"
+											 Value="{Binding M44, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={cvt:AToDouble}}"
+											 WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+											 WatermarkContentTemplate="{Binding WatermarkContentTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+					</UniformGrid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</ControlTheme>
+
+
 </ResourceDictionary>
