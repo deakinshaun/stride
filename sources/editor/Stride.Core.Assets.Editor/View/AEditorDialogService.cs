@@ -38,7 +38,7 @@ namespace Stride.Core.Assets.Editor.View
     using MessageBoxImage = Presentation.Services.MessageBoxImage;
     using MessageBoxResult = Presentation.Services.MessageBoxResult;
 
-    public class AEditorDialogService : DialogService, AIEditorDialogService
+    public class AEditorDialogService : DialogService, IEditorDialogService
     {
         private struct PendingWorkProgress
         {
@@ -53,7 +53,7 @@ namespace Stride.Core.Assets.Editor.View
             public TaskCompletionSource<int> Displayed { get; }
         }
 
-        private static readonly List<AITemplateProvider> AdditionalProviders = new List<AITemplateProvider>();
+        private static readonly List<ITemplateProvider> AdditionalProviders = new List<ITemplateProvider>();
         private readonly List<NotificationWindow> notificationWindows = new List<NotificationWindow>();
         private readonly List<PendingWorkProgress> pendingProgressWindows = new List<PendingWorkProgress>();
         private readonly ConcurrentQueue<Tuple<SettingsKey, Action>> delayedNotifications = new ConcurrentQueue<Tuple<SettingsKey, Action>>();
@@ -251,7 +251,7 @@ namespace Stride.Core.Assets.Editor.View
             RegisterResourceDictionary((ResourceDictionary) dictionary.Loaded);
         }
 
-        public void RegisterDefaultTemplateProvider(AITemplateProvider provider)
+        public void RegisterDefaultTemplateProvider(ITemplateProvider provider)
         {
             var dependencyObject = provider as AvaloniaObject;
             if (dependencyObject == null)
@@ -275,7 +275,7 @@ namespace Stride.Core.Assets.Editor.View
         }
 
         // TODO: Move this in PluginService
-        public void RegisterAdditionalTemplateProvider(AITemplateProvider provider)
+        public void RegisterAdditionalTemplateProvider(ITemplateProvider provider)
         {
             AdditionalProviders.Add(provider);
             var dependencyObject = provider as AvaloniaObject;
@@ -314,16 +314,13 @@ namespace Stride.Core.Assets.Editor.View
         {
             foreach (object key in dictionary.Keys)
             {
-                //foreach (object value in dictionary.Values)
                 object value = dictionary[key];
-                //dictionary.TryGetValue(key, out value);
             
-                var provider = value as AITemplateProvider;
+                var provider = value as ITemplateProvider;
                 if (provider != null)
                 {
                     RegisterDefaultTemplateProvider(provider);
                 }
-  //              RegisterDefaultTemplateProvider((AvaloniaObject)value);
             }
         }
 

@@ -85,7 +85,7 @@ namespace Stride.Core.Presentation.View
             //{
             //    contentPresenter.ContentTemplate = template;
             //}
-            return template;
+            return (DataTemplate) template;
         }
         
         private static void InsertTemplateProvider([NotNull] List<ITemplateProvider> list, ITemplateProvider templateProvider, [NotNull] List<ITemplateProvider> movedItems)

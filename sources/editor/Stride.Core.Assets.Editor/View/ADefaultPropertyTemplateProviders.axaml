@@ -346,36 +346,32 @@
                                edvw:APropertyViewHelper.TemplateCategory="PropertyHeader"/>
 
   <!-- Provider for abstract types: ComboBox that allows to select a type and create an instance of the selected type, visible if the current value is null -->
-  <!--<pvdr:AAbstractTypeTemplateProvider x:Key="InlinedAbstractTypePropertyTemplateProvider" OverrideRule="Most" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+  <pvdr:AAbstractTypeTemplateProvider x:Key="InlinedAbstractTypePropertyTemplateProvider" OverrideRule="Most" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
     <pvdr:AAbstractTypeTemplateProvider.OverriddenProviderNames>
       <s:String>InlinedProperty</s:String>
     </pvdr:AAbstractTypeTemplateProvider.OverriddenProviderNames>
+    <pvdr:AAbstractTypeTemplateProvider.Template>
     <DataTemplate DataType="qvm:NodeViewModel">
       <DockPanel>
 		  <ComboBox x:Name="InstanceTypeSelectionComboBox" DockPanel.Dock="Right" Theme="{StaticResource AbstractTypeSelectionComboBox}"
 					ItemsSource="{Binding AbstractNodeMatchingEntries}"
-					IsVisible="{sd:MultiBinding {Binding HasCommand_CreateNewInstance}, {Binding IsReadOnly, Converter={sd:InvertBool}},
-                                                 Converter={sd:AndMultiConverter}}">
-			  --><!--<ComboBox x:Name="InstanceTypeSelectionComboBox" DockPanel.Dock="Right" Theme="{StaticResource AbstractTypeSelectionComboBox}"
-						ItemsSource="{Binding AbstractNodeMatchingEntries}"
-						DisplayMemberPath="DisplayValue"
-						IsVisible="{sd:MultiBinding {Binding HasCommand_CreateNewInstance}, {Binding IsReadOnly, Converter={sd:InvertBool}},
-                                                 Converter={sd:MultiChained {sd:AndMultiConverter}, {sd:VisibleOrCollapsed}}}">--><!--
-				  <i:Interaction.Behaviors>
+					IsVisible="{sd:AMultiBinding {Binding HasCommand_CreateNewInstance}, {Binding IsReadOnly, Converter={sd:AInvertBool}},
+                                                 Converter={sd:AAndMultiConverter}}">
+		  <!--<i:Interaction.Behaviors>
             <behaviors:OnComboBoxClosedWithSelectionBehavior Command="{Binding CreateNewInstance}"
                                                              CommandParameter="{Binding SelectedItem, ElementName=InstanceTypeSelectionComboBox}"/>
-          </i:Interaction.Behaviors>
-        </ComboBox>
-		  <ContentControl x:Name="ContentControl" Content="{Binding}" />
-		  --><!--<ContentControl x:Name="ContentControl" Content="{Binding}" ContentTemplateSelector="{x:Static edvw:PropertyViewHelper.EditorProviders}"/>--><!--
+          </i:Interaction.Behaviors>-->
+             </ComboBox>
+		  <ContentControl x:Name="ContentControl" Content="{Binding}" ContentTemplate="{x:Static edvw:APropertyViewHelper.EditorProviders}"/>
 	  </DockPanel>
-      --><!--<DataTemplate.Triggers>
+      <!--<DataTemplate.Triggers>
         <DataTrigger Binding="{Binding NodeValue, Converter={sd:ObjectToBool}}" Value="False">
           <Setter Property="Opacity" Value="0.5" TargetName="ContentControl"/>
         </DataTrigger>
-      </DataTemplate.Triggers>--><!--
+      </DataTemplate.Triggers>-->
     </DataTemplate>
-  </pvdr:AAbstractTypeTemplateProvider>-->
+	</pvdr:AAbstractTypeTemplateProvider.Template>
+  </pvdr:AAbstractTypeTemplateProvider>
 
   <!-- Hide header of inlined properties but allow to display its children -->
   <pvdr:AInlinedPropertyValueTemplateProvider x:Key="InlinedPropertyHeaderTemplateProvider" OverrideRule="Some" edvw:APropertyViewHelper.TemplateCategory="PropertyHeader">
@@ -387,37 +383,43 @@
   </pvdr:AInlinedPropertyValueTemplateProvider>
 
   <!-- Hide footer of inlined properties but allow to display its children -->
-  <!--<pvdr:InlinedPropertyValueTemplateProvider x:Key="InlinedPropertyFooterTemplateProvider" OverrideRule="Some" edvw:PropertyViewHelper.TemplateCategory="PropertyFooter">
+  <pvdr:AInlinedPropertyValueTemplateProvider x:Key="InlinedPropertyFooterTemplateProvider" OverrideRule="Some" edvw:APropertyViewHelper.TemplateCategory="PropertyFooter">
+	  <pvdr:AInlinedPropertyValueTemplateProvider.Template>
     <DataTemplate>
       <Border/>
     </DataTemplate>
-  </pvdr:InlinedPropertyValueTemplateProvider>-->
+	  </pvdr:AInlinedPropertyValueTemplateProvider.Template>
+  </pvdr:AInlinedPropertyValueTemplateProvider>
 
-  <!--<pvdr:InlinedPropertyTemplateProvider x:Key="InlinedPropertyTemplateProvider" OverrideRule="Some" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
+  <pvdr:AInlinedPropertyTemplateProvider x:Key="InlinedPropertyTemplateProvider" OverrideRule="Some" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+	<pvdr:AInlinedPropertyTemplateProvider.Template>
     <DataTemplate>
       <Grid>
-        --><!-- Fallback when the node has multiple values to display --><!--
+        <!-- Fallback when the node has multiple values to display -->
         <TextBlock Margin="2,0" VerticalAlignment="Center" Text="{sd:Localize (Different values)}"
-                   IsVisible="{Binding NodeValue, Converter={sd:Chained {sd:IsEqualToParam}, {sd:VisibleOrCollapsed},
-                               Parameter1={x:Static qvm:NodeViewModel.DifferentValues}}}"/>
-        --><!-- Fallback when the value does not have an inline property --><!--
-        <ContentControl x:Name="ContentControl" Content="{sd:PriorityBinding {Binding InlinedProperty}, {Binding}}"
-                        ContentTemplateSelector="{x:Static edvw:PropertyViewHelper.EditorProviders}"
-                        IsVisible="{Binding NodeValue, Converter={sd:Chained {sd:IsEqualToParam}, {sd:InvertBool}, {sd:VisibleOrCollapsed},
+                   IsVisible="{Binding NodeValue, Converter={sd:AIsEqualToParam},
+                               ConverterParameter={x:Static qvm:NodeViewModel.DifferentValues}}}"/>
+        <!-- Fallback when the value does not have an inline property -->
+        <ContentControl x:Name="ContentControl" Content="{sd:APriorityBinding {Binding InlinedProperty}, {Binding}}"
+                        ContentTemplate="{x:Static edvw:APropertyViewHelper.EditorProviders}"
+                        IsVisible="{Binding NodeValue, Converter={sd:AChained {sd:AIsEqualToParam}, {sd:AInvertBool},
                                     Parameter1={x:Static qvm:NodeViewModel.DifferentValues}}}"/>
       </Grid>
     </DataTemplate>
-  </pvdr:InlinedPropertyTemplateProvider>-->
+	</pvdr:AInlinedPropertyTemplateProvider.Template>
+  </pvdr:AInlinedPropertyTemplateProvider>
 
   <!-- Provider for collection items: Button to remove an entry, then a ContentControl for the item itself -->
-  <!--<pvdr:ListItemTemplateProvider x:Key="CollectionItemPropertyTemplateProvider" OverrideRule="Most" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
+  <pvdr:AListItemTemplateProvider x:Key="CollectionItemPropertyTemplateProvider" OverrideRule="Most" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+	  <pvdr:AListItemTemplateProvider.Template>
     <DataTemplate>
       <DockPanel>
         <Button Theme="{StaticResource RemoveItemButtonStyle}" DockPanel.Dock="Right"/>
-        <ContentControl Content="{Binding}" ContentTemplateSelector="{x:Static edvw:PropertyViewHelper.EditorProviders}"/>
+        <ContentControl Content="{Binding}" ContentTemplate="{x:Static edvw:APropertyViewHelper.EditorProviders}"/>
       </DockPanel>
     </DataTemplate>
-  </pvdr:ListItemTemplateProvider>-->
+	  </pvdr:AListItemTemplateProvider.Template>
+  </pvdr:AListItemTemplateProvider>
 
   <!-- Provider for list: Button to add an entry, TextBlock to describe the collection -->
   <!--<pvdr:ListTemplateProvider x:Key="ListPropertyTemplateProvider" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
@@ -799,7 +801,8 @@
   </view:ATypeMatchTemplateProvider>
 
   <!-- Provider for char editor -->
-  <!--<view:TypeMatchTemplateProvider x:Key="CharPropertyTemplateProvider" Type="{x:Type s:Char}" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">
+  <view:ATypeMatchTemplateProvider x:Key="CharPropertyTemplateProvider" Type="{x:Type s:Char}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor">
+	  <view:ATypeMatchTemplateProvider.Template>
     <DataTemplate DataType="qvm:NodeViewModel">
       <Grid>
         <Grid.ColumnDefinitions>
@@ -807,30 +810,31 @@
           <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <TextBox Grid.Column="0" Margin="2" Width="40" TextAlignment="Center"
-                 Text="{Binding NodeValue, Converter={sd:CharToString}}"
+                 Text="{Binding NodeValue, Converter={sd:ACharToString}}"
                  ToolTip.Tip="{sd:Localize Character, Context=ToolTIp}">
           <i:Interaction.Behaviors>
-            <sd:CharInputBehavior/>
+            <sd:ACharInputBehavior/>
           </i:Interaction.Behaviors>
         </TextBox>
-        <sd:NumericTextBox x:Name="TextBox" TextAlignment="Center" Grid.Column="1" Margin="2" SelectAllOnFocus="True"
-                             Value="{Binding NodeValue, Converter={sd:Chained {cvt:DifferentValuesToNull}, {sd:CharToUnicode}}}"
+        <sd:ANumericTextBox x:Name="TextBox" TextAlignment="Center" Grid.Column="1" Margin="2" SelectAllOnFocus="True"
+                             Value="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:ACharToUnicode}}}"
                              SmallChange="1" LargeChange="10" DecimalPlaces="0" Minimum="0" ToolTip.Tip="{sd:Localize Unicode value, Context=ToolTip}"
                              WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}"
                              DisplayUpDownButtons="False">
-          <i:Interaction.Behaviors>
-            --><!--<sd:NumericTextBoxTransactionalRepeatButtonsBehavior UndoRedoService="{Binding Session.UndoRedoService}"/>--><!--
+          <!--<i:Interaction.Behaviors>
+            <sd:NumericTextBoxTransactionalRepeatButtonsBehavior UndoRedoService="{Binding Session.UndoRedoService}"/>
             <behaviors:TextBoxPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
-          </i:Interaction.Behaviors>
-        </sd:NumericTextBox>
+          </i:Interaction.Behaviors>-->
+        </sd:ANumericTextBox>
       </Grid>
-      <DataTemplate.Triggers>
+      <!--<DataTemplate.Triggers>
         <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
           <Setter TargetName="TextBox" Property="WatermarkContent" Value="{sd:Localize (Different values)}"/>
         </DataTrigger>
-      </DataTemplate.Triggers>
+      </DataTemplate.Triggers>-->
     </DataTemplate>
-  </view:TypeMatchTemplateProvider>-->
+	  </view:ATypeMatchTemplateProvider.Template>
+  </view:ATypeMatchTemplateProvider>
 
   <!-- Providers for color editors -->
   <DataTemplate x:Key="ColorEditorTemplate" DataType="qvm:NodeViewModel">
@@ -843,46 +847,44 @@
         <ToggleButton.Template>
           <ControlTemplate TargetType="ToggleButton">
 			  <Rectangle VerticalAlignment="Center" Width="20" Height="20" Stroke="Black" StrokeThickness="1"
-						 Fill="{Binding x:Static Brushes.Black}"/>
-			  <!--<Rectangle VerticalAlignment="Center" Width="20" Height="20" Stroke="Black" StrokeThickness="1"
-						 Fill="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}, FallbackValue={x:Static Brushes.Black}}"/>-->
+						 Fill="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}, FallbackValue={x:Static Brushes.Black}}"/>
 		  </ControlTemplate>
         </ToggleButton.Template>
         <i:Interaction.Behaviors>
           <sd:AToggleButtonPopupBehavior/>
         </i:Interaction.Behaviors>
       </ToggleButton>
-      <!--<sd:TextBox x:Name="TextBox" Grid.Column="1" Margin="2" SelectAllOnFocus="True" VerticalAlignment="Center"
-                    Text="{Binding NodeValue, Converter={sd:Chained {cvt:DifferentValuesToNull}, {sd:ColorConverter}}}"
+      <sd:ATextBox x:Name="TextBox" Grid.Column="1" Margin="2" SelectAllOnFocus="True" VerticalAlignment="Center"
+                    Text="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}}"
                     WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}">
-        <i:Interaction.Behaviors>
+        <!--<i:Interaction.Behaviors>
           <behaviors:TextBoxPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
-        </i:Interaction.Behaviors>
-      </sd:TextBox>--><!--
-      --><!--<Popup Grid.Column="0" IsOpen="{Binding ElementName=PickerToggleButton, Path=IsChecked}" StaysOpen="False">
+        </i:Interaction.Behaviors>-->
+      </sd:ATextBox>
+      <Popup Grid.Column="0" IsOpen="{Binding ElementName=PickerToggleButton, Path=IsChecked}" >
         <Grid Background="{StaticResource BackgroundBrush}" MinWidth="200" MinHeight="200" MaxWidth="400" MaxHeight="400">
           <TabControl>
             <TabItem Header="Color picker">
-              <sd:ColorPicker Color="{Binding NodeValue, Converter={sd:Chained {cvt:DifferentValuesToNull}, {sd:ColorConverter}}, FallbackValue={x:Static math:Color4.Black}}"
-                                ShowAlpha="{Binding Type, Mode=OneWay, Converter={sd:Chained {sd:IsEqualToParam}, {sd:InvertBool}, Parameter1={x:Type math:Color3}}}"/>
+              <sd:AColorPicker Color="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}, FallbackValue={x:Static math:Color4.Black}}"
+                                ShowAlpha="{Binding Type, Mode=OneWay, Converter={sd:AChained {sd:AIsEqualToParam}, {sd:AInvertBool}, Parameter1={x:Type math:Color3}}}"/>
             </TabItem>
-            <TabItem Header="Palette">
-              <ListBox ItemsSource="{x:Static viewModel:ColorPaletteViewModel.Colors}" SelectedValuePath="Value"
-                       SelectedValue="{Binding NodeValue, Converter={sd:Chained {cvt:DifferentValuesToNull}, {sd:ColorConverter}}}">
+            <!--<TabItem Header="Palette">
+              <ListBox ItemsSource="{x:Static viewModel:ColorPaletteViewModel.Colors}" 
+                       SelectedValue="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}}">
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <DockPanel>
                       <Rectangle DockPanel.Dock="Left" Stroke="Black" StrokeThickness="1" Width="28" Height="20" Margin="6,2"
-                                 Fill="{Binding Value, Converter={sd:ColorConverter}}"/>
+                                 Fill="{Binding Value, Converter={sd:AColorConverter}}"/>
                       <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
                     </DockPanel>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
-            </TabItem>
+            </TabItem>-->
           </TabControl>
         </Grid>
-      </Popup>-->
+      </Popup>
     </Grid>
     <!--<DataTemplate.Triggers>
       <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
@@ -941,18 +943,7 @@
 
   <!-- Providers for floating-point number editors -->
   <DataTemplate x:Key="FloatEditorTemplate" DataType="qvm:NodeViewModel">
-	  <StackPanel>
-		  
-		  <TextBlock  Margin="2"
-						  Text="floatTemplate" />
-
-		  <TextBlock x:Name="TextBox" Margin="2"
-						  Text="{Binding NodeValue}"/>
-
-	  </StackPanel>
-
-
-	  <!--<sd:ANumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
+	  <sd:ANumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
                          Value="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
                          Minimum="{Binding Minimum, FallbackValue={x:Static s:Double.MinValue}, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
                          Maximum="{Binding Maximum, FallbackValue={x:Static s:Double.MaxValue}, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
@@ -961,11 +952,11 @@
                          DecimalPlaces="{Binding DecimalPlaces, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}, FallbackValue=6}"
                          WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}"
                          DisplayUpDownButtons="False">
-      --><!--<i:Interaction.Behaviors>
+      <!--<i:Interaction.Behaviors>
         --><!--<sd:NumericTextBoxTransactionalRepeatButtonsBehavior UndoRedoService="{Binding Session.UndoRedoService}"/>--><!--
         <behaviors:TextBoxPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
-      </i:Interaction.Behaviors>--><!--
-    </sd:ANumericTextBox>-->
+      </i:Interaction.Behaviors>-->
+    </sd:ANumericTextBox>
     <!--<DataTemplate.Triggers>
       <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
         <Setter TargetName="TextBox" Property="WatermarkContent" Value="{sd:Localize (Different values)}"/>
@@ -976,9 +967,9 @@
 	<view:ATypeMatchTemplateProvider x:Key="FloatPropertyTemplateProvider" Type="{x:Type s:Single}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource FloatEditorTemplate}"/>
   <view:ATypeMatchTemplateProvider x:Key="DoublePropertyTemplateProvider" Type="{x:Type s:Double}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource FloatEditorTemplate}"/>
 
-  <!-- Providers for fixed-point number editors --><!--
+  <!-- Providers for fixed-point number editors -->
   <DataTemplate x:Key="IntEditorTemplate" DataType="qvm:NodeViewModel">
-    <sd:NumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
+    <sd:ANumericTextBox x:Name="TextBox" SelectAllOnFocus="True" Margin="2"
                          Value="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
                          Minimum="{Binding Minimum, FallbackValue={x:Static s:Double.MinValue}, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
                          Maximum="{Binding Maximum, FallbackValue={x:Static s:Double.MaxValue}, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AToDouble}}}"
@@ -987,26 +978,26 @@
                          DecimalPlaces="0"
                          WatermarkContentTemplate="{StaticResource DifferentValuesWatermarkTemplate}"
                          DisplayUpDownButtons="False">
-      --><!--<i:Interaction.Behaviors>
+      <!--<i:Interaction.Behaviors>
 		--><!--<sd:NumericTextBoxTransactionalRepeatButtonsBehavior UndoRedoService="{Binding Session.UndoRedoService}"/>--><!--
         <behaviors:TextBoxPropertyValueValidationBehavior AdornerStoryboard="{StaticResource HighlightBorderAdornerValidationErrorStoryboard}"/>
-      </i:Interaction.Behaviors>--><!--
-    </sd:NumericTextBox>
-    --><!--<DataTemplate.Triggers>
+      </i:Interaction.Behaviors>-->
+    </sd:ANumericTextBox>
+    <!--<DataTemplate.Triggers>
       <DataTrigger Binding="{Binding NodeValue}" Value="{x:Static qvm:NodeViewModel.DifferentValues}">
         <Setter TargetName="TextBox" Property="WatermarkContent" Value="{sd:Localize (Different values)}"/>
       </DataTrigger>
-    </DataTemplate.Triggers>--><!--
-  </DataTemplate>-->
+    </DataTemplate.Triggers>-->
+  </DataTemplate>
 
-  <!--<view:TypeMatchTemplateProvider x:Key="Int8PropertyTemplateProvider" Type="{x:Type s:SByte}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="UInt8PropertyTemplateProvider" Type="{x:Type s:Byte}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="Int16PropertyTemplateProvider" Type="{x:Type s:Int16}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="UInt16PropertyTemplateProvider" Type="{x:Type s:UInt16}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="Int32PropertyTemplateProvider" Type="{x:Type s:Int32}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="UInt32PropertyTemplateProvider" Type="{x:Type s:UInt32}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="Int64PropertyTemplateProvider" Type="{x:Type s:Int64}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
-  <view:TypeMatchTemplateProvider x:Key="UInt64PropertyTemplateProvider" Type="{x:Type s:UInt64}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>-->
+  <view:ATypeMatchTemplateProvider x:Key="Int8PropertyTemplateProvider" Type="{x:Type s:SByte}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="UInt8PropertyTemplateProvider" Type="{x:Type s:Byte}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="Int16PropertyTemplateProvider" Type="{x:Type s:Int16}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="UInt16PropertyTemplateProvider" Type="{x:Type s:UInt16}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="Int32PropertyTemplateProvider" Type="{x:Type s:Int32}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="UInt32PropertyTemplateProvider" Type="{x:Type s:UInt32}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="Int64PropertyTemplateProvider" Type="{x:Type s:Int64}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
+  <view:ATypeMatchTemplateProvider x:Key="UInt64PropertyTemplateProvider" Type="{x:Type s:UInt64}" edvw:APropertyViewHelper.TemplateCategory="PropertyEditor" Template="{StaticResource IntEditorTemplate}"/>
 
   <!-- Provider for time span editor -->
   <!--<view:TypeMatchTemplateProvider x:Key="TimeSpanPropertyTemplateProvider" Type="{x:Type s:TimeSpan}" edvw:PropertyViewHelper.TemplateCategory="PropertyEditor">

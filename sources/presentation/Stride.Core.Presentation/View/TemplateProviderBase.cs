@@ -27,7 +27,7 @@ namespace Stride.Core.Presentation.View
         public abstract string Name { get; }
 
         /// <inheritdoc/>
-        public DataTemplate Template { get; set; }
+        public object Template { get; set; }
 
         /// <inheritdoc/>
         public OverrideRule OverrideRule { get; set; }

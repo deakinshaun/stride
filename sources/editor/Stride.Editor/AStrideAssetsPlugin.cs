@@ -55,8 +55,9 @@ namespace Stride.Editor
                 }
             }
 
-            foreach (object value in dictionary.Values)
+            foreach (object entry in dictionary.Keys)
             {
+                var value = dictionary[entry]; // resolve any deferred content.
                 var provider = value as ITemplateProvider;
                 if (provider != null)
                 {

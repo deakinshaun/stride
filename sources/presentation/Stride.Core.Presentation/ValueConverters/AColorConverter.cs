@@ -136,6 +136,11 @@ namespace Stride.Core.Presentation.ValueConverters
         /// <inheritdoc/>
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var brush = value as SolidColorBrush;
+            if (brush != null)
+                value = new Color (brush.Color.R, brush.Color.G, brush.Color.B, brush.Color.A);
+
+
             if (targetType == typeof(object))
                 return value;
 

@@ -224,10 +224,10 @@
 
   <ControlTheme x:Key="TextBox" TargetType="ctrl:TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}" />
 
-  <ControlTheme x:Key="NumericTextBox" TargetType="ctrl:NumericTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+  <ControlTheme x:Key="ANumericTextBox" TargetType="ctrl:ANumericTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="ctrl:NumericTextBox">
+        <ControlTemplate TargetType="ctrl:ANumericTextBox">
           <!--<mwt:ListBoxChrome Background="{TemplateBinding Panel.Background}"
                              BorderBrush="{TemplateBinding Border.BorderBrush}"
                              BorderThickness="{TemplateBinding Border.BorderThickness}"
@@ -297,14 +297,14 @@
     </Setter>
   </Style>-->
 
-  <ControlTheme x:Key="ColorPicker" TargetType="{x:Type ctrl:ColorPicker}">
+  <ControlTheme x:Key="{x:Type ctrl:AColorPicker}" TargetType="{x:Type ctrl:AColorPicker}">
     <Setter Property="Focusable" Value="False" />
     <Setter Property="InputColumnWidth" Value="120" />
     <Setter Property="PickupAreaSize" Value="160, 160" />
     <Setter Property="StripsHeight" Value="22" />
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="{x:Type ctrl:ColorPicker}">
+        <ControlTemplate TargetType="{x:Type ctrl:AColorPicker}">
           <Grid x:Name="RootLayout" VerticalAlignment="Top" Focusable="False">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -393,14 +393,15 @@
                 <RowDefinition Height="0.5*" />
                 <RowDefinition Height="0.5*" />
               </Grid.RowDefinitions>
-              <!--<GroupBox Header="RGBA" VerticalAlignment="Top" Grid.Column="0" HorizontalContentAlignment="Stretch"
+              <HeaderedContentControl Header="RGBA" VerticalAlignment="Top" Grid.Column="0" HorizontalContentAlignment="Stretch"
                         BorderThickness="0" Margin="2" Focusable="False">
-                <ctrl:KeyValueGrid x:Name="RGBGrid" HorizontalAlignment="Stretch" Focusable="False">
+                <!--<ctrl:KeyValueGrid x:Name="RGBGrid" HorizontalAlignment="Stretch" Focusable="False">-->
+				  <StackPanel>
                   <TextBlock Margin="4,0" Text="{sd:Localize R:, Context=RGBA}"
-                             ToolTipService.ToolTip="{sd:Localize Red, Context=ToolTip}" VerticalAlignment="Center"
+                             ToolTip.Tip="{sd:Localize Red, Context=ToolTip}" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2">
-                    <ctrl:NumericTextBox x:Name="RedTextBox"
+                    <ctrl:ANumericTextBox x:Name="RedTextBox"
                                          Value="{Binding Red, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          SelectionBrush="{StaticResource RedBrush}" Minimum="0" Maximum="255"
                                          Margin="0" MouseValidationTrigger="OnMouseMove" />
@@ -412,10 +413,10 @@
                     </Rectangle>
                   </StackPanel>
                   <TextBlock Margin="4,0" Text="{sd:Localize G:, Context=RGBA}"
-                             ToolTipService.ToolTip="{sd:Localize Green, Context=ToolTip}" VerticalAlignment="Center"
+                             ToolTip.Tip="{sd:Localize Green, Context=ToolTip}" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2">
-                    <ctrl:NumericTextBox x:Name="GreenTextBox"
+                    <ctrl:ANumericTextBox x:Name="GreenTextBox"
                                          Value="{Binding Green, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          SelectionBrush="{StaticResource GreenBrush}" Minimum="0" Maximum="255"
                                          Margin="0" MouseValidationTrigger="OnMouseMove" />
@@ -427,10 +428,10 @@
                     </Rectangle>
                   </StackPanel>
                   <TextBlock Margin="4,0" Text="{sd:Localize B:, Context=RGBA}"
-                             ToolTipService.ToolTip="{sd:Localize Blue, Context=ToolTip}" VerticalAlignment="Center"
+                             ToolTip.Tip="{sd:Localize Blue, Context=ToolTip}" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2">
-                    <ctrl:NumericTextBox x:Name="BlueTextBox"
+                    <ctrl:ANumericTextBox x:Name="BlueTextBox"
                                          Value="{Binding Blue, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          SelectionBrush="{StaticResource BlueBrush}" Minimum="0" Maximum="255"
                                          Margin="0" MouseValidationTrigger="OnMouseMove" />
@@ -442,10 +443,10 @@
                     </Rectangle>
                   </StackPanel>
                   <TextBlock x:Name="AlphaTextBlock" Margin="4,0" Text="{sd:Localize A:, Context=RGBA}"
-                             ToolTipService.ToolTip="{sd:Localize Alpha, Context=ToolTip}" VerticalAlignment="Center"
+                             ToolTip.Tip="{sd:Localize Alpha, Context=ToolTip}" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2" x:Name="AlphaValue">
-                    <ctrl:NumericTextBox x:Name="AlphaTextBox"
+                    <ctrl:ANumericTextBox x:Name="AlphaTextBox"
                                          Value="{Binding Alpha, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          SelectionBrush="{StaticResource AlphaBrush}" Minimum="0" Maximum="255"
                                          Margin="0" />
@@ -456,16 +457,18 @@
                       </Rectangle.RenderTransform>
                     </Rectangle>
                   </StackPanel>
-                </ctrl:KeyValueGrid>
-              </GroupBox>
-              <GroupBox Header="HSB" VerticalAlignment="Top" d:LayoutOverrides="Width" BorderThickness="0" Grid.Row="1"
+                <!--</ctrl:KeyValueGrid>-->
+								</StackPanel>
+              </HeaderedContentControl>
+				<HeaderedContentControl Header="HSB" VerticalAlignment="Top" d:LayoutOverrides="Width" BorderThickness="0" Grid.Row="1"
                         Margin="2" Focusable="False">
-                <ctrl:KeyValueGrid Focusable="False">
+                <!--<ctrl:KeyValueGrid Focusable="False">-->
+					<StackPanel>
                   <TextBlock Margin="4,0" Text="{sd:Localize H:, Context=HSB}"
-                             ToolTipService.ToolTip="{sd:Localize Hue, Context=ToolTip}" VerticalAlignment="Center"
+                             ToolTip.Tip="{sd:Localize Hue, Context=ToolTip}" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2">
-                    <ctrl:NumericTextBox x:Name="HueTextBox"
+                    <ctrl:ANumericTextBox x:Name="HueTextBox"
                                          Value="{Binding Hue, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          DecimalPlaces="0" SelectionBrush="{StaticResource AlphaBrush}" Minimum="0"
                                          Maximum="360" Margin="0" MouseValidationTrigger="OnMouseMove" />
@@ -477,10 +480,10 @@
                     </Rectangle>
                   </StackPanel>
                   <TextBlock Margin="4,0" Text="{sd:Localize S:, Context=HSB}"
-                             ToolTipService.ToolTip="{sd:Localize Saturation, Context=ToolTip}"
+                             ToolTip.Tip="{sd:Localize Saturation, Context=ToolTip}"
                              VerticalAlignment="Center" HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2">
-                    <ctrl:NumericTextBox x:Name="SaturationTextBox"
+                    <ctrl:ANumericTextBox x:Name="SaturationTextBox"
                                          Value="{Binding Saturation, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          DecimalPlaces="0" SelectionBrush="{StaticResource AlphaBrush}" Minimum="0"
                                          Maximum="100" Margin="0" MouseValidationTrigger="OnMouseMove" />
@@ -492,10 +495,10 @@
                     </Rectangle>
                   </StackPanel>
                   <TextBlock Margin="4,0" Text="{sd:Localize B:, Context=HSB}"
-                             ToolTipService.ToolTip="{sd:Localize Value, Context=ToolTip}" VerticalAlignment="Center"
+                             ToolTip.Tip="{sd:Localize Value, Context=ToolTip}" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Focusable="False" />
                   <StackPanel Margin="0,2">
-                    <ctrl:NumericTextBox x:Name="BrightnessTextBox"
+                    <ctrl:ANumericTextBox x:Name="BrightnessTextBox"
                                          Value="{Binding Brightness, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                          DecimalPlaces="0" SelectionBrush="{StaticResource AlphaBrush}" Minimum="0"
                                          Maximum="100" Margin="0" MouseValidationTrigger="OnMouseMove" />
@@ -506,8 +509,9 @@
                       </Rectangle.RenderTransform>
                     </Rectangle>
                   </StackPanel>
-                </ctrl:KeyValueGrid>
-              </GroupBox>-->
+                <!--</ctrl:KeyValueGrid>-->
+								</StackPanel>
+              </HeaderedContentControl>
             </Grid>
           </Grid>
           <!--<ControlTemplate.Triggers>
@@ -539,7 +543,7 @@
                           WatermarkContent="{Binding WatermarkContent, RelativeSource={RelativeSource AncestorType=ctrl:FilteringComboBox}}"
                           Text="{Binding Text, RelativeSource={RelativeSource AncestorType=ctrl:FilteringComboBox}}"
                           IsEnabled="{TemplateBinding IsEnabled}" CancelWithEscape="False" />
-            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False"
+            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="PART_Popup" Focusable="False"
                    >
               <Grid>
                 <ListBox x:Name="PART_ListBox" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="380"
@@ -580,7 +584,7 @@
                           ValidateOnLostFocus="False" ValidateWithEnter="False" UseTimedValidation="True"
                           Text="{Binding SearchText, RelativeSource={RelativeSource AncestorType=ctrl:SearchComboBox}, Mode=OneWayToSource}"
                           IsEnabled="{TemplateBinding IsEnabled}" CancelWithEscape="False" />
-            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False"
+            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="PART_Popup" Focusable="False"
                    >
               <Grid>
                 <ListBox x:Name="PART_ListBox" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="380"
@@ -658,7 +662,7 @@
     </Setter>
   </ControlTheme>
 
-  <ControlTheme x:Key="TextLogViewer" TargetType="ctrl:TextLogViewer" BasedOn="{StaticResource DefaultLogViewerStyle}" />
+  <ControlTheme x:Key="{x:Type ctrl:ATextLogViewer}" TargetType="{x:Type ctrl:ATextLogViewer}" BasedOn="{StaticResource DefaultLogViewerStyle}" />
 
   <ControlTheme x:Key="CanvasView" TargetType="{x:Type ctrl:CanvasView}">
     <Setter Property="Background" Value="Transparent" />

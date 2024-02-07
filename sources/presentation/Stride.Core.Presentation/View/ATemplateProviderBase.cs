@@ -16,7 +16,7 @@ namespace Stride.Core.Presentation.View
     /// An abstract implementation of the <see cref="ITemplateProvider"/> interface.
     /// </summary>
 //    [ContentProperty("Template")]
-    public abstract class ATemplateProviderBase : AvaloniaObject, AITemplateProvider
+    public abstract class ATemplateProviderBase : AvaloniaObject, ITemplateProvider
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TemplateProviderBase"/> class.
@@ -31,7 +31,7 @@ namespace Stride.Core.Presentation.View
         public abstract string Name { get; }
 
         /// <inheritdoc/>
-        public DataTemplate Template { get; set; }
+        public object Template { get; set; }
 
         /// <inheritdoc/>
         public OverrideRule OverrideRule { get; set; }
@@ -42,7 +42,7 @@ namespace Stride.Core.Presentation.View
         /// <inheritdoc/>
         public abstract bool Match(object obj);
 
-        public int CompareTo(AITemplateProvider? other)
+        public int CompareTo(ITemplateProvider? other)
         {
             if (other == null) throw new ArgumentNullException(nameof(other));
 

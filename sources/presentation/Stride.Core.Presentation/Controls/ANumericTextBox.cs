@@ -129,7 +129,7 @@ namespace Stride.Core.Presentation.Controls
         /// <summary>
         /// Identifies the <see cref="MouseValidationTrigger"/> dependency property.
         /// </summary>
-        public static readonly StyledProperty<AMouseValidationTrigger> MouseValidationTriggerProperty = StyledProperty<AMouseValidationTrigger>.Register<ANumericTextBox, AMouseValidationTrigger>(nameof(AMouseValidationTrigger), AMouseValidationTrigger.OnMouseUp);
+        public static readonly StyledProperty<AMouseValidationTrigger> MouseValidationTriggerProperty = StyledProperty<AMouseValidationTrigger>.Register<ANumericTextBox, AMouseValidationTrigger>("MouseValidationTrigger", AMouseValidationTrigger.OnMouseUp);
 
         /// <summary>
         /// Raised when the <see cref="Value"/> property has changed.
@@ -265,7 +265,7 @@ namespace Stride.Core.Presentation.Controls
         /// <summary>
         /// Gets or sets when the <see cref="NumericTextBox"/> should be validated when the user uses the mouse to change its value.
         /// </summary>
-        public MouseValidationTrigger MouseValidationTrigger { get { return (MouseValidationTrigger)GetValue(MouseValidationTriggerProperty); } set { SetValue(MouseValidationTriggerProperty, value); } }
+        public AMouseValidationTrigger MouseValidationTrigger { get { return (AMouseValidationTrigger)GetValue(MouseValidationTriggerProperty); } set { SetValue(MouseValidationTriggerProperty, value); } }
 
         /// <summary>
         /// Raised when the <see cref="Value"/> property has changed.

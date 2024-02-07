@@ -26,7 +26,7 @@ namespace Stride.Core.Presentation.View
         /// <summary>
         /// The list of all template providers registered for the <see cref="TemplateProviderSelector"/>, indexed by their name.
         /// </summary>
-        private readonly List<AITemplateProvider> templateProviders = new List<AITemplateProvider>();
+        private readonly List<ITemplateProvider> templateProviders = new List<ITemplateProvider>();
 
         /// <summary>
         /// A hashset of template provider names, used only to ensure unicity.
@@ -47,14 +47,14 @@ namespace Stride.Core.Presentation.View
         /// Registers the given template into the static <see cref="TemplateProviderSelector"/>.
         /// </summary>
         /// <param name="templateProvider"></param>
-        public void RegisterTemplateProvider([NotNull] AITemplateProvider templateProvider)
+        public void RegisterTemplateProvider([NotNull] ITemplateProvider templateProvider)
         {
             if (templateProvider == null) throw new ArgumentNullException(nameof(templateProvider));
 
             if (templateProviderNames.Contains(templateProvider.Name))
                 throw new InvalidOperationException("A template provider with the same name has already been registered in this template selector.");
 
-            InsertTemplateProvider(templateProviders, templateProvider, new List<AITemplateProvider>());
+            InsertTemplateProvider(templateProviders, templateProvider, new List<ITemplateProvider>());
             templateProviderNames.Add(templateProvider.Name);
         }
 
@@ -62,7 +62,7 @@ namespace Stride.Core.Presentation.View
         /// Unregisters the given template into the static <see cref="TemplateProviderSelector"/>.
         /// </summary>
         /// <param name="templateProvider"></param>
-        public void UnregisterTemplateProvider([NotNull] AITemplateProvider templateProvider)
+        public void UnregisterTemplateProvider([NotNull] ITemplateProvider templateProvider)
         {
             if (templateProviderNames.Remove(templateProvider.Name))
             {
@@ -95,7 +95,7 @@ namespace Stride.Core.Presentation.View
             return template;
         }*/
         
-        private static void InsertTemplateProvider([NotNull] List<AITemplateProvider> list, AITemplateProvider templateProvider, [NotNull] List<AITemplateProvider> movedItems)
+        private static void InsertTemplateProvider([NotNull] List<ITemplateProvider> list, ITemplateProvider templateProvider, [NotNull] List<ITemplateProvider> movedItems)
         {
             movedItems.Add(templateProvider);
             // Find the first index where we can insert
@@ -188,14 +188,12 @@ namespace Stride.Core.Presentation.View
             if (result != null)
             {
                 usedProvidersForItem.Add(result.Name);
-                return result.Template.Build (param);
+                return ((DataTemplate) result.Template).Build (param);
             }
             else
             {
                 return null;
             }
-            return templateProviders[0].Template.Build (param);
-            throw new NotImplementedException();
         }
     }
 }

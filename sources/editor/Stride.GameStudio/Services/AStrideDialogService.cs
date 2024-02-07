@@ -7,7 +7,7 @@ using Stride.GameStudio.View;
 
 namespace Stride.GameStudio.Services
 {
-    public class AStrideDialogService : AEditorDialogService, AIStrideDialogService
+    public class AStrideDialogService : AEditorDialogService, IStrideDialogService
     {
         public AStrideDialogService(IDispatcherService dispatcher, string applicationName)
             : base(dispatcher, applicationName)
