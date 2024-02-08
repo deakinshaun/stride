@@ -23,6 +23,7 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using SkiaSharp;
 using System.Runtime.InteropServices;
+using Avalonia.Input;
 
 namespace Stride.Core.Presentation.Controls
 {
@@ -202,16 +203,19 @@ namespace Stride.Core.Presentation.Controls
 
             if (colorPickerRenderSurface != null)
             {
-//                colorPickerRenderSurface.MouseDown -= OnColorPickerRenderSurfaceMouseDown;
-//                colorPickerRenderSurface.MouseUp -= OnColorPickerRenderSurfaceMouseUp;
-//                colorPickerRenderSurface.MouseMove -= OnColorPickerRenderSurfaceMouseMove;
+                colorPickerRenderSurface.PointerPressed -= OnColorPickerRenderSurfaceMouseDown;
+                colorPickerRenderSurface.PointerReleased -= OnColorPickerRenderSurfaceMouseUp;
+                colorPickerRenderSurface.PointerMoved -= OnColorPickerRenderSurfaceMouseMove;
+                //                colorPickerRenderSurface.MouseDown -= OnColorPickerRenderSurfaceMouseDown;
+                //                colorPickerRenderSurface.MouseUp -= OnColorPickerRenderSurfaceMouseUp;
+                //                colorPickerRenderSurface.MouseMove -= OnColorPickerRenderSurfaceMouseMove;
             }
 
             if (huePickerRenderSurface != null)
             {
-//                huePickerRenderSurface.MouseDown -= OnHuePickerRenderSurfaceMouseDown;
-//                huePickerRenderSurface.MouseUp -= OnHuePickerRenderSurfaceMouseUp;
-//                huePickerRenderSurface.MouseMove -= OnHuePickerRenderSurfaceMouseMove;
+                huePickerRenderSurface.PointerPressed-= OnHuePickerRenderSurfaceMouseDown;
+                huePickerRenderSurface.PointerReleased -= OnHuePickerRenderSurfaceMouseUp;
+                huePickerRenderSurface.PointerMoved -= OnHuePickerRenderSurfaceMouseMove;
 
             }
 
@@ -223,16 +227,16 @@ namespace Stride.Core.Presentation.Controls
 
             if (colorPickerRenderSurface != null)
             {
- //               colorPickerRenderSurface.MouseDown += OnColorPickerRenderSurfaceMouseDown;
- //               colorPickerRenderSurface.MouseUp += OnColorPickerRenderSurfaceMouseUp;
- //               colorPickerRenderSurface.MouseMove += OnColorPickerRenderSurfaceMouseMove;
+                colorPickerRenderSurface.PointerPressed += OnColorPickerRenderSurfaceMouseDown;
+                colorPickerRenderSurface.PointerReleased += OnColorPickerRenderSurfaceMouseUp;
+                colorPickerRenderSurface.PointerMoved += OnColorPickerRenderSurfaceMouseMove;
             }
 
             if (huePickerRenderSurface != null)
             {
-//                huePickerRenderSurface.MouseDown += OnHuePickerRenderSurfaceMouseDown;
-//                huePickerRenderSurface.MouseUp += OnHuePickerRenderSurfaceMouseUp;
-//                huePickerRenderSurface.MouseMove += OnHuePickerRenderSurfaceMouseMove;
+                huePickerRenderSurface.PointerPressed += OnHuePickerRenderSurfaceMouseDown;
+                huePickerRenderSurface.PointerReleased += OnHuePickerRenderSurfaceMouseUp;
+                huePickerRenderSurface.PointerMoved += OnHuePickerRenderSurfaceMouseMove;
             }
 
             RenderColorPickerSurface();
@@ -254,43 +258,44 @@ namespace Stride.Core.Presentation.Controls
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
-/*        private void OnColorPickerRenderSurfaceMouseDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void OnColorPickerRenderSurfaceMouseDown(object? sender, PointerPressedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.GetCurrentPoint((Control)sender).Properties.IsLeftButtonPressed)
             {
-                colorPickerRenderSurface.CaptureMouse();
-                suspendBindingUpdates = true;
-                UpdateColorPickerFromMouse(e.GetPosition(colorPickerRenderSurface));
-            }
-        }*/
+                       // colorPickerRenderSurface.CaptureMouse();
+                        suspendBindingUpdates = true;
+                        UpdateColorPickerFromMouse(e.GetPosition(colorPickerRenderSurface));
+                    }
+                }
 
         /// <summary>
         /// Handles the <see cref="Rectangle.MouseUp"/> event of the color surface.
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
- /*       private void OnColorPickerRenderSurfaceMouseUp(object sender, [NotNull] MouseButtonEventArgs e)
+               private void OnColorPickerRenderSurfaceMouseUp(object? sender, PointerReleasedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Released)
+            if (!e.GetCurrentPoint((Control)sender).Properties.IsLeftButtonPressed)
             {
-                colorPickerRenderSurface.ReleaseMouseCapture();
-                suspendBindingUpdates = false;
-                UpdateAllBindings();
-            }
-        }*/
+                       //colorPickerRenderSurface.ReleaseMouseCapture();
+                       suspendBindingUpdates = false;
+                       UpdateAllBindings();
+                   }
+               }
 
         /// <summary>
         /// Handles the <see cref="Rectangle.MouseMove"/> event of the color surface.
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
-/*        private void OnColorPickerRenderSurfaceMouseMove(object sender, [NotNull] MouseEventArgs e)
+                private void OnColorPickerRenderSurfaceMouseMove(object? sender, PointerEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && colorPickerRenderSurface.IsMouseCaptured)
-            {
-                UpdateColorPickerFromMouse(e.GetPosition(colorPickerRenderSurface));
-            }
-        }*/
+            if (e.GetCurrentPoint((Control)sender).Properties.IsLeftButtonPressed && colorPickerRenderSurface.IsPointerOver)
+//                if (e.LeftButton == MouseButtonState.Pressed && colorPickerRenderSurface.IsMouseCaptured)
+                    {
+                        UpdateColorPickerFromMouse(e.GetPosition(colorPickerRenderSurface));
+                    }
+                }
 
         /// <summary>
         /// Updates the <see cref="Color"/> value from the given position in the color surface.
@@ -316,43 +321,44 @@ namespace Stride.Core.Presentation.Controls
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
-/*        private void OnHuePickerRenderSurfaceMouseDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void OnHuePickerRenderSurfaceMouseDown(object? sender, PointerPressedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.GetCurrentPoint((Control) sender).Properties.IsLeftButtonPressed)
             {
-                huePickerRenderSurface.CaptureMouse();
+//                huePickerRenderSurface.CaptureMouse();
                 suspendBindingUpdates = true;
                 UpdateHuePickerFromMouse(e.GetPosition(huePickerRenderSurface));
             }
-        }*/
+        }
 
         /// <summary>
         /// Handles the <see cref="Rectangle.MouseUp"/> event of the hue surface.
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
-/*        private void OnHuePickerRenderSurfaceMouseUp(object sender, [NotNull] MouseButtonEventArgs e)
+        private void OnHuePickerRenderSurfaceMouseUp(object? sender, PointerReleasedEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Released)
+            if (!e.GetCurrentPoint((Control)sender).Properties.IsLeftButtonPressed)
             {
-                huePickerRenderSurface.ReleaseMouseCapture();
+//                huePickerRenderSurface.ReleaseMouseCapture();
                 suspendBindingUpdates = false;
                 UpdateAllBindings();
             }
-        }*/
+        }
 
         /// <summary>
         /// Handles the <see cref="Rectangle.MouseMove"/> event of the hue surface.
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
-/*        private void OnHuePickerRenderSurfaceMouseMove(object sender, [NotNull] MouseEventArgs e)
+        private void OnHuePickerRenderSurfaceMouseMove(object? sender, PointerEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && huePickerRenderSurface.IsMouseCaptured)
+            if (e.GetCurrentPoint((Control)sender).Properties.IsLeftButtonPressed && huePickerRenderSurface.IsPointerOver)
+//                if (e.LeftButton == MouseButtonState.Pressed && huePickerRenderSurface.IsMouseCaptured)
             {
                 UpdateHuePickerFromMouse(e.GetPosition(huePickerRenderSurface));
             }
-        }*/
+        }
 
         /// <summary>
         /// Updates the <see cref="Color"/> value from the given position in the hue surface.

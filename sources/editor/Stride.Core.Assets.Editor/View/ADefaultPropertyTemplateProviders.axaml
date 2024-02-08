@@ -868,10 +868,12 @@
               <sd:AColorPicker Color="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}, FallbackValue={x:Static math:Color4.Black}}"
                                 ShowAlpha="{Binding Type, Mode=OneWay, Converter={sd:AChained {sd:AIsEqualToParam}, {sd:AInvertBool}, Parameter1={x:Type math:Color3}}}"/>
             </TabItem>
-            <!--<TabItem Header="Palette">
-              <ListBox ItemsSource="{x:Static viewModel:ColorPaletteViewModel.Colors}" 
-                       SelectedValue="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}}">
-                <ListBox.ItemTemplate>
+            <TabItem Header="Palette">
+				<ListBox ItemsSource="{x:Static viewModel:ColorPaletteViewModel.Colors}"
+						 >
+					<!--<ListBox ItemsSource="{x:Static viewModel:ColorPaletteViewModel.Colors}"
+							 SelectedValue="{Binding NodeValue, Converter={sd:AChained {cvt:ADifferentValuesToNull}, {sd:AColorConverter}}}">-->
+						<ListBox.ItemTemplate>
                   <DataTemplate>
                     <DockPanel>
                       <Rectangle DockPanel.Dock="Left" Stroke="Black" StrokeThickness="1" Width="28" Height="20" Margin="6,2"
@@ -881,7 +883,7 @@
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
-            </TabItem>-->
+            </TabItem>
           </TabControl>
         </Grid>
       </Popup>

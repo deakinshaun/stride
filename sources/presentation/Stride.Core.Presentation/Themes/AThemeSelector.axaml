@@ -802,7 +802,7 @@
 					<Grid x:Name="RootLayout" VerticalAlignment="Top" TextElement.Foreground="{DynamicResource TextBrush}" Focusable="False">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto"/>
-							<!--<ColumnDefinition Width="{TemplateBinding InputColumnWidth}"/>-->
+							<ColumnDefinition Width="{Binding InputColumnWidth}"/>
 						</Grid.ColumnDefinitions>
 						<Grid x:Name="LeftPaneLayout" Margin="2" VerticalAlignment="Top" Focusable="False">
 							<Grid.RowDefinitions>
@@ -851,8 +851,9 @@
 							<Grid Height="{TemplateBinding StripsHeight}" Margin="2" Grid.Row="2" Focusable="False">
 								<Rectangle Focusable="False">
 									<Rectangle.Fill>
-										<!--<DrawingBrush Viewport="0,0,14,14" TileMode="Tile" ViewportUnits="Absolute">
-                      <DrawingBrush.Drawing>
+										<DrawingBrush TileMode="Tile" >
+											<!--<DrawingBrush Viewport="0,0,14,14" TileMode="Tile" ViewportUnits="Absolute">-->
+												<DrawingBrush.Drawing>
                         <DrawingGroup>
                           <GeometryDrawing Brush="White">
                             <GeometryDrawing.Geometry>
@@ -869,7 +870,7 @@
                           </GeometryDrawing>
                         </DrawingGroup>
                       </DrawingBrush.Drawing>
-                    </DrawingBrush>-->
+                    </DrawingBrush>
 									</Rectangle.Fill>
 								</Rectangle>
 								<Rectangle x:Name="PART_ColorPreviewRenderSurface" Focusable="False"/>
@@ -882,8 +883,8 @@
 							</Grid.RowDefinitions>
 							<HeaderedContentControl Header="RGBA" VerticalAlignment="Top" Grid.Column="0" HorizontalContentAlignment="Stretch"
 						BorderThickness="0" Margin="2" Focusable="False">
-								<!--<ctrl:KeyValueGrid x:Name="RGBGrid" HorizontalAlignment="Stretch" Focusable="False">-->
-								<StackPanel>
+								<ctrl:AKeyValueGrid x:Name="RGBGrid" HorizontalAlignment="Stretch" Focusable="False">
+								
 									<TextBlock Margin="4,0" Text="{sd:Localize R:, Context=RGBA}"
 											   ToolTip.Tip="{sd:Localize Red, Context=ToolTip}" VerticalAlignment="Center"
 											   HorizontalAlignment="Left" Focusable="False" />
@@ -944,13 +945,12 @@
 											</Rectangle.RenderTransform>
 										</Rectangle>
 									</StackPanel>
-									<!--</ctrl:KeyValueGrid>-->
-								</StackPanel>
+									</ctrl:AKeyValueGrid>
+								
 							</HeaderedContentControl>
 							<HeaderedContentControl Header="HSB" VerticalAlignment="Top" d:LayoutOverrides="Width" BorderThickness="0" Grid.Row="1"
 									Margin="2" Focusable="False">
-								<!--<ctrl:KeyValueGrid Focusable="False">-->
-								<StackPanel>
+								<ctrl:AKeyValueGrid Focusable="False">
 									<TextBlock Margin="4,0" Text="{sd:Localize H:, Context=HSB}"
 											   ToolTip.Tip="{sd:Localize Hue, Context=ToolTip}" VerticalAlignment="Center"
 											   HorizontalAlignment="Left" Focusable="False" />
@@ -996,8 +996,7 @@
 											</Rectangle.RenderTransform>
 										</Rectangle>
 									</StackPanel>
-									<!--</ctrl:KeyValueGrid>-->
-								</StackPanel>
+									</ctrl:AKeyValueGrid>
 							</HeaderedContentControl>
 						</Grid>
 					</Grid>
