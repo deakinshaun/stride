@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
+//using System.Windows;
 using Stride.Engine;
 using Stride.Core.Presentation.ValueConverters;
+using Avalonia;
 
 namespace Stride.Assets.Presentation.ValueConverters
 {
@@ -17,7 +18,7 @@ namespace Stride.Assets.Presentation.ValueConverters
             var components = (IEnumerable<EntityComponent>)value;
             var modelNodeLinkComponent = components.OfType<ModelNodeLinkComponent>().FirstOrDefault();
             if (string.IsNullOrEmpty(modelNodeLinkComponent?.NodeName))
-                return DependencyProperty.UnsetValue;
+                return AvaloniaProperty.UnsetValue;
 
             if (modelNodeLinkComponent.Target != null && !string.IsNullOrEmpty(modelNodeLinkComponent.NodeName))
             {

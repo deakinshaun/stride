@@ -299,14 +299,15 @@
               </ControlTheme>
               --><!-- Load button -->
               <Image x:Key="LoadImage"  Source="{StaticResource ImageLoadEntity}" Height="16" Width="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
-				  <DataTemplate x:Key="UnloadImage">
-              <Image Source="{StaticResource ImageUnloadEntity}" Height="16" Width="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
-				  </DataTemplate>
 				<ControlTheme x:Key="LoadButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" >
 					<!--<Style x:Key="LoadButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" d:DataContext="{d:DesignInstance ehvm:EntityHierarchyElementViewModel}">-->
-						<Setter Property="Command" Value="{Binding LoadCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}}"/>
+						<Setter Property="Command" Value="{Binding LoadCommand, FallbackValue={x:Static sd:ADisabledCommand.Instance}}"/>
                 <!--<EventSetter Event="Click" Handler="LoadOrLockButton_OnClick"/>-->
-                <Setter Property="Content" Value="{StaticResource UnloadImage}"/>
+					<Setter Property="Content">
+						<Template>
+						<Image Source="{StaticResource ImageUnloadEntity}" Height="16" Width="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
+						</Template>
+					</Setter>
                 <!--<Style.Triggers>
                   <DataTrigger Binding="{Binding IsLoaded, Mode=OneWay}" Value="{sd:True}">
                     <Setter Property="Content" Value="{StaticResource LoadImage}"/>
@@ -315,15 +316,16 @@
               </ControlTheme>
               <!-- Lock button -->
               <Image x:Key="LockImage" Source="{StaticResource ImageLockEntity}" Height="16" Width="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
-				  <DataTemplate x:Key="UnlockImage">
-              <Image Source="{StaticResource ImageUnlockEntity}" Height="16" Width="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
-				  </DataTemplate>
 				<ControlTheme x:Key="LockButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" >
 					<!--<Style x:Key="LockButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" d:DataContext="{d:DesignInstance ehvm:EntityHierarchyElementViewModel}">-->
                 <Setter Property="Command" Value="{Binding LockCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}}"/>
                 <!--<EventSetter Event="Click" Handler="LoadOrLockButton_OnClick"/>-->
                 <Setter Property="IsEnabled" Value="{Binding IsLoaded, Mode=OneWay}"/>
-                <Setter Property="Content" Value="{StaticResource UnlockImage}"/>
+					<Setter Property="Content">
+						<Template>
+						<Image Source="{StaticResource ImageUnlockEntity}" Height="16" Width="16" RenderOptions.BitmapInterpolationMode="LowQuality"/>
+						</Template>
+					</Setter>
                 <!--<Style.Triggers>
                   <DataTrigger Binding="{Binding IsLocked, Mode=OneWay}" Value="{sd:True}">
                     <Setter Property="Content" Value="{StaticResource LockImage}"/>
@@ -341,9 +343,9 @@
 			  <sd:ATreeView.ItemContainerTheme>
 				<ControlTheme TargetType="{x:Type sd:ATreeViewItem}" BasedOn="{StaticResource {x:Type sd:ATreeViewItem}}" >
 					
-			  <!--<Style TargetType="{x:Type sd:TreeViewItem}" BasedOn="{StaticResource {x:Type sd:TreeViewItem}}" d:DataContext="{d:DesignInstance ehvm:EntityHierarchyItemViewModel}">--><!--
+			  <!--<Style TargetType="{x:Type sd:TreeViewItem}" BasedOn="{StaticResource {x:Type sd:TreeViewItem}}" d:DataContext="{d:DesignInstance ehvm:EntityHierarchyItemViewModel}">-->
 					<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-					--><!--<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" d:DataContext="{d:DesignInstance ehvm:EntityHierarchyItemViewModel}"/>-->
+					<!--<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" d:DataContext="{d:DesignInstance ehvm:EntityHierarchyItemViewModel}"/>-->
 					<!--<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=OneTime}"/>-->
                 <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
 					
@@ -398,21 +400,21 @@
                           Content="{sd:AImage {StaticResource ImageFetchEntity}, 16, 16, LowQuality}" />-->
 						  <!-- Lock button -->
 						  <Button DockPanel.Dock="Right" Theme="{StaticResource LockButtonStyle}">
-							  <!--<Button.ToolTip>
+							  <ToolTip.Tip>
                       <StackPanel>
                         <TextBlock Text="{sd:Localize Lock/unlock all entities, Context=ToolTip}" />
                         <TextBlock Text="{sd:Localize (Hold Ctrl to apply to child scenes recursively), Context=ToolTip}" />
                       </StackPanel>
-                    </Button.ToolTip>-->
+                    </ToolTip.Tip>
 						  </Button>
 						  <!-- Load button -->
 						  <Button DockPanel.Dock="Right" Theme="{StaticResource LoadButtonStyle}">
-							  <!--<Button.ToolTip>
+							  <ToolTip.Tip>
                       <StackPanel>
                         <TextBlock Text="{sd:Localize Load/unload all entities, Context=ToolTip}" />
-                        <TextBlock Text="{sd:Localize (Hold Ctrl to apply to child scenes recursively), Context=ToolTip}" Visibility="{Binding IsLoaded, Mode=OneWay}" />
+                        <TextBlock Text="{sd:Localize (Hold Ctrl to apply to child scenes recursively), Context=ToolTip}" IsVisible="{Binding IsLoaded, Mode=OneWay}" />
                       </StackPanel>
-                    </Button.ToolTip>-->
+                    </ToolTip.Tip>
 						  </Button>
 						  <StackPanel Orientation="Horizontal">
 							  <Image Source="{StaticResource SceneIcon}"
@@ -447,20 +449,20 @@
                   <Button DockPanel.Dock="Right"
                           Command="{Binding FocusOnEntityCommand, FallbackValue={x:Static sd:DisabledCommand.Instance}}" IsEnabled="{Binding IsLoaded, Mode=OneWay}"
                           Content="{sd:AImage {StaticResource ImageFetchEntity}, 16, 16, LowQuality}">
-                    <!--<Button.ToolTip>
+                    <ToolTip.Tip>
                       <TextBlock Text="{sd:Localize Focus on this entity (F), Context=ToolTip}" />
-                    </Button.ToolTip>-->
+                    </ToolTip.Tip>
                   </Button>
                   
 				  <!-- Lock button -->
 				  
                   <Button DockPanel.Dock="Right" Theme="{StaticResource LockButtonStyle}">
-                    <!--<Button.ToolTip>
+                    <ToolTip.Tip>
                       <StackPanel>
                         <TextBlock Text="{sd:Localize Lock/unlock this entity, Context=ToolTip}" />
                         <TextBlock Text="{sd:Localize (Hold Ctrl to apply to child entities recursively), Context=ToolTip}" />
                       </StackPanel>
-                    </Button.ToolTip>-->
+                    </ToolTip.Tip>
                   </Button>
                   
 				  <!-- Load button -->
@@ -468,15 +470,15 @@
                   <!-- FIXME place holder until we allow to load/unload a single entity -->
 				  
                   <Button DockPanel.Dock="Right" IsEnabled="False" />
-                  
-				  <Button DockPanel.Dock="Right" Theme="{StaticResource LoadButtonStyle}">
-                    <!--<Button.ToolTip>
+
+					<!--<Button DockPanel.Dock="Right" Theme="{StaticResource LoadButtonStyle}">
+                    <Button.ToolTip>
                       <StackPanel>
                         <TextBlock Text="{sd:Localize Toggle visibility on this entity, Context=ToolTip}" />
                         <TextBlock Text="{sd:Localize (Hold CTRL to apply to the entity children recursively), Context=ToolTip}" Visibility="{Binding IsLoaded, Converter={sd:VisibleOrCollapsed}, ConverterParameter={sd:False}}" />
                       </StackPanel>
-                    </Button.ToolTip>-->
-                  </Button>
+                    </Button.ToolTip>
+                  </Button>-->
 				  
                   <StackPanel Orientation="Horizontal">
                     <Image Source="{Binding Components, Converter={pvc:AEntityComponentToResource}}"
