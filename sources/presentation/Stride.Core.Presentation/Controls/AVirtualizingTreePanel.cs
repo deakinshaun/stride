@@ -542,11 +542,14 @@ namespace Stride.Core.Presentation.Controls
                 for (var i = 0; i < ((ItemsControl)itemsControl).Items.Count; i++)
                 {
                     //var ci = ((ItemsControl)itemsControl).ItemContainerGenerator.ContainerFromIndex(i);
-                    var ci = Children[i];
-                    if (ci is Control child)
+                    if (i < Children.Count)
                     {
-                        child.Arrange(new Rect(-HorizontalOffset, currentY - VerticalOffset, finalSize.Width, child.DesiredSize.Height));
-                        currentY += child.DesiredSize.Height;
+                        var ci = Children[i];
+                        if (ci is Control child)
+                        {
+                            child.Arrange(new Rect(-HorizontalOffset, currentY - VerticalOffset, finalSize.Width, child.DesiredSize.Height));
+                            currentY += child.DesiredSize.Height;
+                        }
                     }
                 }
             }
@@ -597,16 +600,18 @@ namespace Stride.Core.Presentation.Controls
         /// <param name="args"></param>
         protected override void OnItemsChanged(IReadOnlyList<object?> items, NotifyCollectionChangedEventArgs e)
         {
-    /*        switch (args.Action)
-            {
-                case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Replace:
-                    RemoveInternalChildRange(args.Position.Index, args.ItemUICount);
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    RemoveInternalChildRange(args.OldPosition.Index, args.ItemUICount);
-                    break;
-            }*/
+            /*        switch (args.Action)
+                    {
+                        case NotifyCollectionChangedAction.Remove:
+                        case NotifyCollectionChangedAction.Replace:
+                            RemoveInternalChildRange(args.Position.Index, args.ItemUICount);
+                            break;
+                        case NotifyCollectionChangedAction.Move:
+                            RemoveInternalChildRange(args.OldPosition.Index, args.ItemUICount);
+                            break;
+                    }*/
+            base.OnItemsChanged(items, e);
+            MeasureOverride(new Size(0, 0));
         }
 
         #region Layout specific code

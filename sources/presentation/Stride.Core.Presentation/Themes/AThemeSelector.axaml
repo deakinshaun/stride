@@ -1011,6 +1011,13 @@
 		</Setter>
 	</ControlTheme>
 
-
+	<ControlTheme x:Key="{x:Type TextBlock}" TargetType="TextBlock">
+		<Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+		<!--<ControlTheme.Triggers>
+      <Trigger Property="IsEnabled" Value="False">
+        <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+      </Trigger>
+    </ControlTheme.Triggers>-->
+	</ControlTheme>
 
 </ResourceDictionary>
