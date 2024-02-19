@@ -34,6 +34,7 @@ using RoslynAccessibility = Microsoft.CodeAnalysis.Accessibility;
 namespace Stride.Assets.Presentation.AssetEditors.VisualScriptEditor
 {
     [AssetEditorViewModel(typeof(VisualScriptAsset), typeof(VisualScriptEditorView))]
+    [AAssetEditorViewModel(typeof(VisualScriptAsset), typeof(VisualScriptEditorView))]
     public partial class VisualScriptEditorViewModel : AssetEditorViewModel
     {
         private static readonly object NewMethodSymbol = new object();

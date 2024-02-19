@@ -49,10 +49,10 @@
 					  <DataTemplate x:Key="ItemTemplate" DataType="{x:Type viewModel:ISessionObjectViewModel}">
 						  <HeaderedContentControl Width="{Binding TileThumbnailSize, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}">
 							  <!--<HeaderedContentControl SnapsToDevicePixels="True" ToolTipService.InitialShowDelay="1">-->
-								  <!--<i:Interaction.Behaviors>
-								  <sd:OnEventCommandBehavior EventName="MouseDoubleClick" Command="{Binding AssetDoubleClick, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
-															   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=controls:EditableContentListBox}}"/>
-							  </i:Interaction.Behaviors>-->
+								  <i:Interaction.Behaviors>
+								  <sd:AOnEventCommandBehavior EventName="DoubleTapped" Command="{Binding AssetDoubleClick, RelativeSource={RelativeSource AncestorType=view:AAssetViewUserControl}}"
+															   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=controls:AEditableContentListBox}}"/>
+							  </i:Interaction.Behaviors>
 							  <HeaderedContentControl.Header>
 								  <Grid Background="Transparent">
 									  <Border BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="2" CornerRadius="3" Margin="0,3,0,0">

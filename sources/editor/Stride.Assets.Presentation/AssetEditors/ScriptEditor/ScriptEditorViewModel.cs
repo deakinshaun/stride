@@ -17,6 +17,7 @@ namespace Stride.Assets.Presentation.AssetEditors.ScriptEditor
     /// View model for the script editor (using Roslyn & AvalonEdit and RoslynPad).
     /// </summary>
     [AssetEditorViewModel(typeof(ScriptSourceFileAsset), typeof(ScriptEditorView))]
+    [AAssetEditorViewModel(typeof(ScriptSourceFileAsset), typeof(AScriptEditorView))]
     public class ScriptEditorViewModel : AssetEditorViewModel
     {
         public ScriptEditorViewModel([NotNull] ScriptSourceFileAssetViewModel script, AvalonEditTextContainer sourceTextContainer)

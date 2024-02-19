@@ -24,6 +24,7 @@ using Stride.Rendering.Compositing;
 namespace Stride.Assets.Presentation.AssetEditors.GraphicsCompositorEditor.ViewModels
 {
     [AssetEditorViewModel(typeof(GraphicsCompositorAsset), typeof(Views.GraphicsCompositorEditorView))]
+    [AAssetEditorViewModel(typeof(GraphicsCompositorAsset), typeof(Views.GraphicsCompositorEditorView))]
     public class GraphicsCompositorEditorViewModel : AssetEditorViewModel
     {
         protected readonly GraphViewModelService ViewModelService;
